@@ -23,6 +23,11 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: [true, 'A post must contain a body'],
   },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+    select: false,
+  },
 });
 
 const Post = mongoose.model('Post', postSchema);
