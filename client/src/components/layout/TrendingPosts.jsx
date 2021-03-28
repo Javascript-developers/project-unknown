@@ -8,11 +8,8 @@ const TrendingPosts = () => {
 
   useEffect(() => {
     getPosts();
-    console.log(posts, 'TRENDING POSTS');
     // eslint-disable-next-line
   }, []);
-
-  console.log('TRENDING POSTS 2', posts);
 
   if (posts !== null && posts.length === 0 && !loading) {
     return <h4>Please add a post...</h4>;

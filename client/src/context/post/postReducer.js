@@ -10,7 +10,6 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case GET_POSTS:
-      console.log('REDUCER', action.payload);
       return {
         ...state,
         posts: action.payload,

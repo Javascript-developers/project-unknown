@@ -14,7 +14,7 @@ import {
 
 const PostState = (props) => {
   const initialState = {
-    currentPost: 'Lol lol lol',
+    currentPost: null,
     posts: null,
     trending: null,
     newest: null,
@@ -39,23 +39,6 @@ const PostState = (props) => {
       });
     }
   };
-
-  // const getPost = async () => {
-  //   try {
-  //     const res = await axios.get('/api/v1/posts');
-  //     console.log(res);
-  //     dispatch({
-  //       type: GET_POSTS,
-  //       payload: res.data.data.posts,
-  //     });
-  //     console.log(state.posts);
-  //   } catch (err) {
-  //     dispatch({
-  //       type: POSTS_ERROR,
-  //       payload: err.message,
-  //     });
-  //   }
-  // };
 
   return (
     <PostsContext.Provider
