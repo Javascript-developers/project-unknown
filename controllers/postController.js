@@ -43,7 +43,7 @@ exports.createPost = async (req, res) => {
 
 exports.getPost = async (req, res) => {
   try {
-    const post = req.params.id;
+    const post = await req.params.id;
     res.status(200).json({
       status: 'success',
       data: {
