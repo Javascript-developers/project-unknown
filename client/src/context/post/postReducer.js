@@ -15,7 +15,18 @@ export default (state, action) => {
         posts: action.payload,
         loading: false,
       };
-
+    case GET_TRENDING_POSTS:
+      return {
+        ...state,
+        trending: action.payload.slice(0, 4),
+        loading: false,
+      };
+    case GET_NEWEST_POSTS:
+      return {
+        ...state,
+        newest: action.payload.slice(0, 4),
+        loading: false,
+      };
     default:
       return state;
   }

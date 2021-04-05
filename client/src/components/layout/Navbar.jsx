@@ -45,6 +45,13 @@ const Container = styled.div`
   padding: 0.7rem 2rem;
   background: rgb(29, 161, 242);
   color: white;
+  a {
+    text-decoration: none;
+    color: white;
+    &:hover {
+      color: grey;
+    }
+  }
 `;
 
 const ListContainer = styled.ul`

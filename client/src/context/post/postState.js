@@ -40,6 +40,36 @@ const PostState = (props) => {
     }
   };
 
+  const getTrendingPosts = async () => {
+    try {
+      const res = await axios.get('/api/v1/posts');
+      dispatch({
+        type: GET_TRENDING_POSTS,
+        payload: res.data.data.posts,
+      });
+    } catch (err) {
+      dispatch({
+        type: POSTS_ERROR,
+        payload: err.message,
+      });
+    }
+  };
+
+  const getNewestPosts = async () => {
+    const res = await axios.get('/api/v1/posts');
+    try {
+      dispatch({
+        type: GET_NEWEST_POSTS,
+        payload: res.data.data.posts,
+      });
+    } catch (err) {
+      dispatch({
+        type: POSTS_ERROR,
+        payload: err,
+      });
+    }
+  };
+
   return (
     <PostsContext.Provider
       value={{
@@ -50,6 +80,8 @@ const PostState = (props) => {
         error: state.error,
         loading: state.loading,
         getPosts,
+        getTrendingPosts,
+        getNewestPosts,
       }}
     >
       {props.children}
