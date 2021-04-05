@@ -13,7 +13,7 @@ const Post = ({ post }) => {
       </Header>
       <div className="bottom-post">
         <Description>
-          <p>{post.description}</p>
+          <p>{post.postBody}</p>
         </Description>
         <SocialContainer>
           <div className="likes-comments-container">
@@ -27,7 +27,7 @@ const Post = ({ post }) => {
           <Date>
             <p>
               <strong>Date: </strong>
-              {post.date}
+              {post.createdAt}
             </p>
           </Date>
         </SocialContainer>
