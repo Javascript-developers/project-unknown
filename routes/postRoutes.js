@@ -14,7 +14,7 @@ const { protect } = authController;
 
 const router = express.Router();
 
-router.route('/').get(getAllPosts).post(createPost);
+router.route('/').get(getAllPosts).post(protect, createPost);
 router.route('/:id').get(getPost).patch(protect, editPost).delete(deletePost);
 
 module.exports = router;

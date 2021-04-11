@@ -6,9 +6,10 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A post must have a title'],
     },
-    author: {
-      type: String,
-      required: [true, 'A post must have a title'],
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'Post must belong to an user'],
     },
     likes: {
       type: Number,
@@ -35,6 +36,14 @@ const postSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+postSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'user',
+    select: 'name photo',
+  });
+  next();
+});
 
 const Post = mongoose.model('Post', postSchema);
 

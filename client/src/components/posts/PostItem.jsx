@@ -7,7 +7,7 @@ const PostItem = ({ post }) => {
       <Header>
         <Title>
           <h3>{post.title}</h3>
-          <p className="author-post">@{post.author}</p>
+          <p className="author-post">@{post.user.name}</p>
         </Title>
         <Tags>{post.tags}</Tags>
       </Header>
