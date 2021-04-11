@@ -4,7 +4,7 @@ import PostsReducer from './postReducer';
 import axios from 'axios';
 import {
   GET_NEWEST_POSTS,
-  GET_POST,
+  GET_CURRENT_POST,
   GET_POSTS,
   GET_TRENDING_POSTS,
   DELETE_POST,
@@ -26,12 +26,26 @@ const PostState = (props) => {
   const getPosts = async () => {
     try {
       const res = await axios.get('/api/v1/posts');
-      console.log(res);
       dispatch({
         type: GET_POSTS,
         payload: res.data.data.posts,
       });
       console.log(state.posts);
+    } catch (err) {
+      dispatch({
+        type: POSTS_ERROR,
+        payload: err.message,
+      });
+    }
+  };
+
+  const getCurrentPost = async (id) => {
+    try {
+      const res = await axios.get(`/api/v1/posts/${id}`);
+      dispatch({
+        type: GET_CURRENT_POST,
+        payload: res.data.data.post,
+      });
     } catch (err) {
       dispatch({
         type: POSTS_ERROR,
@@ -82,6 +96,7 @@ const PostState = (props) => {
         getPosts,
         getTrendingPosts,
         getNewestPosts,
+        getCurrentPost,
       }}
     >
       {props.children}

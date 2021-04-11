@@ -1,8 +1,8 @@
 import React, { useEffect, useContext, Fragment } from 'react';
-import Post from '../posts/Post';
 import PostContext from '../../context/post/postContext';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import PostItem from '../posts/PostItem';
 
 const TrendingPosts = () => {
   const postContext = useContext(PostContext);
@@ -31,7 +31,7 @@ const TrendingPosts = () => {
               to={`/post/${post._id}`}
               key={post._id}
             >
-              <Post post={post} />
+              <PostItem post={post} />
             </Link>
           ))
         ) : (

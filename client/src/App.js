@@ -4,6 +4,7 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PostState from './context/post/postState';
+import Post from './components/posts/Post';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/about" component={About} />
-            {/* <Route exact path="/post/:id" component={Post} /> */}
+            <Route exact path="/post/:id" component={Post} />
           </Switch>
         </Router>
       </div>

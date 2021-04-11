@@ -1,6 +1,6 @@
 import {
   GET_NEWEST_POSTS,
-  GET_POST,
+  GET_CURRENT_POST,
   GET_POSTS,
   GET_TRENDING_POSTS,
   DELETE_POST,
@@ -13,6 +13,12 @@ export default (state, action) => {
       return {
         ...state,
         posts: action.payload,
+        loading: false,
+      };
+    case GET_CURRENT_POST:
+      return {
+        ...state,
+        currentPost: action.payload,
         loading: false,
       };
     case GET_TRENDING_POSTS:

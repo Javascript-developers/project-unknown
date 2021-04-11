@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import PostContext from '../../context/post/postContext';
-import Post from '../posts/Post';
 import { Link } from 'react-router-dom';
+import PostItem from '../posts/PostItem';
 
 const NewestPosts = () => {
   const postContext = useContext(PostContext);
@@ -29,7 +29,7 @@ const NewestPosts = () => {
             to={`/post/${post._id}`}
             key={post._id}
           >
-            <Post post={post} />
+            <PostItem post={post} />
           </Link>
         ))}
       </PostsContainer>

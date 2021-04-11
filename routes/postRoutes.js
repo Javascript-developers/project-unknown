@@ -1,5 +1,6 @@
 const express = require('express');
 const postController = require('../controllers/postController');
+const authController = require('../controllers/authController');
 
 const {
   getAllPosts,
@@ -9,9 +10,11 @@ const {
   deletePost,
 } = postController;
 
+const { protect } = authController;
+
 const router = express.Router();
 
 router.route('/').get(getAllPosts).post(createPost);
-router.route('/:id').get(getPost).patch(editPost).delete(deletePost);
+router.route('/:id').get(getPost).patch(protect, editPost).delete(deletePost);
 
 module.exports = router;
