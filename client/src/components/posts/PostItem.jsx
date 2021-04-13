@@ -13,7 +13,7 @@ const PostItem = ({ post }) => {
       </Header>
       <div className="bottom-post">
         <Description>
-          <p>{post.postBody}</p>
+          <p>Description of the post/ not implemented yet</p>
         </Description>
         <SocialContainer>
           <div className="likes-comments-container">

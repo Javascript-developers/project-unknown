@@ -15,11 +15,12 @@ const postSchema = new mongoose.Schema(
       type: Number,
       default: 10,
     },
-    comments: {
-      type: [String],
-    },
     image: {
       type: String,
+    },
+    description: {
+      type: String,
+      required: [true, 'A post must contain a description'],
     },
     postBody: {
       type: String,
@@ -28,8 +29,9 @@ const postSchema = new mongoose.Schema(
     createdAt: {
       type: Date,
       default: Date.now(),
-      select: false,
+      // select: false,
     },
+    tags: [String],
   },
   {
     toJSON: { virtuals: true },
@@ -38,11 +40,18 @@ const postSchema = new mongoose.Schema(
 );
 
 postSchema.pre(/^find/, function (next) {
+  // this.populate('comments');
   this.populate({
     path: 'user',
     select: 'name photo',
   });
   next();
+});
+
+postSchema.virtual('comments', {
+  ref: 'Comment',
+  foreignField: 'post',
+  localField: '_id',
 });
 
 const Post = mongoose.model('Post', postSchema);

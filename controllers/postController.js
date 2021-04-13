@@ -3,7 +3,7 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getAllPosts = catchAsync(async (req, res) => {
-  const posts = await Post.find();
+  const posts = await Post.find().populate('comments');
 
   return res.status(200).json({
     status: 'success',
@@ -28,7 +28,7 @@ exports.createPost = catchAsync(async (req, res) => {
 });
 
 exports.getPost = catchAsync(async (req, res) => {
-  const post = await Post.findById(req.params.id);
+  const post = await Post.findById(req.params.id).populate('comments');
 
   if (!post) {
     return next(new AppError('No post found with that ID', 404));
