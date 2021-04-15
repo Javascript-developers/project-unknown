@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import PostContext from '../../context/post/postContext';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Spinner from '../layout/Spinner';
 
 import Comment from '../layout/Comment';
 
@@ -53,11 +54,11 @@ const Post = () => {
             </CommentsSection>
           </LeftContainer>
           <RightContainer>
-            {user !== null ? <div>{user.name}</div> : <div>Loading...</div>}
+            {user !== null ? <div>{user.name}</div> : <Spinner />}
           </RightContainer>
         </PostContainer>
       ) : (
-        <div>Loading...</div>
+        <Spinner />
       )}
     </Container>
   );

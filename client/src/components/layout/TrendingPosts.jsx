@@ -3,6 +3,7 @@ import PostContext from '../../context/post/postContext';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import PostItem from '../posts/PostItem';
+import Spinner from '../layout/Spinner';
 
 const TrendingPosts = () => {
   const postContext = useContext(PostContext);
@@ -35,7 +36,7 @@ const TrendingPosts = () => {
             </Link>
           ))
         ) : (
-          <div>loading...</div>
+          <Spinner />
         )}
       </div>
     </Container>

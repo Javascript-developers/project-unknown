@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-component';
+import styled from 'styled-components';
 
 const Spinner = () => {
   return <Container>Loading...</Container>;
