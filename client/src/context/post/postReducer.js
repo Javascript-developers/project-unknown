@@ -5,10 +5,18 @@ import {
   GET_TRENDING_POSTS,
   DELETE_POST,
   EDIT_POST,
+  GET_USER,
+  CLEAN_UP,
 } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
+    case GET_USER:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+      };
     case GET_POSTS:
       return {
         ...state,
@@ -32,6 +40,11 @@ export default (state, action) => {
         ...state,
         newest: action.payload.slice(0, 4),
         loading: false,
+      };
+    case CLEAN_UP:
+      return {
+        ...state,
+        ...action.payload,
       };
     default:
       return state;

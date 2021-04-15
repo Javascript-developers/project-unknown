@@ -8,18 +8,31 @@ import Comment from '../layout/Comment';
 const Post = () => {
   let { id } = useParams();
 
+  const postContext = useContext(PostContext);
+  const { getCurrentPost, currentPost, getUser, user, cleanUp } = postContext;
+
   useEffect(() => {
     getCurrentPost(id);
   }, []);
 
-  const postContext = useContext(PostContext);
-  const { getCurrentPost, currentPost } = postContext;
+  useEffect(() => {
+    if (currentPost) {
+      getUser(currentPost.user.id);
+    }
+    return () => {
+      if (currentPost) {
+        cleanUp();
+      }
+    };
+  }, [currentPost]);
 
-  console.log(currentPost);
+  // console.log();
+
+  // console.log(user);
 
   return (
     <Container>
-      {currentPost !== null && !false ? (
+      {currentPost !== null ? (
         <PostContainer>
           <LeftContainer>
             <Title>{currentPost.title}</Title>
@@ -40,7 +53,7 @@ const Post = () => {
             </CommentsSection>
           </LeftContainer>
           <RightContainer>
-            <div>LOL</div>
+            {user !== null ? <div>{user.name}</div> : <div>Loading...</div>}
           </RightContainer>
         </PostContainer>
       ) : (
