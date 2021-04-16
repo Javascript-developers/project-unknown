@@ -19,7 +19,7 @@ const Container = styled.div`
 `;
 
 const CommentAuthor = styled.div`
-  font-size: 15spx;
+  font-size: 15px;
   font-weight: 700;
 `;
 const CommentBody = styled.div`

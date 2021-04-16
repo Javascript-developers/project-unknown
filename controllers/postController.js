@@ -69,3 +69,49 @@ exports.deletePost = catchAsync(async (req, res) => {
     data: null,
   });
 });
+
+exports.likePost = catchAsync(async (req, res, next) => {
+  const post = await Post.findByIdAndUpdate(
+    req.params.id,
+    {
+      $push: { likes: req.user._id },
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!post) {
+    return next(new AppError('No post found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      post,
+    },
+  });
+});
+
+exports.unlikePost = catchAsync(async (req, res, next) => {
+  const post = await Post.findByIdAndUpdate(
+    req.params.id,
+    {
+      $pull: { likes: req.user._id },
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!post) {
+    return next(new AppError('No post found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      post,
+    },
+  });
+});

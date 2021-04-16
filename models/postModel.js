@@ -11,10 +11,12 @@ const postSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, 'Post must belong to an user'],
     },
-    likes: {
-      type: Number,
-      default: 10,
-    },
+    likes: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
     image: {
       type: String,
     },
@@ -40,7 +42,7 @@ const postSchema = new mongoose.Schema(
 );
 
 postSchema.pre(/^find/, function (next) {
-  // this.populate('comments');
+  // this.populate('likes');
   this.populate({
     path: 'user',
     select: 'name photo',

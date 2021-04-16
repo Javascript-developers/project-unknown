@@ -9,6 +9,8 @@ const {
   getPost,
   editPost,
   deletePost,
+  likePost,
+  unlikePost,
 } = postController;
 
 const { protect } = authController;
@@ -19,5 +21,8 @@ router.use('/:postId/comments', commentsRouter);
 
 router.route('/').get(getAllPosts).post(protect, createPost);
 router.route('/:id').get(getPost).patch(protect, editPost).delete(deletePost);
+
+router.route('/:id/like').patch(protect, likePost);
+router.route('/:id/unlike').patch(protect, unlikePost);
 
 module.exports = router;

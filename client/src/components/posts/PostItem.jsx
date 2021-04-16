@@ -18,7 +18,7 @@ const PostItem = ({ post }) => {
         <SocialContainer>
           <div className="likes-comments-container">
             <Likes>
-              <i className="far fa-heart">{post.likes}</i>
+              <i className="far fa-heart">{post.likes.length}</i>
             </Likes>
             <Comments>
               <i className="far fa-comment">{post.comments.length}</i>
