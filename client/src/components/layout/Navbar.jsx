@@ -16,6 +16,12 @@ const Navbar = ({ title, icon }) => {
         <ListItem>
           <Link to="/about">About</Link>
         </ListItem>
+        <ListItem>
+          <Link to="/login">Login</Link>
+        </ListItem>
+        <ListItem>
+          <Link to="/register">Register</Link>
+        </ListItem>
       </ListContainer>
     </Container>
   );
