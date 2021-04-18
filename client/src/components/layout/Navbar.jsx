@@ -1,28 +1,52 @@
-import React from 'react';
+import React, { Fragment, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../context/auth/authContext';
 
 const Navbar = ({ title, icon }) => {
+  const authContext = useContext(AuthContext);
+  const { isAuthenticated, currentUser, logout } = authContext;
+
+  const onLogout = () => {
+    logout();
+  };
+
+  const authLinks = (
+    <Fragment>
+      <ListItem>
+        <Link to="/">Home</Link>
+      </ListItem>
+      <ListItem>
+        <Link to="/about">About</Link>
+      </ListItem>
+      <ListAvatarItem>{currentUser ? currentUser.name : null}</ListAvatarItem>
+      <ListItem>
+        <a onClick={onLogout} href="#">
+          <i className="fas fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </a>
+      </ListItem>
+    </Fragment>
+  );
+
+  const guestLinks = (
+    <Fragment>
+      <ListItem>
+        <Link to="/login">Login</Link>
+      </ListItem>
+      <ListItem>
+        <Link to="/register">Register</Link>
+      </ListItem>
+    </Fragment>
+  );
+
   return (
     <Container>
       <h1>
         <i className={icon} /> {title}
       </h1>
-      <ListContainer>
-        <ListItem>
-          <Link to="/">Home</Link>
-        </ListItem>
-        <ListItem>
-          <Link to="/about">About</Link>
-        </ListItem>
-        <ListItem>
-          <Link to="/login">Login</Link>
-        </ListItem>
-        <ListItem>
-          <Link to="/register">Register</Link>
-        </ListItem>
-      </ListContainer>
+      <ListContainer>{isAuthenticated ? authLinks : guestLinks}</ListContainer>
     </Container>
   );
 };
@@ -68,4 +92,9 @@ const ListContainer = styled.ul`
 `;
 const ListItem = styled.li`
   margin: 0 20px;
+`;
+
+const ListAvatarItem = styled.li`
+  margin: 0 20px;
+  color: red;
 `;

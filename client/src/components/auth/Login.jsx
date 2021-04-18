@@ -9,7 +9,7 @@ const Login = (props) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      // props.history.push('/');
+      props.history.push('/');
       console.log(isAuthenticated, 'Is Authenticated');
     }
   }, [isAuthenticated]);

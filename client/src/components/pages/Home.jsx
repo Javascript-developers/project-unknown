@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
 import TrendingPosts from '../layout/TrendingPosts';
 import NewestPosts from '../layout/NewestPosts';
 import SocialLinks from '../layout/SocialLinks';
+import AuthContext from '../../context/auth/authContext';
 
 const Home = () => {
+  const authContext = useContext(AuthContext);
+
   return (
     <Container>
       <LeftContainer>
