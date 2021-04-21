@@ -20,7 +20,11 @@ const router = express.Router();
 router.use('/:postId/comments', commentsRouter);
 
 router.route('/').get(getAllPosts).post(protect, createPost);
-router.route('/:id').get(getPost).patch(protect, editPost).delete(deletePost);
+router
+  .route('/:id')
+  .get(getPost)
+  .patch(protect, editPost)
+  .delete(protect, deletePost);
 
 router.route('/:id/like').patch(protect, likePost);
 router.route('/:id/unlike').patch(protect, unlikePost);

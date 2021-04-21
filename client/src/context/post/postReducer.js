@@ -10,7 +10,6 @@ import {
   LIKE_POST,
   UNLIKE_POST,
 } from '../types';
-import axios from 'axios';
 
 export default (state, action) => {
   switch (action.type) {
@@ -58,6 +57,10 @@ export default (state, action) => {
       return {
         ...state,
         currentPostLiked: false,
+      };
+    case DELETE_POST:
+      return {
+        ...state,
       };
     default:
       return state;

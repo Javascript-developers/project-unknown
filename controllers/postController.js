@@ -58,8 +58,18 @@ exports.editPost = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deletePost = catchAsync(async (req, res) => {
-  const post = await Post.findByIdAndDelete(req.params.id);
+//only user that created the original post can delete it/ must be logged in
+//TODO: implement restrict middleware so admin can delete any post he wants
+exports.deletePost = catchAsync(async (req, res, next) => {
+  const post = await Post.findById(req.params.id);
+
+  if (post.user.id === req.user.id) {
+    await Post.findByIdAndDelete(req.params.id);
+  } else {
+    return next(
+      new AppError("You don't have access deleting another user's post")
+    );
+  }
 
   if (!post) {
     return next(new AppError('No post found with that ID', 404));

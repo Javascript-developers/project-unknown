@@ -150,6 +150,21 @@ const PostState = (props) => {
     }
   };
 
+  const deletePost = async (postId) => {
+    try {
+      const res = await axios.delete(`/api/v1/posts/${postId}`, {
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      });
+
+      dispatch({
+        type: DELETE_POST,
+      });
+    } catch (err) {
+      alert("You cannot delete another user's post");
+      console.log(err);
+    }
+  };
+
   return (
     <PostsContext.Provider
       value={{
@@ -169,6 +184,7 @@ const PostState = (props) => {
         getCurrentPost,
         likePost,
         unlikePost,
+        deletePost,
       }}
     >
       {props.children}

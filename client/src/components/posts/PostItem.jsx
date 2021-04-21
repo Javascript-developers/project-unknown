@@ -20,6 +20,8 @@ const PostItem = ({ post }) => {
   //results in to many API calls each time you like/unlike a post
   //might affect performance
 
+  //FIXME: when user logs in likes are not displayed, needs refresh of the page
+
   useEffect(async () => {
     if (currentUser) {
       const currentLiked = post.likes.includes(currentUser.id);

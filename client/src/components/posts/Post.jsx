@@ -6,11 +6,18 @@ import Spinner from '../layout/Spinner';
 
 import Comment from '../layout/Comment';
 
-const Post = () => {
+const Post = (props) => {
   let { id } = useParams();
 
   const postContext = useContext(PostContext);
-  const { getCurrentPost, currentPost, getUser, user, cleanUp } = postContext;
+  const {
+    getCurrentPost,
+    currentPost,
+    getUser,
+    user,
+    cleanUp,
+    deletePost,
+  } = postContext;
 
   useEffect(() => {
     getCurrentPost(id);
@@ -26,6 +33,12 @@ const Post = () => {
       }
     };
   }, [currentPost]);
+
+  //FIXME: history.push will take you to home page even if the post cannot be deleted
+  const onDeletePost = () => {
+    deletePost(id);
+    props.history.push('/');
+  };
 
   // console.log();
 
@@ -56,6 +69,7 @@ const Post = () => {
           <RightContainer>
             {user !== null ? <div>{user.name}</div> : <Spinner />}
           </RightContainer>
+          <Button onClick={onDeletePost}>DELETE POST</Button>
         </PostContainer>
       ) : (
         <Spinner />
@@ -121,3 +135,9 @@ const PostFooter = styled.div`
 `;
 const Date = styled.div``;
 const CommentsSection = styled.div``;
+
+const Button = styled.button`
+  &:hover {
+    color: red;
+  }
+`;
