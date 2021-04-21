@@ -12,6 +12,8 @@ import {
   POSTS_ERROR,
   GET_USER,
   CLEAN_UP,
+  LIKE_POST,
+  UNLIKE_POST,
 } from '../types';
 
 const PostState = (props) => {
@@ -22,6 +24,7 @@ const PostState = (props) => {
     trending: null,
     newest: null,
     error: null,
+    currentPostLiked: null,
   };
 
   const [state, dispatch] = useReducer(PostsReducer, initialState);
@@ -31,8 +34,7 @@ const PostState = (props) => {
       dispatch({
         type: CLEAN_UP,
         payload: {
-          currentPost: null,
-          user: null,
+          currentPostLiked: null,
         },
       });
     } catch (err) {
@@ -119,6 +121,35 @@ const PostState = (props) => {
     }
   };
 
+  const likePost = async (postId) => {
+    try {
+      const res = await axios.patch(`/api/v1/posts/${postId}/like`, null, {
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      });
+
+      dispatch({
+        type: LIKE_POST,
+        // payload: res.data.data.post.likes,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const unlikePost = async (postId) => {
+    try {
+      const res = await axios.patch(`/api/v1/posts/${postId}/unlike`, null, {
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      });
+
+      dispatch({
+        type: UNLIKE_POST,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <PostsContext.Provider
       value={{
@@ -129,12 +160,15 @@ const PostState = (props) => {
         error: state.error,
         loading: state.loading,
         user: state.user,
+        currentPostLiked: state.currentPostLiked,
         cleanUp,
         getUser,
         getPosts,
         getTrendingPosts,
         getNewestPosts,
         getCurrentPost,
+        likePost,
+        unlikePost,
       }}
     >
       {props.children}

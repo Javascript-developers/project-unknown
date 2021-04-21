@@ -1,15 +1,88 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import AuthContext from '../../context/auth/authContext';
+import PostContext from '../../context/post/postContext';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const PostItem = ({ post }) => {
+  let currentPost = post;
+
+  const authContext = useContext(AuthContext);
+  const postContext = useContext(PostContext);
+
+  const { currentUser } = authContext;
+  const { likePost, unlikePost, currentPostLiked, cleanUp } = postContext;
+
+  const [liked, setliked] = useState(false);
+
+  //DUPLICATE CODE IN useEffect => must get cleaner solution
+  //results in to many API calls each time you like/unlike a post
+  //might affect performance
+
+  useEffect(async () => {
+    if (currentUser) {
+      const currentLiked = post.likes.includes(currentUser.id);
+      if (currentLiked) {
+        const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
+        currentPost = likedPost.data.data.post;
+        console.log('LIKED POST', likedPost);
+        setliked(true);
+      }
+
+      if (!currentLiked) {
+        const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
+        currentPost = likedPost.data.data.post;
+        console.log('UNLIKED POST', likedPost);
+        setliked(false);
+      }
+    }
+  }, []);
+
+  useEffect(async () => {
+    if (currentUser) {
+      const currentLiked = post.likes.includes(currentUser.id);
+      if (currentLiked) {
+        const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
+        currentPost = likedPost.data.data.post;
+        console.log('LIKED POST', likedPost);
+      }
+
+      if (!currentLiked) {
+        const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
+        currentPost = likedPost.data.data.post;
+        console.log('UNLIKED POST', likedPost);
+      }
+    }
+
+    setTimeout(() => {
+      console.log('CLEAN UP');
+      cleanUp();
+    }, 1000);
+  }, [currentPostLiked]);
+
+  const onLikePost = () => {
+    if (liked) {
+      unlikePost(post.id);
+      setliked(false);
+    }
+    if (!liked) {
+      likePost(post.id);
+      setliked(true);
+    }
+  };
+
+  const likeUnlike = liked ? 'fas fa-heart' : 'far fa-heart';
+
+  // <Link to={`/post/${post._id}`}>
   return (
     <Container>
       <Header>
         <Title>
-          <h3>{post.title}</h3>
-          <p className="author-post">@{post.user.name}</p>
+          <h3>{currentPost.title}</h3>
+          <p className="author-post">@{currentPost.user.name}</p>
         </Title>
-        <Tags>{post.tags}</Tags>
+        <Tags>{currentPost.tags}</Tags>
       </Header>
       <div className="bottom-post">
         <Description>
@@ -17,17 +90,17 @@ const PostItem = ({ post }) => {
         </Description>
         <SocialContainer>
           <div className="likes-comments-container">
-            <Likes>
-              <i className="far fa-heart">{post.likes.length}</i>
+            <Likes onClick={onLikePost}>
+              <i className={likeUnlike} /> {currentPost.likes.length}
             </Likes>
             <Comments>
-              <i className="far fa-comment">{post.comments.length}</i>
+              <i className="far fa-comment" /> {currentPost.comments.length}
             </Comments>
           </div>
           <Date>
             <p>
               <strong>Date: </strong>
-              {post.createdAt}
+              {currentPost.createdAt}
             </p>
           </Date>
         </SocialContainer>
@@ -88,7 +161,16 @@ const SocialContainer = styled.div`
   }
 `;
 
-const Likes = styled.div``;
+const Likes = styled.div`
+  i {
+    border-radius: 50%;
+    color: red;
+    padding: 5px;
+    &:hover {
+      background-color: salmon;
+    }
+  }
+`;
 
 const Comments = styled.div``;
 

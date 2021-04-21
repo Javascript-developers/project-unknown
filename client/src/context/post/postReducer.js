@@ -7,7 +7,10 @@ import {
   EDIT_POST,
   GET_USER,
   CLEAN_UP,
+  LIKE_POST,
+  UNLIKE_POST,
 } from '../types';
+import axios from 'axios';
 
 export default (state, action) => {
   switch (action.type) {
@@ -45,6 +48,16 @@ export default (state, action) => {
       return {
         ...state,
         ...action.payload,
+      };
+    case LIKE_POST:
+      return {
+        ...state,
+        currentPostLiked: true,
+      };
+    case UNLIKE_POST:
+      return {
+        ...state,
+        currentPostLiked: false,
       };
     default:
       return state;

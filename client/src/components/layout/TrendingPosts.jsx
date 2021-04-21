@@ -1,18 +1,21 @@
 import React, { useEffect, useContext, Fragment } from 'react';
 import PostContext from '../../context/post/postContext';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import PostItem from '../posts/PostItem';
 import Spinner from '../layout/Spinner';
 
 const TrendingPosts = () => {
   const postContext = useContext(PostContext);
-  const { trending, getTrendingPosts, loading } = postContext;
+  const { trending, getTrendingPosts, loading, currentPostLiked } = postContext;
 
   useEffect(() => {
     getTrendingPosts();
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    getTrendingPosts();
+  }, [currentPostLiked]);
 
   if (trending !== null && trending.length === 0 && !loading) {
     return <h4>Please add a post...</h4>;
@@ -27,13 +30,12 @@ const TrendingPosts = () => {
       <div className="container-div">
         {trending !== null && !loading ? (
           trending.map((post) => (
-            <Link
+            <div
               style={{ textDecoration: 'none', color: 'black' }}
-              to={`/post/${post._id}`}
               key={post._id}
             >
               <PostItem post={post} />
-            </Link>
+            </div>
           ))
         ) : (
           <Spinner />
