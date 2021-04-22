@@ -52,6 +52,19 @@ const AuthState = (props) => {
     }
   };
 
+  const registerUser = async (formData) => {
+    try {
+      const res = await axios.post('/api/v1/users/signup', formData);
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res,
+      });
+      loadUser();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const logout = async () =>
     dispatch({
       type: LOGOUT,
@@ -67,6 +80,7 @@ const AuthState = (props) => {
         isAuthenticated: state.isAuthenticated,
         login,
         loadUser,
+        registerUser,
         logout,
       }}
     >

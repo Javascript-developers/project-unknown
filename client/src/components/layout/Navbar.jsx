@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
 
-const Navbar = ({ title, icon }) => {
+const Navbar = (props) => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, currentUser, logout } = authContext;
 
@@ -44,7 +44,7 @@ const Navbar = ({ title, icon }) => {
   return (
     <Container>
       <h1>
-        <i className={icon} /> {title}
+        <i className={props.icon} /> {props.title}
       </h1>
       <ListContainer>{isAuthenticated ? authLinks : guestLinks}</ListContainer>
     </Container>

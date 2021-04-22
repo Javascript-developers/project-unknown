@@ -20,7 +20,13 @@ export default (state, action) => {
     // case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem('token', action.payload.data.token);
-
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+      };
+    case REGISTER_SUCCESS:
+      localStorage.setItem('token', action.payload.data.token);
       return {
         ...state,
         isAuthenticated: true,
