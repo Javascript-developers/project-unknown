@@ -1,8 +1,9 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import PostContext from '../../context/post/postContext';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Spinner from '../layout/Spinner';
+import axios from 'axios';
 
 import Comment from '../layout/Comment';
 
@@ -17,11 +18,25 @@ const Post = (props) => {
     user,
     cleanUp,
     deletePost,
+    createCommentOnPost,
+    getCommentsFromPost,
+    commentsFromPost,
   } = postContext;
+
+  const [commentState, setCommentState] = useState({
+    comment: '',
+  });
+
+  const { comment } = commentState;
 
   useEffect(() => {
     getCurrentPost(id);
+    getCommentsFromPost(id);
   }, []);
+
+  // useEffect(() => {
+  //   getCommentsFromPost(id);
+  // }, [commentsFromPost]);
 
   useEffect(() => {
     if (currentPost) {
@@ -40,9 +55,26 @@ const Post = (props) => {
     props.history.push('/');
   };
 
-  // console.log();
+  const onSubmitComment = (e) => {
+    e.preventDefault();
+    if (commentState.comment > '') {
+      createCommentOnPost(id, commentState);
+      getCommentsFromPost(id);
+      //FIXME: setTimeout it's an work arround.. find a better solution
+      setTimeout(() => {
+        getCommentsFromPost(id);
+      }, 700);
+    } else {
+      console.error('comment section must not be empty');
+    }
+  };
 
-  // console.log(user);
+  const onChange = (e) => {
+    setCommentState({
+      ...commentState,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <Container>
@@ -61,9 +93,25 @@ const Post = (props) => {
             <PostFooter></PostFooter>
 
             <CommentsSection>
-              {currentPost.comments.map((com, i) => (
-                <Comment key={i} comment={com} />
-              ))}
+              <AddComment>
+                <form onSubmit={onSubmitComment}>
+                  <textarea
+                    name="comment"
+                    cols="50"
+                    rows="3"
+                    value={comment}
+                    onChange={onChange}
+                  ></textarea>
+                  <input type="submit" value="Add Comment" />
+                </form>
+              </AddComment>
+              {commentsFromPost !== null ? (
+                commentsFromPost.map((com, i) => (
+                  <Comment key={i} comment={com} />
+                ))
+              ) : (
+                <Spinner />
+              )}
             </CommentsSection>
           </LeftContainer>
           <RightContainer>
@@ -135,6 +183,7 @@ const PostFooter = styled.div`
 `;
 const Date = styled.div``;
 const CommentsSection = styled.div``;
+const AddComment = styled.div``;
 
 const Button = styled.button`
   &:hover {

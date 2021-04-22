@@ -9,6 +9,8 @@ import {
   CLEAN_UP,
   LIKE_POST,
   UNLIKE_POST,
+  CREATE_COMMENT,
+  GET_COMMENTS_FROM_POST,
 } from '../types';
 
 export default (state, action) => {
@@ -61,6 +63,15 @@ export default (state, action) => {
     case DELETE_POST:
       return {
         ...state,
+      };
+    case CREATE_COMMENT:
+      return {
+        ...state,
+      };
+    case GET_COMMENTS_FROM_POST:
+      return {
+        ...state,
+        commentsFromPost: action.payload,
       };
     default:
       return state;

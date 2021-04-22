@@ -14,7 +14,10 @@ import {
   CLEAN_UP,
   LIKE_POST,
   UNLIKE_POST,
+  CREATE_COMMENT,
+  GET_COMMENTS_FROM_POST,
 } from '../types';
+import Post from '../../components/posts/Post';
 
 const PostState = (props) => {
   const initialState = {
@@ -25,6 +28,7 @@ const PostState = (props) => {
     newest: null,
     error: null,
     currentPostLiked: null,
+    commentsFromPost: null,
   };
 
   const [state, dispatch] = useReducer(PostsReducer, initialState);
@@ -123,7 +127,7 @@ const PostState = (props) => {
 
   const likePost = async (postId) => {
     try {
-      const res = await axios.patch(`/api/v1/posts/${postId}/like`, null, {
+      await axios.patch(`/api/v1/posts/${postId}/like`, null, {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
       });
 
@@ -138,7 +142,7 @@ const PostState = (props) => {
 
   const unlikePost = async (postId) => {
     try {
-      const res = await axios.patch(`/api/v1/posts/${postId}/unlike`, null, {
+      await axios.patch(`/api/v1/posts/${postId}/unlike`, null, {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
       });
 
@@ -152,7 +156,7 @@ const PostState = (props) => {
 
   const deletePost = async (postId) => {
     try {
-      const res = await axios.delete(`/api/v1/posts/${postId}`, {
+      await axios.delete(`/api/v1/posts/${postId}`, {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
       });
 
@@ -161,6 +165,33 @@ const PostState = (props) => {
       });
     } catch (err) {
       alert("You cannot delete another user's post");
+      console.log(err);
+    }
+  };
+
+  const createCommentOnPost = async (postId, commentData) => {
+    try {
+      await axios.post(`/api/v1/posts/${postId}/comments`, commentData, {
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      });
+
+      dispatch({
+        type: CREATE_COMMENT,
+        // payload: res,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getCommentsFromPost = async (postId) => {
+    try {
+      const res = await axios.get(`/api/v1/posts/${postId}/comments`);
+      dispatch({
+        type: GET_COMMENTS_FROM_POST,
+        payload: res.data.data.comments,
+      });
+    } catch (err) {
       console.log(err);
     }
   };
@@ -176,6 +207,7 @@ const PostState = (props) => {
         loading: state.loading,
         user: state.user,
         currentPostLiked: state.currentPostLiked,
+        commentsFromPost: state.commentsFromPost,
         cleanUp,
         getUser,
         getPosts,
@@ -185,6 +217,8 @@ const PostState = (props) => {
         likePost,
         unlikePost,
         deletePost,
+        createCommentOnPost,
+        getCommentsFromPost,
       }}
     >
       {props.children}
