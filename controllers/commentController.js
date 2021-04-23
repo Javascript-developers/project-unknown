@@ -37,9 +37,27 @@ exports.createComment = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.deleteComment = catchAsync(async (req, res, next) => {
+exports.deleteComment = catchAsync(async (req, res, next) => {
+  const comment = await Comment.findById(req.params.commentId);
+  if (!comment) {
+    return next(new AppError('No comment found with that Id', 404));
+  }
 
-// });
+  if (comment.user.id === req.user.id) {
+    await Comment.findByIdAndDelete(req.params.commentId);
+  } else {
+    return next(
+      new AppError("You don't have access deleting another's user comment")
+    );
+  }
+
+  res.status(204).json({
+    status: 'success',
+    data: {
+      data: null,
+    },
+  });
+});
 
 // exports.updateComment = catchAsync(async (req, res, next) => {
 

@@ -11,6 +11,7 @@ import {
   UNLIKE_POST,
   CREATE_COMMENT,
   GET_COMMENTS_FROM_POST,
+  DELETE_COMMENT,
 } from '../types';
 
 export default (state, action) => {
@@ -72,6 +73,10 @@ export default (state, action) => {
       return {
         ...state,
         commentsFromPost: action.payload,
+      };
+    case DELETE_COMMENT:
+      return {
+        ...state,
       };
     default:
       return state;

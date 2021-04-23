@@ -16,6 +16,7 @@ import {
   UNLIKE_POST,
   CREATE_COMMENT,
   GET_COMMENTS_FROM_POST,
+  DELETE_COMMENT,
 } from '../types';
 import Post from '../../components/posts/Post';
 
@@ -196,6 +197,20 @@ const PostState = (props) => {
     }
   };
 
+  const deleteCommentOnPost = async (postId, commentId) => {
+    try {
+      await axios.delete(`/api/v1/posts/${postId}/comments/${commentId}`, {
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      });
+
+      dispatch({
+        type: DELETE_COMMENT,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <PostsContext.Provider
       value={{
@@ -219,6 +234,7 @@ const PostState = (props) => {
         deletePost,
         createCommentOnPost,
         getCommentsFromPost,
+        deleteCommentOnPost,
       }}
     >
       {props.children}
