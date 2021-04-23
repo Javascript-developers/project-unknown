@@ -3,6 +3,7 @@ import PostContext from '../../context/post/postContext';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Spinner from '../layout/Spinner';
+
 import axios from 'axios';
 
 import Comment from '../layout/Comment';

@@ -9,9 +9,13 @@ const Comment = ({ comment }) => {
   const { deleteCommentOnPost, getCommentsFromPost } = postContext;
 
   const authContext = useContext(AuthContext);
-  const { currentUser } = authContext;
+  const { currentUser, loadUser } = authContext;
 
   const [deletingComment, setDeletingComment] = useState(null);
+
+  useEffect(() => {
+    loadUser();
+  }, []);
 
   const removeComment = () => {
     deleteCommentOnPost(comment.post, comment.id);
@@ -20,13 +24,14 @@ const Comment = ({ comment }) => {
       getCommentsFromPost(comment.post);
     }, 700);
   };
-
+  // removeButton
+  // comment.user.id === currentUser.id
   //FIXME: Spinner is too big, needs resizing
   return (
     <Container>
       <CommentAuthor>{comment.user.name}</CommentAuthor>
       <CommentBody>{comment.comment}</CommentBody>
-      {comment.user.id === currentUser.id ? (
+      {currentUser !== null && comment.user.id === currentUser.id ? (
         <ButtonRemove onClick={removeComment}>Remove</ButtonRemove>
       ) : null}
       <DivSpinner>{deletingComment ? <Spinner /> : null}</DivSpinner>
