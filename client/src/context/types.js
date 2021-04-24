@@ -1,3 +1,4 @@
+export const CREATE_POST = 'CREATE_POST';
 export const GET_POSTS = 'GET_POSTS';
 export const GET_CURRENT_POST = 'GET_CURRENT_POST';
 export const GET_TRENDING_POSTS = 'GET_TRENDING_POSTS';

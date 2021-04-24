@@ -12,6 +12,7 @@ import {
   CREATE_COMMENT,
   GET_COMMENTS_FROM_POST,
   DELETE_COMMENT,
+  CREATE_POST,
 } from '../types';
 
 export default (state, action) => {
@@ -21,6 +22,10 @@ export default (state, action) => {
         ...state,
         user: action.payload,
         loading: false,
+      };
+    case CREATE_POST:
+      return {
+        ...state,
       };
     case GET_POSTS:
       return {

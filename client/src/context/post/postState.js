@@ -17,6 +17,7 @@ import {
   CREATE_COMMENT,
   GET_COMMENTS_FROM_POST,
   DELETE_COMMENT,
+  CREATE_POST,
 } from '../types';
 import Post from '../../components/posts/Post';
 
@@ -62,6 +63,19 @@ const PostState = (props) => {
         type: POSTS_ERROR,
         payload: err.message,
       });
+    }
+  };
+
+  const createPost = async (formData) => {
+    try {
+      await axios.post('/api/v1/posts', formData, {
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      });
+      dispatch({
+        type: CREATE_POST,
+      });
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -235,6 +249,7 @@ const PostState = (props) => {
         createCommentOnPost,
         getCommentsFromPost,
         deleteCommentOnPost,
+        createPost,
       }}
     >
       {props.children}

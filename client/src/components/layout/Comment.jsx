@@ -22,6 +22,7 @@ const Comment = ({ comment }) => {
     setDeletingComment(true);
     setTimeout(() => {
       getCommentsFromPost(comment.post);
+      setDeletingComment(null);
     }, 700);
   };
   // removeButton
