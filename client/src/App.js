@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './components/layout/Navbar';
 import Home from './components/pages/Home';
-import About from './components/pages/About';
+import AboutMe from './components/pages/AboutMe';
 import PrivateRoute from './components/routing/PrivateRoute';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ function App() {
             <Navbar />
             <Switch>
               <PrivateRoute exact path="/" component={Home} />
-              <Route exact path="/about" component={About} />
+              <Route exact path="/about" component={AboutMe} />
               <Route exact path="/post/:id" component={Post} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />

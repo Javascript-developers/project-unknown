@@ -41,6 +41,23 @@ exports.getPost = catchAsync(async (req, res) => {
   });
 });
 
+exports.getMyPosts = catchAsync(async (req, res, next) => {
+  const posts = await Post.find({ user: { $eq: req.user.id } }).populate(
+    'comments'
+  );
+
+  if (!posts) {
+    return next(new AppError('No posts found for the current user', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      posts,
+    },
+  });
+});
+
 exports.editPost = catchAsync(async (req, res, next) => {
   const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
     new: true,

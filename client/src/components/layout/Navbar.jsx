@@ -18,7 +18,7 @@ const Navbar = (props) => {
         <Link to="/">Home</Link>
       </ListItem>
       <ListItem>
-        <Link to="/about">About</Link>
+        <Link to="/about">About Me</Link>
       </ListItem>
       <ListAvatarItem>{currentUser ? currentUser.name : null}</ListAvatarItem>
       <ListItem>

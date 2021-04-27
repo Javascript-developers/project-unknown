@@ -18,6 +18,7 @@ import {
   GET_COMMENTS_FROM_POST,
   DELETE_COMMENT,
   CREATE_POST,
+  GET_MY_POSTS,
 } from '../types';
 import Post from '../../components/posts/Post';
 
@@ -26,6 +27,7 @@ const PostState = (props) => {
     user: null,
     currentPost: null,
     posts: null,
+    myPosts: null,
     trending: null,
     newest: null,
     error: null,
@@ -92,6 +94,21 @@ const PostState = (props) => {
         type: POSTS_ERROR,
         payload: err.message,
       });
+    }
+  };
+
+  const getMyPosts = async () => {
+    try {
+      const res = await axios.get('/api/v1/posts/myPosts', {
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      });
+      console.log('GETMYPOSTS', res);
+      dispatch({
+        type: GET_MY_POSTS,
+        payload: res.data.data.posts,
+      });
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -230,6 +247,7 @@ const PostState = (props) => {
       value={{
         currentPost: state.currentPost,
         posts: state.posts,
+        myPosts: state.myPosts,
         trending: state.trending,
         newest: state.newest,
         error: state.error,
@@ -250,6 +268,7 @@ const PostState = (props) => {
         getCommentsFromPost,
         deleteCommentOnPost,
         createPost,
+        getMyPosts,
       }}
     >
       {props.children}

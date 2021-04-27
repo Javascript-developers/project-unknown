@@ -13,6 +13,7 @@ import {
   GET_COMMENTS_FROM_POST,
   DELETE_COMMENT,
   CREATE_POST,
+  GET_MY_POSTS,
 } from '../types';
 
 export default (state, action) => {
@@ -31,6 +32,12 @@ export default (state, action) => {
       return {
         ...state,
         posts: action.payload,
+        loading: false,
+      };
+    case GET_MY_POSTS:
+      return {
+        ...state,
+        myPosts: action.payload,
         loading: false,
       };
     case GET_CURRENT_POST:
