@@ -28,14 +28,14 @@ const PostItem = ({ post }) => {
       if (currentLiked) {
         const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
         currentPost = likedPost.data.data.post;
-        console.log('LIKED POST', likedPost);
+        // console.log('LIKED POST', likedPost);
         setliked(true);
       }
 
       if (!currentLiked) {
         const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
         currentPost = likedPost.data.data.post;
-        console.log('UNLIKED POST', likedPost);
+        // console.log('UNLIKED POST', likedPost);
         setliked(false);
       }
     }
@@ -47,18 +47,18 @@ const PostItem = ({ post }) => {
       if (currentLiked) {
         const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
         currentPost = likedPost.data.data.post;
-        console.log('LIKED POST', likedPost);
+        // console.log('LIKED POST', likedPost);
       }
 
       if (!currentLiked) {
         const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
         currentPost = likedPost.data.data.post;
-        console.log('UNLIKED POST', likedPost);
+        // console.log('UNLIKED POST', likedPost);
       }
     }
 
     setTimeout(() => {
-      console.log('CLEAN UP');
+      // console.log('CLEAN UP');
       cleanUp();
     }, 1000);
   }, [currentPostLiked]);
@@ -82,6 +82,9 @@ const PostItem = ({ post }) => {
       <Header>
         <Title>
           <h3>{currentPost.title}</h3>
+          <Link to={`/user/${currentPost.user._id}`}>
+            @{currentPost.user.name}
+          </Link>
           <p className="author-post">@{currentPost.user.name}</p>
         </Title>
         <Tags>{currentPost.tags}</Tags>

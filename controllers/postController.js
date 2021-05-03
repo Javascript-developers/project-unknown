@@ -84,7 +84,7 @@ exports.deletePost = catchAsync(async (req, res, next) => {
     await Post.findByIdAndDelete(req.params.id);
   } else {
     return next(
-      new AppError("You don't have access deleting another user's post")
+      new AppError("You don't have access deleting another user's post", 401)
     );
   }
 
@@ -139,6 +139,18 @@ exports.unlikePost = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       post,
+    },
+  });
+});
+
+exports.getUserPosts = catchAsync(async (req, res, next) => {
+  const posts = await Post.find({ user: req.params.userId }).populate(
+    'comments'
+  );
+  res.status(200).json({
+    status: 'success',
+    data: {
+      posts,
     },
   });
 });

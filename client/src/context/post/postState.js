@@ -19,8 +19,8 @@ import {
   DELETE_COMMENT,
   CREATE_POST,
   GET_MY_POSTS,
+  VISIT_USER,
 } from '../types';
-import Post from '../../components/posts/Post';
 
 const PostState = (props) => {
   const initialState = {
@@ -33,6 +33,7 @@ const PostState = (props) => {
     error: null,
     currentPostLiked: null,
     commentsFromPost: null,
+    visitedUserPosts: null,
   };
 
   const [state, dispatch] = useReducer(PostsReducer, initialState);
@@ -65,6 +66,21 @@ const PostState = (props) => {
         type: POSTS_ERROR,
         payload: err.message,
       });
+    }
+  };
+
+  const visitUser = async (userId) => {
+    try {
+      const visitedUser = await axios.get(
+        `/api/v1/posts/${userId}/getUserPosts`
+      );
+      // console.log(visitedUser.data.data.posts);
+      dispatch({
+        type: VISIT_USER,
+        payload: visitedUser.data.data.posts,
+      });
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -197,7 +213,7 @@ const PostState = (props) => {
       });
     } catch (err) {
       alert("You cannot delete another user's post");
-      console.log(err);
+      console.log(err.message);
     }
   };
 
@@ -255,6 +271,7 @@ const PostState = (props) => {
         user: state.user,
         currentPostLiked: state.currentPostLiked,
         commentsFromPost: state.commentsFromPost,
+        visitedUserPosts: state.visitedUserPosts,
         cleanUp,
         getUser,
         getPosts,
@@ -269,6 +286,7 @@ const PostState = (props) => {
         deleteCommentOnPost,
         createPost,
         getMyPosts,
+        visitUser,
       }}
     >
       {props.children}

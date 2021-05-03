@@ -14,6 +14,7 @@ import {
   DELETE_COMMENT,
   CREATE_POST,
   GET_MY_POSTS,
+  VISIT_USER,
 } from '../types';
 
 export default (state, action) => {
@@ -23,6 +24,11 @@ export default (state, action) => {
         ...state,
         user: action.payload,
         loading: false,
+      };
+    case VISIT_USER:
+      return {
+        ...state,
+        visitedUserPosts: action.payload,
       };
     case CREATE_POST:
       return {

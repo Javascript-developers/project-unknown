@@ -3,6 +3,8 @@ import Navbar from './components/layout/Navbar';
 import Home from './components/pages/Home';
 import AboutMe from './components/pages/AboutMe';
 import PrivateRoute from './components/routing/PrivateRoute';
+import UserPage from './components/pages/UserPage';
+
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import PostState from './context/post/postState';
@@ -25,6 +27,7 @@ function App() {
               <Route exact path="/post/:id" component={Post} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/user/:id" component={UserPage} />
             </Switch>
           </Router>
         </div>
