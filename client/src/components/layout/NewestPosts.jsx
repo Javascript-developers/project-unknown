@@ -18,10 +18,6 @@ const NewestPosts = () => {
 
   return (
     <Container>
-      <Title>
-        Newest Posts
-        <hr className="hr" />
-      </Title>
       <PostsContainer>
         {newest.map((post) => (
           <Link

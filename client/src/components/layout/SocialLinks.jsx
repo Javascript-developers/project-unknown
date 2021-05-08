@@ -4,27 +4,21 @@ import styled from 'styled-components';
 const SocialLinks = () => {
   return (
     <Container>
-      <Title>
-        Follow me
-        <hr className="hr" />
-      </Title>
-      <SocialContainer>
-        <Youtube>
-          <a href="https://www.youtube.com/">
-            <i className="fab fa-youtube"></i>
-          </a>
-        </Youtube>
-        <Github>
-          <a href="https://www.youtube.com/">
-            <i className="fab fa-github"></i>
-          </a>
-        </Github>
-        <LinkedIn>
-          <a href="https://www.youtube.com/">
-            <i className="fab fa-linkedin"></i>
-          </a>
-        </LinkedIn>
-      </SocialContainer>
+      <Youtube>
+        <a href="https://www.youtube.com/">
+          <i className="fab fa-youtube"></i>
+        </a>
+      </Youtube>
+      <Github>
+        <a href="https://www.youtube.com/">
+          <i className="fab fa-github"></i>
+        </a>
+      </Github>
+      <LinkedIn>
+        <a href="https://www.youtube.com/">
+          <i className="fab fa-linkedin"></i>
+        </a>
+      </LinkedIn>
     </Container>
   );
 };
@@ -35,14 +29,12 @@ const Container = styled.div`
   width: 100%;
   height: 150px;
   /* border: 1px solid blue; */
-`;
-
-const SocialContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 40px;
   display: flex;
   justify-content: space-evenly;
   background: #ffffff;
   padding: 20px;
+  border-radius: 10px;
 `;
 
 const Title = styled.h3`

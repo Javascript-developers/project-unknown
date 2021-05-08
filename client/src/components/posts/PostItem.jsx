@@ -5,6 +5,19 @@ import PostContext from '../../context/post/postContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardHeader from '@material-ui/core/CardHeader';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+
+import { Button, CardActionArea, CardActions } from '@material-ui/core';
+import { red } from '@material-ui/core/colors';
+
 const PostItem = ({ post }) => {
   let currentPost = post;
 
@@ -74,42 +87,63 @@ const PostItem = ({ post }) => {
     }
   };
 
-  const likeUnlike = liked ? 'fas fa-heart' : 'far fa-heart';
+  const likeUnlike = liked ? <FavoriteIcon /> : <FavoriteBorderIcon />;
 
   // <Link to={`/post/${post._id}`}>
   return (
     <Container>
-      <Header>
-        <Title>
-          <h3>{currentPost.title}</h3>
-          <Link to={`/user/${currentPost.user._id}`}>
-            @{currentPost.user.name}
-          </Link>
-          <p className="author-post">@{currentPost.user.name}</p>
-        </Title>
-        <Tags>{currentPost.tags}</Tags>
-      </Header>
-      <div className="bottom-post">
-        <Description>
-          <p>Description of the post/ not implemented yet</p>
-        </Description>
-        <SocialContainer>
-          <div className="likes-comments-container">
-            <Likes onClick={onLikePost}>
-              <i className={likeUnlike} /> {currentPost.likes.length}
-            </Likes>
+      <Card
+        sx={{
+          maxWidth: '100%',
+          padding: '10px',
+          borderRadius: '10px',
+        }}
+      >
+        <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: red[500] }} arial-label="post">
+              {currentPost.user.name}
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={currentPost.title}
+          subheader={currentPost.createdAt}
+        ></CardHeader>
+        <CardActionArea>
+          <Header>
+            <Title>
+              <h3>{currentPost.title}</h3>
+              <Link to={`/user/${currentPost.user._id}`}>
+                @{currentPost.user.name}
+              </Link>
+              <p className="author-post">@{currentPost.user.name}</p>
+            </Title>
+            <Tags>{currentPost.tags}</Tags>
+          </Header>
+          <div className="bottom-post">
+            <Description>
+              <p>Description of the post/ not implemented yet</p>
+            </Description>
+          </div>
+        </CardActionArea>
+        <CardActions>
+          <IconButton onClick={onLikePost}>
+            {likeUnlike} {currentPost.likes.length}
+          </IconButton>
+          <IconButton>
             <Comments>
               <i className="far fa-comment" /> {currentPost.comments.length}
             </Comments>
-          </div>
-          <Date>
-            <p>
-              <strong>Date: </strong>
-              {currentPost.createdAt}
-            </p>
-          </Date>
-        </SocialContainer>
-      </div>
+          </IconButton>
+          <Button variant="outlined" href={`/post/${currentPost._id}`}>
+            SHOW MORE
+          </Button>
+        </CardActions>
+      </Card>
     </Container>
   );
 };
@@ -117,18 +151,18 @@ const PostItem = ({ post }) => {
 export default PostItem;
 
 const Container = styled.div`
-  width: 100%;
-  height: 160px;
+  /* width: 100%;
+  height: 160px; */
   /* border: 1px solid red; */
-  background: #ffffff;
+  /* background: #ffffff; */
   padding: 15px;
   margin: 20px auto;
   display: flex;
   flex-direction: column;
 
-  &:hover {
+  /* &:hover {
     background: #f7f9fa;
-  }
+  } */
 
   .bottom-post {
     height: 100%;
@@ -154,17 +188,6 @@ const Title = styled.div`
 const Tags = styled.div``;
 
 const Description = styled.div``;
-
-const SocialContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  .likes-comments-container {
-    display: flex;
-    i {
-      margin: 0 10px 0 0;
-    }
-  }
-`;
 
 const Likes = styled.div`
   i {

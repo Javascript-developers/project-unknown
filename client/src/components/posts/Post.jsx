@@ -8,6 +8,39 @@ import axios from 'axios';
 
 import Comment from '../layout/Comment';
 
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Divider from '@material-ui/core/Divider';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Avatar from '@material-ui/core/Avatar';
+import { deepOrange } from '@material-ui/core/colors';
+import Chip from '@material-ui/core/Chip';
+import Stack from '@material-ui/core/Stack';
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+const bannerBoxStyle = {
+  backgroundImage:
+    "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80')",
+  color: '#fff',
+  overflow: 'hidden',
+  height: '250px',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  position: 'relative',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: '5px',
+  flexDirection: 'column',
+};
+
 const Post = (props) => {
   let { id } = useParams();
 
@@ -78,23 +111,58 @@ const Post = (props) => {
   };
 
   return (
-    <Container>
-      {currentPost !== null ? (
-        <PostContainer>
-          <LeftContainer>
-            <Title>{currentPost.title}</Title>
-            <PostHeader>
-              <Tags>Technology</Tags>
+    <Container maxWith="lg">
+      <Box sx={{ flexGrow: 1 }}>
+        {currentPost ? (
+          <Grid container spacing={3}>
+            <Grid
+              sx={{ marginTop: '30px' }}
+              dalign="center"
+              item
+              xs={12}
+              md={8}
+            >
+              <Paper elevation={3}>
+                <Box sx={bannerBoxStyle}>
+                  <Box>
+                    <Typography variant="h5">{currentPost.title}</Typography>
+                  </Box>
+                  <Box sx={{ fontStyle: 'italic', color: '#d6d6d6' }}>
+                    <Typography variant="caption">
+                      "{currentPost.description}"
+                    </Typography>
+                  </Box>
+                </Box>
+                <Grid sx={{ marginTop: '20px' }} container spacing={2}>
+                  <Grid item xs={12} md={8}>
+                    <Typography
+                      sx={{ marginLeft: '20px' }}
+                      variant="inherit"
+                      style={{ color: 'grey' }}
+                    >
+                      {currentPost.createdAt}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                    item
+                    xs={12}
+                    md={4}
+                  >
+                    test grid
+                  </Grid>
+                </Grid>
+                <Divider />
+                <Box>asdsad</Box>
+              </Paper>
+              <Typography sx={{ marginTop: '20px' }} variant="h5">
+                Comments
+              </Typography>
+              <Divider />
               <div>
-                <p>{currentPost.user.name}</p>
-                <Date>{currentPost.createdAt}</Date>
-              </div>
-            </PostHeader>
-            <PostBody>{currentPost.postBody}</PostBody>
-            <PostFooter></PostFooter>
-
-            <CommentsSection>
-              <AddComment>
                 <form onSubmit={onSubmitComment}>
                   <textarea
                     name="comment"
@@ -105,89 +173,62 @@ const Post = (props) => {
                   ></textarea>
                   <input type="submit" value="Add Comment" />
                 </form>
-              </AddComment>
-              {commentsFromPost !== null ? (
-                commentsFromPost.map((com, i) => (
-                  <Comment key={i} comment={com} />
-                ))
-              ) : (
-                <Spinner />
-              )}
-            </CommentsSection>
-          </LeftContainer>
-          <RightContainer>
-            {user !== null ? <div>{user.name}</div> : <Spinner />}
-          </RightContainer>
-          <Button onClick={onDeletePost}>DELETE POST</Button>
-        </PostContainer>
-      ) : (
-        <Spinner />
-      )}
+              </div>
+              <Paper
+                sx={{
+                  padding: '20px 20px',
+                  marginTop: '30px',
+                }}
+              >
+                {commentsFromPost !== null ? (
+                  commentsFromPost.map((com, i) => (
+                    <Comment key={i} comment={com} />
+                  ))
+                ) : (
+                  <Spinner />
+                )}
+              </Paper>
+            </Grid>
+            <Grid align="center" item xs={12} md={4} sx={{ marginTop: '30px' }}>
+              <Paper elevation={3}>
+                <Container sx={{ paddingTop: '40px' }} maxWidth="sx">
+                  <div>
+                    <Avatar alt="user avatar" sx={{ bgcolor: deepOrange[500] }}>
+                      User
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                      {currentPost.user.name}
+                    </Typography>
+                  </div>
+                </Container>
+                <Container align="left" sx={{ marginTop: '30px' }}>
+                  asd
+                </Container>
+              </Paper>
+              <Paper elevation={3}>
+                <Container sx={{ marginTop: '30px', padding: '20px 0' }}>
+                  <Typography align="left" variant="h6">
+                    Tags
+                  </Typography>
+                  <Divider />
+                  <Stack
+                    sx={{ margin: '15px 0 10px 0' }}
+                    direction="row"
+                    spacing={1}
+                  >
+                    <Chip clickable label="Technology" variant="outlined" />
+                    <Chip clickable label="Learning" variant="outlined" />
+                  </Stack>
+                </Container>
+              </Paper>
+            </Grid>
+          </Grid>
+        ) : (
+          <Spinner />
+        )}
+      </Box>
     </Container>
   );
 };
 
 export default Post;
-
-const Container = styled.div`
-  width: 1600px;
-  margin: 0 auto;
-  border: 1px solid red;
-
-  @media (max-width: 400px) {
-    display: block;
-  }
-`;
-const LeftContainer = styled.div`
-  border: 1px solid blue;
-  width: 65%;
-`;
-
-const RightContainer = styled.div`
-  width: 30%;
-  border: 1px solid green;
-`;
-
-const PostContainer = styled.div`
-  border: 1px solid yellow;
-
-  display: flex;
-  justify-content: space-between;
-`;
-
-const Title = styled.div`
-  font-size: 25px;
-  font-weight: 700;
-  margin-bottom: 15px;
-`;
-
-const PostHeader = styled.div`
-  border: 1px solid blue;
-  margin-bottom: 15px;
-
-  display: flex;
-  justify-content: space-between;
-  margin-left: -5px;
-
-  div {
-    display: flex;
-    justify-content: space-between;
-    margin-left: 5px;
-  }
-`;
-const Tags = styled.div``;
-const PostBody = styled.div`
-  margin-bottom: 15px;
-`;
-const PostFooter = styled.div`
-  margin-bottom: 15px;
-`;
-const Date = styled.div``;
-const CommentsSection = styled.div``;
-const AddComment = styled.div``;
-
-const Button = styled.button`
-  &:hover {
-    color: red;
-  }
-`;

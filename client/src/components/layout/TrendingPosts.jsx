@@ -23,10 +23,6 @@ const TrendingPosts = () => {
 
   return (
     <Container>
-      <Title>
-        Trending
-        <hr className="hr" />
-      </Title>
       <div className="container-div">
         {trending !== null && !loading ? (
           trending.map((post) => (
@@ -50,7 +46,7 @@ export default TrendingPosts;
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  margin-top: 20px;
+  /* margin-top: 20px; */
   /* border: 1px solid blue; */
 `;
 

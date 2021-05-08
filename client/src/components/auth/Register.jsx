@@ -2,6 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import AuthContext from '../../context/auth/authContext';
 
+import Avatar from '@material-ui/core/Avatar';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Button from '@material-ui/core/Button';
+
 const Register = (props) => {
   const authContext = useContext(AuthContext);
   const { registerUser, isAuthenticated } = authContext;
@@ -33,9 +40,17 @@ const Register = (props) => {
     });
   };
   return (
-    <Container>
+    <Container maxWidth="xs">
+      <div>
+        <Avatar>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign Up
+        </Typography>
+      </div>
       <form onSubmit={onSubmit}>
-        <div>
+        {/* <div>
           <label htmlFor="name">Name</label>
           <input
             required
@@ -75,12 +90,64 @@ const Register = (props) => {
             onChange={onChange}
           />
         </div>
-        <input type="submit" value="Register" />
+        <input type="submit" value="Register" /> */}
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="Name"
+          name="name"
+          autoComplete="name"
+          autoFocus
+          value={name}
+          onChange={onChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          autoFocus
+          value={email}
+          onChange={onChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          type="password"
+          label="Password"
+          name="password"
+          autoComplete="password"
+          autoFocus
+          value={password}
+          onChange={onChange}
+        />
+
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          type="password"
+          label="Password Confirm"
+          name="passwordConfirm"
+          autoComplete="passwordConfirm"
+          autoFocus
+          value={passwordConfirm}
+          onChange={onChange}
+        />
+        <Button type="submit" fullWidth variant="contained" color="primary">
+          Sign In
+        </Button>
       </form>
     </Container>
   );
 };
 
 export default Register;
-
-const Container = styled.div``;
