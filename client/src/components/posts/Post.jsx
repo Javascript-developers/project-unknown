@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import PostContext from '../../context/post/postContext';
+import AuthContext from '../../context/auth/authContext';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Spinner from '../layout/Spinner';
@@ -18,6 +19,10 @@ import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
 import Chip from '@material-ui/core/Chip';
 import Stack from '@material-ui/core/Stack';
+import Button from '@material-ui/core/Button';
+import Modal from '@material-ui/core/Modal';
+import Zoom from '@material-ui/core/Zoom';
+import Card from '@material-ui/core/Card';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -41,10 +46,25 @@ const bannerBoxStyle = {
   flexDirection: 'column',
 };
 
+const modalStyle = {
+  position: 'absolute',
+  top: '35%',
+  left: '35%',
+  transform: 'translate(-50%, -50%)',
+  width: 600,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 10,
+};
+
 const Post = (props) => {
   let { id } = useParams();
 
+  const authContext = useContext(AuthContext);
   const postContext = useContext(PostContext);
+
+  const { currentUser, loadUser } = authContext;
   const {
     getCurrentPost,
     currentPost,
@@ -61,9 +81,14 @@ const Post = (props) => {
     comment: '',
   });
 
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
   const { comment } = commentState;
 
   useEffect(() => {
+    loadUser();
     getCurrentPost(id);
     getCommentsFromPost(id);
   }, []);
@@ -73,6 +98,7 @@ const Post = (props) => {
   // }, [commentsFromPost]);
 
   useEffect(() => {
+    console.log(currentUser);
     if (currentPost) {
       getUser(currentPost.user.id);
     }
@@ -98,6 +124,9 @@ const Post = (props) => {
       setTimeout(() => {
         getCommentsFromPost(id);
       }, 700);
+      setCommentState({
+        comment: '',
+      });
     } else {
       console.error('comment section must not be empty');
     }
@@ -110,8 +139,47 @@ const Post = (props) => {
     });
   };
 
+  const deleteButton =
+    currentPost !== null &&
+    currentUser !== null &&
+    currentPost.user.id === currentUser.id ? (
+      <Button onClick={handleOpenModal} variant="contained" color="secondary">
+        Delete Post
+      </Button>
+    ) : (
+      <span style={{ cursor: 'not-allowed' }}>
+        <Button variant="contained" disabled>
+          Delete Post
+        </Button>
+      </span>
+    );
+
+  // const [raised, setRaised] = useState(false);
+
   return (
-    <Container maxWith="lg">
+    <Container maxWidth="lg">
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-create-post"
+        aria-describedby="modal-modal-description"
+      >
+        <Zoom in={openModal}>
+          <Box sx={modalStyle}>
+            <p>Are you sure you want to delete this post?</p>
+            <Button onClick={onDeletePost}>Yes</Button>
+            <Button onClick={handleCloseModal}>No</Button>
+          </Box>
+        </Zoom>
+      </Modal>
+
+      {/* <Card
+        onMouseOver={setRaised(true)}
+        onMouseOut={setRaised(false)}
+        raised={raised}
+      >
+        asdsadsadsadasdasdsad
+      </Card> */}
       <Box sx={{ flexGrow: 1 }}>
         {currentPost ? (
           <Grid container spacing={3}>
@@ -190,10 +258,13 @@ const Post = (props) => {
               </Paper>
             </Grid>
             <Grid align="center" item xs={12} md={4} sx={{ marginTop: '30px' }}>
-              <Paper elevation={3}>
-                <Container sx={{ paddingTop: '40px' }} maxWidth="sx">
+              <Paper elevation={3} sx={{ paddingBottom: '40px' }}>
+                <Container sx={{ paddingTop: '40px' }}>
                   <div>
-                    <Avatar alt="user avatar" sx={{ bgcolor: deepOrange[500] }}>
+                    <Avatar
+                      alt="user avatar"
+                      sx={{ bgcolor: deepOrange[500], width: 100, height: 100 }}
+                    >
                       User
                     </Avatar>
                     <Typography component="h1" variant="h5">
@@ -204,6 +275,19 @@ const Post = (props) => {
                 <Container align="left" sx={{ marginTop: '30px' }}>
                   asd
                 </Container>
+                <Grid
+                  align="center"
+                  container
+                  spacing={3}
+                  sx={{ marginTop: '15px' }}
+                >
+                  <Grid item xs={12} md={6}>
+                    <Button variant="contained">Edit Post</Button>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    {deleteButton}
+                  </Grid>
+                </Grid>
               </Paper>
               <Paper elevation={3}>
                 <Container sx={{ marginTop: '30px', padding: '20px 0' }}>

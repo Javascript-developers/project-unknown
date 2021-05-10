@@ -87,6 +87,7 @@ const PostItem = ({ post }) => {
     }
   };
 
+
   const likeUnlike = liked ? <FavoriteIcon /> : <FavoriteBorderIcon />;
 
   // <Link to={`/post/${post._id}`}>

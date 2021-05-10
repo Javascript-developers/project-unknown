@@ -33,7 +33,10 @@ const postSchema = new mongoose.Schema(
       default: Date.now(),
       // select: false,
     },
-    tags: [String],
+    tags: {
+      type: [String],
+      default: '',
+    },
   },
   {
     toJSON: { virtuals: true },
