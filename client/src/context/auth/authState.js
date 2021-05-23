@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import axios from 'axios';
 import AuthContext from './authContext';
 import AuthReducer from './authReducer';
@@ -22,11 +22,41 @@ const AuthState = (props) => {
   };
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
+  // const [data, setData] = useState([]);
+
+  // const loadUser = async () => {
+  //   try {
+  //     if (cache['/api/v1/users/me']) {
+  //       const res = cache['/api/v1/users/me'];
+  //       setData(res);
+  //       console.log('MEMOIZED');
+  //     } else {
+  //       const res = await axios.get('/api/v1/users/me', {
+  //         headers: {
+  //           Authorization: 'Bearer ' + localStorage.getItem('token'),
+  //         },
+  //       });
+  //       cache['/api/v1/users/me'] = res;
+  //       setData(res);
+  //       console.log('NOT MEMOIZED');
+  //     }
+  //     console.log('MEMOIZING', cache);
+
+  //     dispatch({
+  //       type: USER_LOADED,
+  //       payload: data.data.data.user,
+  //     });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const loadUser = async () => {
     try {
       const res = await axios.get('/api/v1/users/me', {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
       });
 
       dispatch({

@@ -4,6 +4,7 @@ import AuthContext from '../../context/auth/authContext';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Spinner from '../layout/Spinner';
+import { Image } from 'cloudinary-react';
 
 import axios from 'axios';
 
@@ -91,6 +92,7 @@ const Post = (props) => {
     loadUser();
     getCurrentPost(id);
     getCommentsFromPost(id);
+    console.log('current post', currentPost);
   }, []);
 
   // useEffect(() => {
@@ -265,10 +267,21 @@ const Post = (props) => {
                       alt="user avatar"
                       sx={{ bgcolor: deepOrange[500], width: 100, height: 100 }}
                     >
-                      User
+                      {currentPost.user.avatar ? (
+                        <Image
+                          cloudName="dsmrt6yiw"
+                          publicId={currentPost.user.avatar}
+                          width="100%"
+                          // crop="scale"
+                        />
+                      ) : null}
                     </Avatar>
+
                     <Typography component="h1" variant="h5">
                       {currentPost.user.name}
+                    </Typography>
+                    <Typography variant="caption">
+                      {currentPost ? currentPost.user.about : null}
                     </Typography>
                   </div>
                 </Container>

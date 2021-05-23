@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Button from '@material-ui/core/Button';
+import FileUpload from '@material-ui/icons/AddPhotoAlternate';
+import { deepOrange } from '@material-ui/core/colors';
 
 const Register = (props) => {
   const authContext = useContext(AuthContext);
@@ -22,11 +24,12 @@ const Register = (props) => {
   const [user, setUser] = useState({
     name: '',
     email: '',
+    about: '',
     password: '',
     passwordConfirm: '',
   });
 
-  const { name, email, password, passwordConfirm } = user;
+  const { name, email, about, password, passwordConfirm } = user;
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -39,10 +42,18 @@ const Register = (props) => {
       [e.target.name]: e.target.value,
     });
   };
+
   return (
     <Container maxWidth="xs">
       <div>
-        <Avatar>
+        <Avatar
+          sx={{
+            bgcolor: deepOrange[500],
+            width: 100,
+            height: 100,
+            margin: '0 auto',
+          }}
+        >
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -50,47 +61,6 @@ const Register = (props) => {
         </Typography>
       </div>
       <form onSubmit={onSubmit}>
-        {/* <div>
-          <label htmlFor="name">Name</label>
-          <input
-            required
-            type="text"
-            name="name"
-            value={name}
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email Address</label>
-          <input
-            required
-            type="email"
-            name="email"
-            value={email}
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            required
-            type="password"
-            name="password"
-            value={password}
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="passwordConfirm">Confirm Password</label>
-          <input
-            required
-            type="password"
-            name="passwordConfirm"
-            value={passwordConfirm}
-            onChange={onChange}
-          />
-        </div>
-        <input type="submit" value="Register" /> */}
         <TextField
           variant="outlined"
           margin="normal"
@@ -113,6 +83,17 @@ const Register = (props) => {
           autoComplete="email"
           autoFocus
           value={email}
+          onChange={onChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          label="About"
+          name="about"
+          autoComplete="about"
+          autoFocus
+          value={about}
           onChange={onChange}
         />
         <TextField
