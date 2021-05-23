@@ -20,13 +20,7 @@ const NewestPosts = () => {
     <Container>
       <PostsContainer>
         {newest.map((post) => (
-          <Link
-            style={{ textDecoration: 'none', color: 'black' }}
-            to={`/post/${post._id}`}
-            key={post._id}
-          >
-            <PostItem post={post} />
-          </Link>
+          <PostItem key={post._id} post={post} />
         ))}
       </PostsContainer>
     </Container>

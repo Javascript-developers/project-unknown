@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, Fragment } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PostContext from '../../context/post/postContext';
 import styled from 'styled-components';
 import PostItem from '../posts/PostItem';

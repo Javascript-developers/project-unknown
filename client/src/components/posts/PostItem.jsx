@@ -4,6 +4,7 @@ import AuthContext from '../../context/auth/authContext';
 import PostContext from '../../context/post/postContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Image } from 'cloudinary-react';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -87,7 +88,6 @@ const PostItem = ({ post }) => {
     }
   };
 
-
   const likeUnlike = liked ? <FavoriteIcon /> : <FavoriteBorderIcon />;
 
   // <Link to={`/post/${post._id}`}>
@@ -103,7 +103,14 @@ const PostItem = ({ post }) => {
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} arial-label="post">
-              {currentPost.user.name}
+              {currentPost.user.avatar ? (
+                <Image
+                  cloudName="dsmrt6yiw"
+                  publicId={currentPost.user.avatar}
+                  width="100%"
+                  // crop="scale"
+                />
+              ) : null}
             </Avatar>
           }
           action={
@@ -140,9 +147,12 @@ const PostItem = ({ post }) => {
               <i className="far fa-comment" /> {currentPost.comments.length}
             </Comments>
           </IconButton>
-          <Button variant="outlined" href={`/post/${currentPost._id}`}>
-            SHOW MORE
-          </Button>
+          <Link
+            style={{ textDecoration: 'none' }}
+            to={`/post/${currentPost._id}`}
+          >
+            <Button variant="outlined">SHOW MORE</Button>
+          </Link>
         </CardActions>
       </Card>
     </Container>
