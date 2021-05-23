@@ -26,12 +26,16 @@ function App() {
               <Navbar />
               <Switch>
                 <PrivateRoute exact path="/" component={Home} />
-                <Route exact path="/about" component={AboutMe} />
-                <Route exact path="/post/:id" component={Post} />
+                <PrivateRoute exact path="/about" component={AboutMe} />
+                <PrivateRoute exact path="/post/:id" component={Post} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
-                <Route exact path="/user/:id" component={UserPage} />
-                <Route exact path="/edit-profile" component={EditUserProfile} />
+                <PrivateRoute exact path="/user/:id" component={UserPage} />
+                <PrivateRoute
+                  exact
+                  path="/edit-profile"
+                  component={EditUserProfile}
+                />
               </Switch>
             </Router>
           </div>

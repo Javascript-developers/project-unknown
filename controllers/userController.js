@@ -1,3 +1,4 @@
+const { findByIdAndUpdate } = require('../models/userModel');
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
@@ -27,7 +28,9 @@ exports.getMe = (req, res, next) => {
 };
 
 exports.getUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id)
+    .populate('following', '_id name')
+    .populate('followers', '_id name');
 
   res.status(200).json({
     status: 'success',
@@ -74,6 +77,72 @@ exports.editUser = catchAsync(async (req, res) => {
     status: 'success',
     data: {
       user,
+    },
+  });
+});
+
+exports.addFollowing = catchAsync(async (req, res, next) => {
+  const result = await User.findByIdAndUpdate(req.user.id, {
+    $push: { following: req.params.id },
+  });
+
+  if (!result) {
+    return next(new AppError('Could not find any user with that Id', 404));
+  }
+
+  next();
+});
+
+exports.addFollower = catchAsync(async (req, res, next) => {
+  const result = await User.findByIdAndUpdate(
+    req.params.id,
+    { $push: { followers: req.user.id } },
+    { new: true }
+  )
+    .populate('following', '_id name')
+    .populate('followers', '_id name');
+
+  if (!result) {
+    return next(new AppError('Could not find any user with that Id', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      result,
+    },
+  });
+});
+
+exports.removeFollowing = catchAsync(async (req, res, next) => {
+  const result = await User.findByIdAndUpdate(req.user.id, {
+    $pull: { following: req.params.id },
+  });
+
+  if (!result) {
+    return next(new AppError('Could not find any user with that Id', 404));
+  }
+
+  next();
+});
+
+exports.removeFollower = catchAsync(async (req, res, next) => {
+  const result = await User.findByIdAndUpdate(
+    req.params.id,
+    { $pull: { followers: req.user.id } },
+    { new: true }
+  )
+    .populate('following', '_id name')
+    .populate('followers', '_id name');
+
+  if (!result) {
+    return next(new AppError('Could not find any user with that Id', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      result,
     },
   });
 });
