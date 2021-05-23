@@ -1,8 +1,11 @@
-import React, { Fragment, useContext, useState } from 'react';
+import React, { Fragment, useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
+
+import { Image } from 'cloudinary-react';
+import { deepOrange } from '@material-ui/core/colors';
 
 import AppBar from '@material-ui/core/AppBar/index';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +15,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu/index';
 import MenuItem from '@material-ui/core/MenuItem/index';
 import Toolbar from '@material-ui/core/Toolbar';
+import Avatar from '@material-ui/core/Avatar';
 
 const Navbar = (props) => {
   const authContext = useContext(AuthContext);
@@ -38,8 +42,20 @@ const Navbar = (props) => {
       <ListAvatarItem>
         <div>
           <div onClick={handleOpenMenu}>
-            <AccountCircle />
-            {currentUser ? currentUser.name : null}
+            <Avatar
+              alt="user avatar"
+              sx={{ bgcolor: deepOrange[500], width: 50, height: 50 }}
+            >
+              {currentUser && currentUser.avatar ? (
+                <Image
+                  cloudName="dsmrt6yiw"
+                  publicId={currentUser.avatar}
+                  width="100%"
+                  // crop="scale"
+                />
+              ) : null}
+            </Avatar>
+            {/* {currentUser ? currentUser.name : null} */}
           </div>
           <Menu
             id="menu-appbar"
