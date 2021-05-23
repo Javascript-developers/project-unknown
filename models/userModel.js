@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      trim: true,
       required: [true, 'Please insert your name'],
     },
     email: {
@@ -16,7 +17,11 @@ const userSchema = new mongoose.Schema(
       validate: [validator.isEmail, 'Please provide a valid email'],
     },
     avatar: {
+      type: Object,
+    },
+    about: {
       type: String,
+      trim: true,
     },
     role: {
       type: String,

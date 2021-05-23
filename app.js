@@ -5,6 +5,7 @@ const userRouter = require('./routes/userRoutes');
 const commentsRouter = require('./routes/commentRoutes');
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
+const cors = require('cors');
 
 const app = express();
 
@@ -12,7 +13,9 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(`${__dirname}/public`));
 
 app.use('/api/v1/posts', postRouter);

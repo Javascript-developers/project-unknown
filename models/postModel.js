@@ -48,7 +48,7 @@ postSchema.pre(/^find/, function (next) {
   // this.populate('likes');
   this.populate({
     path: 'user',
-    select: 'name photo',
+    select: 'name avatar about',
   });
   next();
 });
