@@ -1,11 +1,12 @@
 import React, { useEffect, useContext, useState } from 'react';
 import PostContext from '../../context/post/postContext';
 import AuthContext from '../../context/auth/authContext';
+
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
-
+import FollowProfileButton from './../layout/FollowProfileButton';
 
 import axios from 'axios';
 
@@ -83,6 +84,10 @@ const Post = (props) => {
     comment: '',
   });
 
+  const [values, setValues] = useState({
+    following: null,
+  });
+
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -93,15 +98,23 @@ const Post = (props) => {
     loadUser();
     getCurrentPost(id);
     getCommentsFromPost(id);
-    console.log('current post', currentPost);
+    // console.log('current post', currentPost);
   }, []);
 
-  // useEffect(() => {
-  //   getCommentsFromPost(id);
-  // }, [commentsFromPost]);
+  useEffect(() => {
+    if (currentPost !== null && currentUser !== null) {
+      console.log('LOL');
+      let following = checkFollow(currentPost.user.followers, currentUser._id);
+      setValues({
+        ...values,
+        following,
+      });
+      console.log('followSTATEE', following);
+    }
+  }, [currentPost]);
 
   useEffect(() => {
-    console.log(currentUser);
+    // console.log(currentUser);
     if (currentPost) {
       getUser(currentPost.user.id);
     }
@@ -111,6 +124,12 @@ const Post = (props) => {
       }
     };
   }, [currentPost]);
+
+  const checkFollow = (user, me) => {
+    const match = user.some((follower) => follower._id === me._id);
+    console.log('MATCH', match);
+    return match;
+  };
 
   //FIXME: history.push will take you to home page even if the post cannot be deleted
   const onDeletePost = () => {
@@ -142,6 +161,16 @@ const Post = (props) => {
     });
   };
 
+  const clickFollowButton = (followApi) => {
+    followApi(currentPost.user.id).then((data) => {
+      console.log('CLICK BUTTON');
+      setValues({
+        ...values,
+        following: !values.following,
+      });
+    });
+  };
+
   const deleteButton =
     currentPost !== null &&
     currentUser !== null &&
@@ -156,8 +185,6 @@ const Post = (props) => {
         </Button>
       </span>
     );
-
-  // const [raised, setRaised] = useState(false);
 
   return (
     <Container maxWidth="lg">
@@ -176,13 +203,6 @@ const Post = (props) => {
         </Zoom>
       </Modal>
 
-      {/* <Card
-        onMouseOver={setRaised(true)}
-        onMouseOut={setRaised(false)}
-        raised={raised}
-      >
-        asdsadsadsadasdasdsad
-      </Card> */}
       <Box sx={{ flexGrow: 1 }}>
         {currentPost ? (
           <Grid container spacing={3}>
@@ -298,10 +318,14 @@ const Post = (props) => {
                   <Grid item xs={12} md={6}>
                     <Button variant="contained">Edit Post</Button>
                   </Grid>
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12} md={6} sx={{ marginBottom: '20px' }}>
                     {deleteButton}
                   </Grid>
                 </Grid>
+                <FollowProfileButton
+                  following={values.following}
+                  onButtonClick={clickFollowButton}
+                />
               </Paper>
               <Paper elevation={3}>
                 <Container sx={{ marginTop: '30px', padding: '20px 0' }}>
