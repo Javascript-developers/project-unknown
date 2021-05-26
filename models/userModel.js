@@ -23,6 +23,18 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    followers: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
+    following: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
     role: {
       type: String,
       enum: ['user', 'admin'],

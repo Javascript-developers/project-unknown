@@ -27,3 +27,5 @@ export const GET_COMMENTS_FROM_POST = 'GET_COMMENTS_FROM_POST';
 export const VISIT_USER = 'VISIT_USER';
 export const EDIT_USER = 'EDIT_USER';
 export const GET_USER = 'GET_USER';
+export const FOLLOW_USER = 'FOLLOW_USER';
+export const UNFOLLOW_USER = 'UNFOLLOW_USER';

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PostContext from '../../context/post/postContext';
 import AuthContext from '../../context/auth/authContext';
 import Spinner from '../layout/Spinner';
+import { Image } from 'cloudinary-react';
 
 import { Divider, Avatar, Grid } from '@material-ui/core';
 import { deepOrange } from '@material-ui/core/colors';
@@ -49,7 +50,16 @@ const Comment = ({ comment }) => {
   return (
     <Grid container wrap="nowrap" spacing={2}>
       <Grid item>
-        <Avatar alt="user avatar" sx={{ bgcolor: deepOrange[500] }} />
+        <Avatar alt="user avatar" sx={{ bgcolor: deepOrange[500] }}>
+          {comment.user.avatar ? (
+            <Image
+              cloudName="dsmrt6yiw"
+              publicId={comment.user.avatar}
+              width="100%"
+              // crop="scale"
+            />
+          ) : null}
+        </Avatar>
       </Grid>
       <Grid item justifyContent="left" xs zeroMinWidth>
         <h4 style={{ margin: '0', textAlign: 'left' }}>{comment.user.name}</h4>
