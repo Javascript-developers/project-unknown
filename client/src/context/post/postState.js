@@ -175,14 +175,26 @@ const PostState = (props) => {
 
   const likePost = async (postId) => {
     try {
-      await axios.patch(`/api/v1/posts/${postId}/like`, null, {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      // await axios.patch(`/api/v1/posts/${postId}/like`, null, {
+      //   headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      // });
+
+      let res = await fetch(`/api/v1/posts/${postId}/like`, {
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+        body: JSON.stringify({ postId: postId }),
       });
 
       dispatch({
         type: LIKE_POST,
-        // payload: res.data.data.post.likes,
+        // payload
       });
+
+      return await res.json();
     } catch (err) {
       console.log(err);
     }
@@ -190,13 +202,25 @@ const PostState = (props) => {
 
   const unlikePost = async (postId) => {
     try {
-      await axios.patch(`/api/v1/posts/${postId}/unlike`, null, {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      // await axios.patch(`/api/v1/posts/${postId}/unlike`, null, {
+      //   headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      // });
+
+      let res = await fetch(`/api/v1/posts/${postId}/unlike`, {
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+        body: JSON.stringify({ postId: postId }),
       });
 
       dispatch({
         type: UNLIKE_POST,
       });
+
+      return await res.json();
     } catch (err) {
       console.log(err);
     }

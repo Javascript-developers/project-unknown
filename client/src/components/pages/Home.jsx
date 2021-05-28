@@ -18,7 +18,7 @@ const Home = () => {
         <CreatePostModal />
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
-            <Typography variant="h6">Trending</Typography>
+            <Typography variant="h6">Feed</Typography>
             <Divider />
             <TrendingPosts />
           </Grid>
