@@ -65,7 +65,7 @@ const Comment = ({ comment }) => {
         <h4 style={{ margin: '0', textAlign: 'left' }}>{comment.user.name}</h4>
         <p style={{ textAlign: 'left' }}>{comment.comment}</p>
         <p style={{ textAlign: 'left', color: 'gray', marginTop: '10px' }}>
-          posted 1 minute ago
+          posted 1 minute AGO
         </p>
         {/* {currentUser !== null && comment.user.id === currentUser.id ? (
           <button onClick={removeComment}>Remove</button>
