@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import AuthContext from '../../context/auth/authContext';
 import PostContext from '../../context/post/postContext';
+
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Image } from 'cloudinary-react';
@@ -28,7 +29,7 @@ const PostItem = ({ post }) => {
   const { currentUser } = authContext;
   const { likePost, unlikePost, currentPostLiked, cleanUp } = postContext;
 
-  const [liked, setliked] = useState(false);
+  // const [liked, setliked] = useState(false);
 
   //DUPLICATE CODE IN useEffect => must get cleaner solution
   //results in to many API calls each time you like/unlike a post
@@ -36,59 +37,87 @@ const PostItem = ({ post }) => {
 
   //FIXME: when user logs in likes are not displayed, needs refresh of the page
 
-  useEffect(async () => {
-    if (currentUser) {
-      const currentLiked = post.likes.includes(currentUser.id);
-      if (currentLiked) {
-        const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
-        currentPost = likedPost.data.data.post;
-        // console.log('LIKED POST', likedPost);
-        setliked(true);
-      }
-
-      if (!currentLiked) {
-        const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
-        currentPost = likedPost.data.data.post;
-        // console.log('UNLIKED POST', likedPost);
-        setliked(false);
-      }
-    }
-  }, []);
-
-  useEffect(async () => {
-    if (currentUser) {
-      const currentLiked = post.likes.includes(currentUser.id);
-      if (currentLiked) {
-        const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
-        currentPost = likedPost.data.data.post;
-        // console.log('LIKED POST', likedPost);
-      }
-
-      if (!currentLiked) {
-        const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
-        currentPost = likedPost.data.data.post;
-        // console.log('UNLIKED POST', likedPost);
-      }
-    }
-
-    setTimeout(() => {
-      // console.log('CLEAN UP');
-      cleanUp();
-    }, 1000);
-  }, [currentPostLiked]);
-
-  const onLikePost = () => {
-    if (liked) {
-      unlikePost(post.id);
-      setliked(false);
-    }
-    if (!liked) {
-      likePost(post.id);
-      setliked(true);
-    }
+  const checkLike = (likes) => {
+    let match = likes.indexOf(currentUser._id) !== -1;
+    return match;
   };
 
-  const likeUnlike = liked ? <FavoriteIcon /> : <FavoriteBorderIcon />;
+  const [values, setValues] = useState({
+    like: checkLike(currentPost.likes),
+    likes: currentPost.likes.length,
+  });
+
+  // useEffect(() => {
+  //   setValues({
+  //     ...values,
+  //     like: checkLike(currentPost.likes),
+  //     likes: currentPost.likes.length,
+  //   });
+  // }, []);
+
+  // useEffect(async () => {
+  //   if (currentUser) {
+  //     const currentLiked = post.likes.includes(currentUser.id);
+  //     if (currentLiked) {
+  //       const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
+  //       currentPost = likedPost.data.data.post;
+  //       // console.log('LIKED POST', likedPost);
+  //       setliked(true);
+  //     }
+
+  //     if (!currentLiked) {
+  //       const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
+  //       currentPost = likedPost.data.data.post;
+  //       // console.log('UNLIKED POST', likedPost);
+  //       setliked(false);
+  //     }
+  //   }
+  // }, []);
+
+  // useEffect(async () => {
+  //   if (currentUser) {
+  //     const currentLiked = post.likes.includes(currentUser.id);
+  //     if (currentLiked) {
+  //       const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
+  //       currentPost = likedPost.data.data.post;
+  //       // console.log('LIKED POST', likedPost);
+  //     }
+
+  //     if (!currentLiked) {
+  //       const likedPost = await axios.get(`/api/v1/posts/${post.id}`);
+  //       currentPost = likedPost.data.data.post;
+  //       // console.log('UNLIKED POST', likedPost);
+  //     }
+  //   }
+
+  //   setTimeout(() => {
+  //     // console.log('CLEAN UP');
+  //     cleanUp();
+  //   }, 1000);
+  // }, [currentPostLiked]);
+
+  const onLikePost = () => {
+    let callApi = values.like ? unlikePost : likePost;
+    callApi(post.id).then((data) => {
+      console.log('LIKE', data);
+      setValues({
+        ...values,
+        like: !values.like,
+        likes: data.data.post.likes.length,
+      });
+    });
+
+    // if (liked) {
+    //   unlikePost(post.id);
+    //   setliked(false);
+    // }
+    // if (!liked) {
+    //   likePost(post.id);
+    //   setliked(true);
+    // }
+  };
+
+  const likeUnlike = values.like ? <FavoriteIcon /> : <FavoriteBorderIcon />;
 
   // <Link to={`/post/${post._id}`}>
   return (
@@ -113,46 +142,47 @@ const PostItem = ({ post }) => {
               ) : null}
             </Avatar>
           }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
+          // action={
+          //   <IconButton aria-label="settings">
+          //     <MoreVertIcon />
+          //   </IconButton>
+          // }
           title={currentPost.title}
           subheader={currentPost.createdAt}
         ></CardHeader>
-        <CardActionArea>
-          <Header>
-            <Title>
-              <h3>{currentPost.title}</h3>
-              <Link to={`/user/${currentPost.user._id}`}>
-                @{currentPost.user.name}
-              </Link>
-              <p className="author-post">@{currentPost.user.name}</p>
-            </Title>
-            <Tags>{currentPost.tags}</Tags>
-          </Header>
-          <div className="bottom-post">
-            <Description>
-              <p>Description of the post/ not implemented yet</p>
-            </Description>
-          </div>
-        </CardActionArea>
+
+        <Header>
+          <Title>
+            <h3>{currentPost.title}</h3>
+            <Link to={`/user/${currentPost.user._id}`}>
+              @{currentPost.user.name}
+            </Link>
+            <p className="author-post">@{currentPost.user.name}</p>
+          </Title>
+          <Tags>{currentPost.tags}</Tags>
+        </Header>
+        <div className="bottom-post">
+          <Description>
+            <p>Description of the post/ not implemented yet</p>
+          </Description>
+        </div>
         <CardActions>
           <IconButton onClick={onLikePost}>
-            {likeUnlike} {currentPost.likes.length}
+            {likeUnlike} {values.likes}
           </IconButton>
           <IconButton>
             <Comments>
               <i className="far fa-comment" /> {currentPost.comments.length}
             </Comments>
           </IconButton>
-          <Link
-            style={{ textDecoration: 'none' }}
-            to={`/post/${currentPost._id}`}
-          >
-            <Button variant="outlined">SHOW MORE</Button>
-          </Link>
+          <Button size="small" color="primary">
+            <Link
+              style={{ textDecoration: 'none' }}
+              to={`/post/${currentPost._id}`}
+            >
+              read more
+            </Link>
+          </Button>
         </CardActions>
       </Card>
     </Container>

@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
 import FollowProfileButton from './../layout/FollowProfileButton';
+import PostSocialBar from '../layout/PostSocialBar';
 
 import axios from 'axios';
 
@@ -78,6 +79,8 @@ const Post = (props) => {
     createCommentOnPost,
     getCommentsFromPost,
     commentsFromPost,
+    likePost,
+    unlikePost,
   } = postContext;
 
   const [commentState, setCommentState] = useState({
@@ -206,13 +209,15 @@ const Post = (props) => {
       <Box sx={{ flexGrow: 1 }}>
         {currentPost ? (
           <Grid container spacing={3}>
-            <Grid
-              sx={{ marginTop: '30px' }}
-              dalign="center"
-              item
-              xs={12}
-              md={8}
-            >
+            <Grid align="center" sx={{ marginTop: '30px' }} item xs={12} md={1}>
+              <PostSocialBar
+                likePost={likePost}
+                unlikePost={unlikePost}
+                currentUser={currentUser}
+                currentPost={currentPost}
+              />
+            </Grid>
+            <Grid sx={{ marginTop: '30px' }} item xs={12} md={7}>
               <Paper elevation={3}>
                 <Box sx={bannerBoxStyle}>
                   <Box>
@@ -225,7 +230,7 @@ const Post = (props) => {
                   </Box>
                 </Box>
                 <Grid sx={{ marginTop: '20px' }} container spacing={2}>
-                  <Grid item xs={12} md={8}>
+                  <Grid item xs={12} md={4}>
                     <Typography
                       sx={{ marginLeft: '20px' }}
                       variant="inherit"

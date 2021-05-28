@@ -99,7 +99,7 @@ exports.deletePost = catchAsync(async (req, res, next) => {
 
 exports.likePost = catchAsync(async (req, res, next) => {
   const post = await Post.findByIdAndUpdate(
-    req.params.id,
+    req.body.postId,
     {
       $push: { likes: req.user._id },
     },
