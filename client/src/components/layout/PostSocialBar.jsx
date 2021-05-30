@@ -10,6 +10,7 @@ import BookmarkOutlinedIcon from '@material-ui/icons/BookmarkOutlined';
 import IconButton from '@material-ui/core/IconButton';
 
 const PostSocialBar = (props) => {
+  // useEffect(() => {}, []);
   const checkLike = (likes) => {
     let match = likes.indexOf(props.currentUser._id) !== -1;
     return match;

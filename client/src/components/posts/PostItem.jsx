@@ -106,20 +106,10 @@ const PostItem = ({ post }) => {
         likes: data.data.post.likes.length,
       });
     });
-
-    // if (liked) {
-    //   unlikePost(post.id);
-    //   setliked(false);
-    // }
-    // if (!liked) {
-    //   likePost(post.id);
-    //   setliked(true);
-    // }
   };
 
   const likeUnlike = values.like ? <FavoriteIcon /> : <FavoriteBorderIcon />;
 
-  // <Link to={`/post/${post._id}`}>
   return (
     <Container>
       <Card
