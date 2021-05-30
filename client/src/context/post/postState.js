@@ -20,6 +20,7 @@ import {
   CREATE_POST,
   GET_MY_POSTS,
   VISIT_USER,
+  GET_POSTS_BY_TAG,
 } from '../types';
 
 const PostState = (props) => {
@@ -34,6 +35,7 @@ const PostState = (props) => {
     currentPostLiked: null,
     commentsFromPost: null,
     visitedUserPosts: null,
+    tagPosts: null,
   };
 
   const [state, dispatch] = useReducer(PostsReducer, initialState);
@@ -51,6 +53,18 @@ const PostState = (props) => {
         type: POSTS_ERROR,
         payload: err.message,
       });
+    }
+  };
+
+  const getPostsByTag = async (id) => {
+    try {
+      const res = await axios.get(`/api/v1/posts/t/${id}`);
+      dispatch({
+        type: GET_POSTS_BY_TAG,
+        payload: res.data.data.posts,
+      });
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -296,6 +310,7 @@ const PostState = (props) => {
         currentPostLiked: state.currentPostLiked,
         commentsFromPost: state.commentsFromPost,
         visitedUserPosts: state.visitedUserPosts,
+        tagPosts: state.tagPosts,
         cleanUp,
         getUser,
         getPosts,
@@ -311,6 +326,7 @@ const PostState = (props) => {
         createPost,
         getMyPosts,
         visitUser,
+        getPostsByTag,
       }}
     >
       {props.children}

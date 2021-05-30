@@ -3,6 +3,8 @@ import PostContext from '../../context/post/postContext';
 import AuthContext from '../../context/auth/authContext';
 
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 import styled from 'styled-components';
 import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
@@ -343,8 +345,18 @@ const Post = (props) => {
                     direction="row"
                     spacing={1}
                   >
-                    <Chip clickable label="Technology" variant="outlined" />
-                    <Chip clickable label="Learning" variant="outlined" />
+                    {currentPost.tags.map((tag, i) => (
+                      <Link style={{ textDecoration: 'none' }} to={`/t/${tag}`}>
+                        <Chip
+                          key={i}
+                          clickable
+                          label={`#${tag}`}
+                          variant="outlined"
+                        />
+                      </Link>
+                    ))}
+                    {/* <Chip clickable label="Technology" variant="outlined" />
+                    <Chip clickable label="Learning" variant="outlined" /> */}
                   </Stack>
                 </Container>
               </Paper>

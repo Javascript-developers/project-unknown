@@ -10,6 +10,7 @@ import Modal from '@material-ui/core/Modal';
 import Slide from '@material-ui/core/Slide';
 import SendIcon from '@material-ui/icons/Send';
 import TextField from '@material-ui/core/TextField';
+import ChipInput from 'material-ui-chip-input';
 
 const style = {
   position: 'absolute',
@@ -36,6 +37,7 @@ const CreatePostModal = () => {
     title: '',
     postBody: '',
     description: '',
+    tags: [],
   });
 
   const { title, postBody, description } = createPostState;
@@ -48,6 +50,7 @@ const CreatePostModal = () => {
         title: '',
         postBody: '',
         description: '',
+        tags: [],
       });
       setOpenModal(false);
       getTrendingPosts();
@@ -58,6 +61,19 @@ const CreatePostModal = () => {
     setCreatePostState({
       ...createPostState,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleAddChip = (chip) => {
+    setCreatePostState({
+      ...createPostState,
+      tags: [...createPostState.tags, chip],
+    });
+  };
+  const handleDeleteChip = (chip, index) => {
+    setCreatePostState({
+      ...createPostState,
+      tags: createPostState.tags.filter((chip, i) => i !== index),
     });
   };
 
@@ -104,6 +120,11 @@ const CreatePostModal = () => {
                 multiline
                 value={postBody}
                 onChange={onChange}
+              />
+              <ChipInput
+                value={createPostState.tags}
+                onAdd={(chip) => handleAddChip(chip)}
+                onDelete={(chip, index) => handleDeleteChip(chip, index)}
               />
               <Button type="submit" variant="contained" endIcon={<SendIcon />}>
                 Send
