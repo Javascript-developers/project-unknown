@@ -17,6 +17,9 @@ const postSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    tags: {
+      type: [String],
+    },
     image: {
       type: String,
     },
@@ -33,10 +36,6 @@ const postSchema = new mongoose.Schema(
       default: Date.now(),
       // select: false,
     },
-    tags: {
-      type: [String],
-      default: '',
-    },
   },
   {
     toJSON: { virtuals: true },
@@ -50,6 +49,10 @@ postSchema.pre(/^find/, function (next) {
     path: 'user',
     select: 'name avatar about followers',
   });
+  // this.populate({
+  //   path: 'tag',
+  //   select: 'name',
+  // });
   next();
 });
 

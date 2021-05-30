@@ -15,10 +15,17 @@ import {
   CREATE_POST,
   GET_MY_POSTS,
   VISIT_USER,
+  GET_POSTS_BY_TAG,
 } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
+    case GET_POSTS_BY_TAG:
+      console.log('payload ', action.payload);
+      return {
+        ...state,
+        tagPosts: action.payload,
+      };
     case GET_USER:
       return {
         ...state,

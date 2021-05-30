@@ -4,6 +4,7 @@ import Home from './components/pages/Home';
 import AboutMe from './components/pages/AboutMe';
 import PrivateRoute from './components/routing/PrivateRoute';
 import UserPage from './components/pages/UserPage';
+import TagPage from './components/pages/TagPage';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -28,6 +29,7 @@ function App() {
                 <PrivateRoute exact path="/" component={Home} />
                 <PrivateRoute exact path="/about" component={AboutMe} />
                 <PrivateRoute exact path="/post/:id" component={Post} />
+                <PrivateRoute exact path="/t/:id" component={TagPage} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
                 <PrivateRoute exact path="/user/:id" component={UserPage} />

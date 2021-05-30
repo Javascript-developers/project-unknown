@@ -10,6 +10,8 @@ export const EDIT_POST = 'EDIT_POST';
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
 
+export const GET_POSTS_BY_TAG = 'GET_POSTS_BY_TAG';
+
 export const CLEAN_UP = 'CLEAN_UP';
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';

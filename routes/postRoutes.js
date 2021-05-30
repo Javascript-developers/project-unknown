@@ -13,6 +13,7 @@ const {
   unlikePost,
   getMyPosts,
   getUserPosts,
+  getPostsByTag,
 } = postController;
 
 const { protect } = authController;
@@ -20,6 +21,8 @@ const { protect } = authController;
 const router = express.Router();
 
 router.use('/:postId/comments', commentsRouter);
+
+router.route('/t/:tagId').get(getPostsByTag);
 
 router.route('/:userId/getUserPosts').get(getUserPosts);
 
