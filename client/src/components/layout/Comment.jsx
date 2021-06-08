@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import styled from 'styled-components';
 import PostContext from '../../context/post/postContext';
 import AuthContext from '../../context/auth/authContext';
 import Spinner from '../layout/Spinner';
@@ -12,9 +11,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, onRemove }) => {
   const postContext = useContext(PostContext);
-  const { deleteCommentOnPost, getCommentsFromPost } = postContext;
+  const { getCommentsFromPost } = postContext;
 
   const authContext = useContext(AuthContext);
   const { currentUser, loadUser } = authContext;
@@ -35,13 +34,15 @@ const Comment = ({ comment }) => {
   }, []);
 
   const removeComment = () => {
-    deleteCommentOnPost(comment.post, comment.id);
-    setDeletingComment(true);
+    // deleteCommentOnPost(comment.post, comment.id);
+    // setDeletingComment(true);
+    // setTimeout(() => {
+    //   getCommentsFromPost(comment.post);
+    //   setDeletingComment(null);
+    // }, 700);
+    // dispatch(deleteCommentOnPost(comment.post, comment.id));
     handleCloseMenu();
-    setTimeout(() => {
-      getCommentsFromPost(comment.post);
-      setDeletingComment(null);
-    }, 700);
+    onRemove(comment.post, comment.id);
   };
 
   // removeButton

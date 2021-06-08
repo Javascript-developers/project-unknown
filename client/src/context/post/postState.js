@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useCallback } from 'react';
 import PostsContext from './postContext';
 import PostsReducer from './postReducer';
 import axios from 'axios';
@@ -46,6 +46,7 @@ const PostState = (props) => {
         type: CLEAN_UP,
         payload: {
           currentPostLiked: null,
+          currentPost: null,
         },
       });
     } catch (err) {
@@ -57,15 +58,15 @@ const PostState = (props) => {
   };
 
   const getPostsByTag = async (id) => {
-    try {
-      const res = await axios.get(`/api/v1/posts/t/${id}`);
-      dispatch({
-        type: GET_POSTS_BY_TAG,
-        payload: res.data.data.posts,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   const res = await axios.get(`/api/v1/posts/t/${id}`);
+    //   dispatch({
+    //     type: GET_POSTS_BY_TAG,
+    //     payload: res.data.data.posts,
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   const getUser = async (id) => {
@@ -84,93 +85,93 @@ const PostState = (props) => {
   };
 
   const visitUser = async (userId) => {
-    try {
-      const visitedUser = await axios.get(
-        `/api/v1/posts/${userId}/getUserPosts`
-      );
-      // console.log(visitedUser.data.data.posts);
-      dispatch({
-        type: VISIT_USER,
-        payload: visitedUser.data.data.posts,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   const visitedUser = await axios.get(
+    //     `/api/v1/posts/${userId}/getUserPosts`
+    //   );
+    //   // console.log(visitedUser.data.data.posts);
+    //   dispatch({
+    //     type: VISIT_USER,
+    //     payload: visitedUser.data.data.posts,
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   const createPost = async (formData) => {
-    try {
-      await axios.post('/api/v1/posts', formData, {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
-      });
-      dispatch({
-        type: CREATE_POST,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   await axios.post('/api/v1/posts', formData, {
+    //     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+    //   });
+    //   dispatch({
+    //     type: CREATE_POST,
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
-  const getPosts = async () => {
-    try {
-      const res = await axios.get('/api/v1/posts');
-      dispatch({
-        type: GET_POSTS,
-        payload: res.data.data.posts,
-      });
-      console.log(state.posts);
-    } catch (err) {
-      dispatch({
-        type: POSTS_ERROR,
-        payload: err.message,
-      });
-    }
-  };
+  const getPosts = useCallback(async () => {
+    // try {
+    //   const res = await axios.get('/api/v1/posts');
+    //   dispatch({
+    //     type: GET_POSTS,
+    //     payload: res.data.data.posts,
+    //   });
+    //   console.log(state.posts);
+    // } catch (err) {
+    //   dispatch({
+    //     type: POSTS_ERROR,
+    //     payload: err.message,
+    //   });
+    // }
+  }, []);
 
   const getMyPosts = async () => {
-    try {
-      const res = await axios.get('/api/v1/posts/myPosts', {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
-      });
-      console.log('GETMYPOSTS', res);
-      dispatch({
-        type: GET_MY_POSTS,
-        payload: res.data.data.posts,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   const res = await axios.get('/api/v1/posts/myPosts', {
+    //     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+    //   });
+    //   console.log('GETMYPOSTS', res);
+    //   dispatch({
+    //     type: GET_MY_POSTS,
+    //     payload: res.data.data.posts,
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   const getCurrentPost = async (id) => {
-    try {
-      const res = await axios.get(`/api/v1/posts/${id}`);
-      dispatch({
-        type: GET_CURRENT_POST,
-        payload: res.data.data.post,
-      });
-    } catch (err) {
-      dispatch({
-        type: POSTS_ERROR,
-        payload: err.message,
-      });
-    }
+    // try {
+    //   const res = await axios.get(`/api/v1/posts/${id}`);
+    //   dispatch({
+    //     type: GET_CURRENT_POST,
+    //     payload: res.data.data.post,
+    //   });
+    // } catch (err) {
+    //   dispatch({
+    //     type: POSTS_ERROR,
+    //     payload: err.message,
+    //   });
+    // }
   };
 
-  const getTrendingPosts = async () => {
-    try {
-      const res = await axios.get('/api/v1/posts');
-      dispatch({
-        type: GET_TRENDING_POSTS,
-        payload: res.data.data.posts,
-      });
-    } catch (err) {
-      dispatch({
-        type: POSTS_ERROR,
-        payload: err.message,
-      });
-    }
-  };
+  const getTrendingPosts = useCallback(async () => {
+    // try {
+    //   const res = await axios.get('/api/v1/posts');
+    //   dispatch({
+    //     type: GET_TRENDING_POSTS,
+    //     payload: res.data.data.posts,
+    //   });
+    // } catch (err) {
+    //   dispatch({
+    //     type: POSTS_ERROR,
+    //     payload: err.message,
+    //   });
+    // }
+  }, []);
 
   const getNewestPosts = async () => {
     const res = await axios.get('/api/v1/posts');
@@ -256,18 +257,17 @@ const PostState = (props) => {
   };
 
   const createCommentOnPost = async (postId, commentData) => {
-    try {
-      await axios.post(`/api/v1/posts/${postId}/comments`, commentData, {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
-      });
-
-      dispatch({
-        type: CREATE_COMMENT,
-        // payload: res,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   await axios.post(`/api/v1/posts/${postId}/comments`, commentData, {
+    //     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+    //   });
+    //   dispatch({
+    //     type: CREATE_COMMENT,
+    //     // payload: res,
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   const getCommentsFromPost = async (postId) => {
@@ -283,17 +283,16 @@ const PostState = (props) => {
   };
 
   const deleteCommentOnPost = async (postId, commentId) => {
-    try {
-      await axios.delete(`/api/v1/posts/${postId}/comments/${commentId}`, {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
-      });
-
-      dispatch({
-        type: DELETE_COMMENT,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   await axios.delete(`/api/v1/posts/${postId}/comments/${commentId}`, {
+    //     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+    //   });
+    //   dispatch({
+    //     type: DELETE_COMMENT,
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   return (

@@ -1,30 +1,27 @@
-import React, { useEffect, useContext } from 'react';
-import PostContext from '../../context/post/postContext';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import PostItem from '../posts/PostItem';
 import Spinner from '../layout/Spinner';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchTrendingPosts } from '../../store/post/post-actions';
+
 const TrendingPosts = () => {
-  const postContext = useContext(PostContext);
-  const { trending, getTrendingPosts, loading, currentPostLiked } = postContext;
+  const dispatch = useDispatch();
+  const trending = useSelector((state) => state.post.trending);
 
   useEffect(() => {
-    getTrendingPosts();
-    // eslint-disable-next-line
-  }, []);
+    dispatch(fetchTrendingPosts());
+  }, [dispatch]);
 
-  useEffect(() => {
-    getTrendingPosts();
-  }, [currentPostLiked]);
-
-  if (trending !== null && trending.length === 0 && !loading) {
+  if (trending !== null && trending.length === 0) {
     return <h4>Please add a post...</h4>;
   }
 
   return (
     <Container>
       <div className="container-div">
-        {trending !== null && !loading ? (
+        {trending !== null ? (
           trending.map((post) => (
             <div
               style={{ textDecoration: 'none', color: 'black' }}
@@ -46,13 +43,4 @@ export default TrendingPosts;
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  /* margin-top: 20px; */
-  /* border: 1px solid blue; */
-`;
-
-const Title = styled.h3`
-  color: #8191a0;
-  hr {
-    border-top: rgb(235, 238, 240);
-  }
 `;

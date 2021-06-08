@@ -9,26 +9,31 @@ import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutline
 import BookmarkOutlinedIcon from '@material-ui/icons/BookmarkOutlined';
 import IconButton from '@material-ui/core/IconButton';
 
-const PostSocialBar = (props) => {
-  // useEffect(() => {}, []);
+const PostSocialBar = ({ currentUser, currentPost, likeOnPost }) => {
   const checkLike = (likes) => {
-    let match = likes.indexOf(props.currentUser._id) !== -1;
+    let match = likes.indexOf(currentUser._id) !== -1;
     return match;
   };
 
   const [values, setValues] = useState({
-    like: checkLike(props.currentPost.likes),
-    likes: props.currentPost.likes.length,
+    like: checkLike(currentPost.likes),
+    likes: currentPost.likes.length,
   });
 
   const onLikePost = () => {
-    let callApi = values.like ? props.unlikePost : props.likePost;
-    callApi(props.currentPost.id).then((data) => {
-      setValues({
-        ...values,
-        like: !values.like,
-        likes: data.data.post.likes.length,
-      });
+    let callApi = values.like ? 'unlikePost' : 'likePost';
+    // callApi(currentPost.id).then((data) => {
+    //   setValues({
+    //     ...values,
+    //     like: !values.like,
+    //     likes: data.data.post.likes.length,
+    //   });
+    // });
+    console.log(currentPost);
+    likeOnPost(callApi);
+    setValues({
+      ...values,
+      like: !values.like,
     });
   };
 
@@ -43,13 +48,13 @@ const PostSocialBar = (props) => {
     <Container>
       {/* <Paper elevation={3}> */}
       <Grid container align="center" sx={{ marginTop: '30px' }}>
-        <Grid xs={12} align="center">
+        <Grid xs={12} item align="center">
           <IconButton onClick={onLikePost}>
             {likeUnlike}
             {values.likes}
           </IconButton>
         </Grid>
-        <Grid xs={12} align="center" sx={{ marginTop: '30px' }}>
+        <Grid xs={12} item align="center" sx={{ marginTop: '30px' }}>
           <IconButton>{bookmarkIcon}</IconButton>
         </Grid>
       </Grid>

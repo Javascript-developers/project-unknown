@@ -1,17 +1,19 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-import PostContext from '../../context/post/postContext';
 import PostItem from '../posts/PostItem';
 import Spinner from '../layout/Spinner';
 
+import { getUserPosts } from '../../store/post/post-actions';
+import { useDispatch, useSelector } from 'react-redux';
+
 const UserPage = () => {
-  const postContext = useContext(PostContext);
-  const { visitedUserPosts, visitUser } = postContext;
+  const dispatch = useDispatch();
+  const visitedUserPosts = useSelector((state) => state.post.userPosts);
 
   const { id } = useParams();
 
   useEffect(() => {
-    visitUser(id);
+    dispatch(getUserPosts(id));
   }, []);
 
   return (

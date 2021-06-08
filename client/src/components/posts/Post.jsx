@@ -5,13 +5,22 @@ import AuthContext from '../../context/auth/authContext';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
+import {
+  deleteCommentOnPost,
+  createCommentOnPost,
+  fetchCurrentPost,
+  fetchTrendingPosts,
+  likePost,
+  unlikePost,
+} from '../../store/post/post-actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { postActions } from '../../store/post/post-slice';
+
 import styled from 'styled-components';
 import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
 import FollowProfileButton from './../layout/FollowProfileButton';
 import PostSocialBar from '../layout/PostSocialBar';
-
-import axios from 'axios';
 
 import Comment from '../layout/Comment';
 
@@ -67,22 +76,26 @@ const modalStyle = {
 const Post = (props) => {
   let { id } = useParams();
 
+  const dispatch = useDispatch();
+  const currentPostFetched = useSelector((state) => state.post.currentPost);
+  const currentPost = useSelector((state) => state.post.post);
+  const comments = useSelector((state) => state.post.commentsFromPost);
+
   const authContext = useContext(AuthContext);
   const postContext = useContext(PostContext);
 
   const { currentUser, loadUser } = authContext;
   const {
     getCurrentPost,
-    currentPost,
     getUser,
     user,
     cleanUp,
     deletePost,
-    createCommentOnPost,
+    // createCommentOnPost,
     getCommentsFromPost,
     commentsFromPost,
-    likePost,
-    unlikePost,
+    // likePost,
+    // unlikePost,
   } = postContext;
 
   const [commentState, setCommentState] = useState({
@@ -101,10 +114,22 @@ const Post = (props) => {
 
   useEffect(() => {
     loadUser();
-    getCurrentPost(id);
-    getCommentsFromPost(id);
+    //TODO:
+    // dispatch(fetchCurrentPost(id));
+    // getCommentsFromPost(id);
     // console.log('current post', currentPost);
   }, []);
+
+  useEffect(() => {
+    dispatch(postActions.addPost(id));
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   if (commentsFromPost !== null) {
+  //     comments = commentsFromPost;
+  //   }
+  //   console.log(commentsFromPost);
+  // }, [commentsFromPost]);
 
   useEffect(() => {
     if (currentPost !== null && currentUser !== null) {
@@ -114,7 +139,6 @@ const Post = (props) => {
         ...values,
         following,
       });
-      console.log('followSTATEE', following);
     }
   }, [currentPost]);
 
@@ -123,6 +147,7 @@ const Post = (props) => {
     if (currentPost) {
       getUser(currentPost.user.id);
     }
+    //makes the post load every time you access it
     return () => {
       if (currentPost) {
         cleanUp();
@@ -130,9 +155,12 @@ const Post = (props) => {
     };
   }, [currentPost]);
 
+  // const reFetchPost = () => {
+  //   dispatch(fetchCurrentPost(id));
+  // };
+
   const checkFollow = (user, me) => {
     const match = user.some((follower) => follower._id === me._id);
-    console.log('MATCH', match);
     return match;
   };
 
@@ -145,18 +173,27 @@ const Post = (props) => {
   const onSubmitComment = (e) => {
     e.preventDefault();
     if (commentState.comment > '') {
-      createCommentOnPost(id, commentState);
-      getCommentsFromPost(id);
-      //FIXME: setTimeout it's an work arround.. find a better solution
-      setTimeout(() => {
-        getCommentsFromPost(id);
-      }, 700);
+      // createCommentOnPost(id, commentState);
+      // getCommentsFromPost(id);
+      // //FIXME: setTimeout it's an work arround.. find a better solution
+      // setTimeout(() => {
+      //   getCommentsFromPost(id);
+      //   // comments = commentsFromPost;
+      // }, 700);
+      dispatch(createCommentOnPost(id, commentState, currentUser));
       setCommentState({
         comment: '',
       });
     } else {
       console.error('comment section must not be empty');
     }
+  };
+
+  //TODO: Check if passing data trough f. params, from child component is valid
+  //FIXME: When deleting comment straight after posting it does not work
+  //because the ID of the comment is undefiend
+  const removeComment = (postId, comId) => {
+    dispatch(deleteCommentOnPost(postId, comId));
   };
 
   const onChange = (e) => {
@@ -168,12 +205,16 @@ const Post = (props) => {
 
   const clickFollowButton = (followApi) => {
     followApi(currentPost.user.id).then((data) => {
-      console.log('CLICK BUTTON');
       setValues({
         ...values,
         following: !values.following,
       });
     });
+  };
+
+  const likeOnPost = (callApi) => {
+    const f = callApi === 'likePost' ? likePost : unlikePost;
+    dispatch(f(id));
   };
 
   const deleteButton =
@@ -209,14 +250,15 @@ const Post = (props) => {
       </Modal>
 
       <Box sx={{ flexGrow: 1 }}>
-        {currentPost ? (
+        {currentPost && currentUser ? (
           <Grid container spacing={3}>
             <Grid align="center" sx={{ marginTop: '30px' }} item xs={12} md={1}>
               <PostSocialBar
-                likePost={likePost}
-                unlikePost={unlikePost}
+                // likePost={likePost}
+                // unlikePost={unlikePost}
                 currentUser={currentUser}
                 currentPost={currentPost}
+                likeOnPost={likeOnPost}
               />
             </Grid>
             <Grid sx={{ marginTop: '30px' }} item xs={12} md={7}>
@@ -278,9 +320,9 @@ const Post = (props) => {
                   marginTop: '30px',
                 }}
               >
-                {commentsFromPost !== null ? (
-                  commentsFromPost.map((com, i) => (
-                    <Comment key={i} comment={com} />
+                {comments !== null ? (
+                  comments.map((com, i) => (
+                    <Comment key={i} onRemove={removeComment} comment={com} />
                   ))
                 ) : (
                   <Spinner />
@@ -346,13 +388,12 @@ const Post = (props) => {
                     spacing={1}
                   >
                     {currentPost.tags.map((tag, i) => (
-                      <Link style={{ textDecoration: 'none' }} to={`/t/${tag}`}>
-                        <Chip
-                          key={i}
-                          clickable
-                          label={`#${tag}`}
-                          variant="outlined"
-                        />
+                      <Link
+                        key={i}
+                        sstyle={{ textDecoration: 'none' }}
+                        to={`/t/${tag}`}
+                      >
+                        <Chip clickable label={`#${tag}`} variant="outlined" />
                       </Link>
                     ))}
                     {/* <Chip clickable label="Technology" variant="outlined" />
