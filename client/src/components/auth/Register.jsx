@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import AuthContext from '../../context/auth/authContext';
 
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
@@ -11,9 +9,13 @@ import Button from '@material-ui/core/Button';
 import FileUpload from '@material-ui/icons/AddPhotoAlternate';
 import { deepOrange } from '@material-ui/core/colors';
 
+import { register } from '../../store/auth/auth-actions';
+import { useSelector, useDispatch } from 'react-redux';
+
 const Register = (props) => {
-  const authContext = useContext(AuthContext);
-  const { registerUser, isAuthenticated } = authContext;
+  const dispatch = useDispatch();
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -33,7 +35,7 @@ const Register = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    registerUser(user);
+    dispatch(register(user));
   };
 
   const onChange = (e) => {

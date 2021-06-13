@@ -1,55 +1,55 @@
-import React, { useContext, useEffect } from 'react';
-import styled from 'styled-components';
-import PostContext from '../../context/post/postContext';
-import { Link } from 'react-router-dom';
-import PostItem from '../posts/PostItem';
+// import React, { useContext, useEffect } from 'react';
+// import styled from 'styled-components';
+// import PostContext from '../../context/post/postContext';
+// import { Link } from 'react-router-dom';
+// import PostItem from '../posts/PostItem';
 
-const NewestPosts = () => {
-  const postContext = useContext(PostContext);
-  const { newest, getNewestPosts } = postContext;
+// const NewestPosts = () => {
+//   const postContext = useContext(PostContext);
+//   const { newest, getNewestPosts } = postContext;
 
-  useEffect(() => {
-    getNewestPosts();
-  }, []);
+//   useEffect(() => {
+//     getNewestPosts();
+//   }, []);
 
-  if (newest === null) {
-    return <p>No posts can be found!</p>;
-  }
+//   if (newest === null) {
+//     return <p>No posts can be found!</p>;
+//   }
 
-  return (
-    <Container>
-      <PostsContainer>
-        {newest.map((post) => (
-          <PostItem key={post._id} post={post} />
-        ))}
-      </PostsContainer>
-    </Container>
-  );
-};
+//   return (
+//     <Container>
+//       <PostsContainer>
+//         {newest.map((post) => (
+//           <PostItem key={post._id} post={post} />
+//         ))}
+//       </PostsContainer>
+//     </Container>
+//   );
+// };
 
-export default NewestPosts;
+// export default NewestPosts;
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
+// const Container = styled.div`
+//   width: 100%;
+//   height: 100%;
 
-  /* border: 1px solid blue; */
-  /* .container-div {
-    display: grid;
-    grid-template-columns: auto auto;
-  } */
-`;
+//   /* border: 1px solid blue; */
+//   /* .container-div {
+//     display: grid;
+//     grid-template-columns: auto auto;
+//   } */
+// `;
 
-const Title = styled.h3`
-  color: #8191a0;
-  hr {
-    border-top: rgb(235, 238, 240);
-  }
-`;
+// const Title = styled.h3`
+//   color: #8191a0;
+//   hr {
+//     border-top: rgb(235, 238, 240);
+//   }
+// `;
 
-const PostsContainer = styled.div`
-  width: 100%;
-  height: 100%;
+// const PostsContainer = styled.div`
+//   width: 100%;
+//   height: 100%;
 
-  /* border: 1px solid red; */
-`;
+//   /* border: 1px solid red; */
+// `;

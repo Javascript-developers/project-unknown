@@ -1,5 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 
 import TrendingPosts from '../layout/TrendingPosts';
 import NewestPosts from '../layout/NewestPosts';
@@ -28,7 +27,7 @@ const Home = () => {
             <SocialLinks />
             <Typography variant="h6">Newest Posts</Typography>
             <Divider />
-            <NewestPosts />
+            {/* <NewestPosts /> */}
           </Grid>
         </Grid>
       </Box>

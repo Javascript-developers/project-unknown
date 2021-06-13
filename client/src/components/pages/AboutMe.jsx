@@ -1,20 +1,18 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import PostContext from '../../context/post/postContext';
 import PostItem from '../posts/PostItem';
 import Spinner from '../layout/Spinner';
 
+import { getMyPosts } from '../../store/post/post-actions';
+import { useDispatch, useSelector } from 'react-redux';
+
 const AboutMe = () => {
-  const postContext = useContext(PostContext);
-  const { myPosts, getMyPosts, loading, currentPostLiked } = postContext;
+  const dispatch = useDispatch();
+  const myPosts = useSelector((state) => state.post.myPosts);
 
   useEffect(() => {
-    getMyPosts();
-  }, []);
-
-  useEffect(() => {
-    getMyPosts();
-  }, [currentPostLiked]);
+    dispatch(getMyPosts());
+  }, [dispatch]);
 
   if (myPosts !== null && myPosts.length === 0) {
     return <h4>Please add a post...</h4>;
@@ -24,7 +22,7 @@ const AboutMe = () => {
     <Container>
       <Title>My Posts</Title>
       <div className="container-div">
-        {myPosts !== null && !loading ? (
+        {myPosts !== null ? (
           myPosts.map((post) => (
             <div
               style={{ textDecoration: 'none', color: 'black' }}

@@ -8,10 +8,6 @@ import TagPage from './components/pages/TagPage';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import PostState from './context/post/postState';
-import AuthState from './context/auth/authState';
-import UserState from './context/user/userState';
-
 import Post from './components/posts/Post';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
@@ -19,31 +15,25 @@ import EditUserProfile from './components/pages/EditUserProfile';
 
 function App() {
   return (
-    <UserState>
-      <AuthState>
-        <PostState>
-          <div className="App">
-            <Router>
-              <Navbar />
-              <Switch>
-                <PrivateRoute exact path="/" component={Home} />
-                <PrivateRoute exact path="/about" component={AboutMe} />
-                <PrivateRoute exact path="/post/:id" component={Post} />
-                <PrivateRoute exact path="/t/:id" component={TagPage} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/register" component={Register} />
-                <PrivateRoute exact path="/user/:id" component={UserPage} />
-                <PrivateRoute
-                  exact
-                  path="/edit-profile"
-                  component={EditUserProfile}
-                />
-              </Switch>
-            </Router>
-          </div>
-        </PostState>
-      </AuthState>
-    </UserState>
+    <div className="App">
+      <Router>
+        <Navbar />
+        <Switch>
+          <PrivateRoute exact path="/" component={Home} />
+          <PrivateRoute exact path="/about" component={AboutMe} />
+          <PrivateRoute exact path="/post/:id" component={Post} />
+          <PrivateRoute exact path="/t/:id" component={TagPage} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <PrivateRoute exact path="/user/:id" component={UserPage} />
+          <PrivateRoute
+            exact
+            path="/edit-profile"
+            component={EditUserProfile}
+          />
+        </Switch>
+      </Router>
+    </div>
   );
 }
 

@@ -1,6 +1,4 @@
-import React, { useContext, useState } from 'react';
-import UserContext from './../../context/user/userContext';
-import AuthContext from './../../context/auth/authContext';
+import React, { useState } from 'react';
 
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
@@ -13,14 +11,12 @@ import { deepOrange } from '@material-ui/core/colors';
 
 import { Redirect } from 'react-router-dom';
 
+import { useDispatch } from 'react-redux';
+import { editUserProfile } from '../../store/user/user-actions';
+
 const EditUserProfile = () => {
-  const userContext = useContext(UserContext);
-  const { editUserProfile } = userContext;
+  const dispatch = useDispatch();
 
-  // const authContext = useContext(AuthContext);
-  // const { currentUser } = authContext;
-
-  const [previewSource, setPreviewSource] = useState('');
   const [fileInputState, setFileInputState] = useState(null);
 
   const [user, setUser] = useState({
@@ -51,28 +47,8 @@ const EditUserProfile = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    // if (!previewSource) return;
-
-    // uploadImage(previewSource)
-
-    // const formData = new FormData();
-    // formData.append('name', user.name);
-    // formData.append('about', user.about);
-    // formData.append('avatar', user.avatar);
-    // console.log(formData);
-    // console.log(user.avatar);
-    editUserProfile(user);
+    dispatch(editUserProfile(user));
     console.log(user);
-  };
-
-  const uploadImage = (base64EncodedImage) => {
-    // console.log(base64EncodedImage);
-    // setUser({
-    //   ...user,
-    //   avatar: previewSource,
-    // });
-    // console.log(user);
   };
 
   //TODO: REDO THIS PART

@@ -1,7 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
-
-import AuthContext from '../../context/auth/authContext';
-import PostContext from '../../context/post/postContext';
+import React, { useState } from 'react';
 
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -11,6 +8,9 @@ import Slide from '@material-ui/core/Slide';
 import SendIcon from '@material-ui/icons/Send';
 import TextField from '@material-ui/core/TextField';
 import ChipInput from 'material-ui-chip-input';
+
+import { createPost } from '../../store/post/post-actions';
+import { useDispatch } from 'react-redux';
 
 const style = {
   position: 'absolute',
@@ -25,9 +25,7 @@ const style = {
 };
 
 const CreatePostModal = () => {
-  const authContext = useContext(AuthContext);
-  const postContext = useContext(PostContext);
-  const { createPost, getTrendingPosts, getNewestPosts } = postContext;
+  const dispatch = useDispatch();
 
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
@@ -44,7 +42,7 @@ const CreatePostModal = () => {
 
   const onSubmitCreatePost = (e) => {
     e.preventDefault();
-    createPost(createPostState);
+    dispatch(createPost(createPostState));
     setTimeout(() => {
       setCreatePostState({
         title: '',
@@ -53,8 +51,6 @@ const CreatePostModal = () => {
         tags: [],
       });
       setOpenModal(false);
-      getTrendingPosts();
-      getNewestPosts();
     }, 1000);
   };
   const onChange = (e) => {

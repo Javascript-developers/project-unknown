@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
-import styled from 'styled-components';
-import PostContext from '../../context/post/postContext';
-import AuthContext from '../../context/auth/authContext';
+// import PostContext from '../../context/post/postContext';
+// import AuthContext from '../../context/auth/authContext';
 import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
 
@@ -12,12 +11,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
 
-const Comment = ({ comment }) => {
-  const postContext = useContext(PostContext);
-  const { deleteCommentOnPost, getCommentsFromPost } = postContext;
+import { useSelector } from 'react-redux';
 
-  const authContext = useContext(AuthContext);
-  const { currentUser, loadUser } = authContext;
+const Comment = ({ comment, onRemove }) => {
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const [deletingComment, setDeletingComment] = useState(null);
 
@@ -30,18 +27,9 @@ const Comment = ({ comment }) => {
     setAnchorMenu(e.currentTarget);
   };
 
-  useEffect(() => {
-    loadUser();
-  }, []);
-
   const removeComment = () => {
-    deleteCommentOnPost(comment.post, comment.id);
-    setDeletingComment(true);
     handleCloseMenu();
-    setTimeout(() => {
-      getCommentsFromPost(comment.post);
-      setDeletingComment(null);
-    }, 700);
+    onRemove(comment.post, comment.id);
   };
 
   // removeButton
