@@ -208,39 +208,23 @@ export const getPosts = () => {
 };
 
 //-----------------------------------------------------------
-
-export const likePost = async (postId) => {
+//if current is not passed user is liking currentPost
+//if in current is  passing object {postId, currentUserId}, user liking post in a list
+export const likePost = (postId, currentUser) => {
   return async (dispatch) => {
-    dispatch(postActions.likePost());
+    dispatch(postActions.likePost({ postId, currentUser }));
     const sendReq = async () => {
-      const res = await axios.patch(`/api/v1/posts/${postId}/like`, postId, {
+      const res = await axios.patch(`/api/v1/posts/${postId}/like`, null, {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
       });
 
       if (!res) {
         throw new Error('Could not like the post');
       }
-
-      // let res = await fetch(`/api/v1/posts/${postId}/like`, {
-      //   method: 'PATCH',
-      //   headers: {
-      //     Accept: 'application/json',
-      //     'Content-Type': 'application/json',
-      //     Authorization: 'Bearer ' + localStorage.getItem('token'),
-      //   },
-      //   body: JSON.stringify({ postId: postId }),
-      // });
-
-      // return res.json();#
-      console.log(postId);
     };
 
     try {
-      const res = await sendReq();
-      console.log('RESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS', res);
-
-      // dispatch(postActions.likePost(postId));
-      return { type: res };
+      await sendReq();
     } catch (error) {
       console.log(error);
     }
@@ -249,12 +233,12 @@ export const likePost = async (postId) => {
 
 //-----------------------------------------------------------
 
-export const unlikePost = async (postId) => {
+export const unlikePost = (postId, currentUser) => {
   return async (dispatch) => {
-    dispatch(postActions.unlikePost());
+    dispatch(postActions.unlikePost({ postId, currentUser }));
 
     const sendReq = async () => {
-      const res = await axios.patch(`/api/v1/posts/${postId}/unlike`, postId, {
+      const res = await axios.patch(`/api/v1/posts/${postId}/unlike`, null, {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
       });
 
@@ -265,9 +249,7 @@ export const unlikePost = async (postId) => {
     };
 
     try {
-      const res = await sendReq();
-      // dispatch(postActions.unlikePost(postId));
-      console.log('RESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS', res);
+      await sendReq();
     } catch (error) {
       console.log(error);
     }
@@ -275,3 +257,36 @@ export const unlikePost = async (postId) => {
 };
 
 //-----------------------------------------------------------
+
+export const deletePost = (postId) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`/api/v1/posts/${postId}`, {
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      });
+      // dispatch(postActions.deletePost(postId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+//-----------------------------------------------------------
+
+export const fetchCommetsFromPost = async (postId) => {
+  return async (dispatch) => {
+    const sendReq = async () => {
+      const res = await axios.get(`/api/v1/posts/${postId}/comments`);
+
+      return res.data.data.comments
+    };
+
+    try {
+      const comments = await sendReq()
+
+      dispatch(postActions.getCommentsFromPost(comments))
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

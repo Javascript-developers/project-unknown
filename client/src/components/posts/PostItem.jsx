@@ -1,7 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import AuthContext from '../../context/auth/authContext';
-import PostContext from '../../context/post/postContext';
 
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -20,41 +18,33 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Button, CardActionArea, CardActions } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 
-const PostItem = ({ post }) => {
+import { useSelector } from 'react-redux';
+
+const PostItem = ({ post, likeOnPost }) => {
   let currentPost = post;
 
-  const authContext = useContext(AuthContext);
-  const postContext = useContext(PostContext);
-
-  const { currentUser } = authContext;
-  const { likePost, unlikePost, currentPostLiked, cleanUp } = postContext;
-
-  //DUPLICATE CODE IN useEffect => must get cleaner solution
-  //results in to many API calls each time you like/unlike a post
-  //might affect performance
-
-  //FIXME: when user logs in likes are not displayed, needs refresh of the page
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const checkLike = (likes) => {
     let match = likes.indexOf(currentUser._id) !== -1;
     return match;
   };
 
+  //FIXME: when unliking currentPost and go back to trending
+  //like icon still shows as liked for one extra render
   const [values, setValues] = useState({
     like: checkLike(currentPost.likes),
-    likes: currentPost.likes.length,
+    // likes: currentPost.likes.length,
   });
 
   const onLikePost = () => {
-    let callApi = values.like ? unlikePost : likePost;
-    callApi(post.id).then((data) => {
-      console.log('LIKE', data);
-      setValues({
-        ...values,
-        like: !values.like,
-        likes: data.data.post.likes.length,
-      });
+    let callApi = values.like ? 'unlikePost' : 'likePost';
+
+    setValues({
+      ...values,
+      like: !values.like,
     });
+    likeOnPost(callApi, currentPost._id, currentUser._id);
   };
 
   const likeUnlike = values.like ? <FavoriteIcon /> : <FavoriteBorderIcon />;
@@ -107,7 +97,7 @@ const PostItem = ({ post }) => {
         </div>
         <CardActions>
           <IconButton onClick={onLikePost}>
-            {likeUnlike} {values.likes}
+            {likeUnlike} {currentPost.likes.length}
           </IconButton>
           <IconButton>
             <Comments>

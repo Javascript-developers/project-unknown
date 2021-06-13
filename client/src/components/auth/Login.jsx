@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-// import styled from 'styled-components';
-import AuthContext from '../../context/auth/authContext';
 
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
@@ -28,11 +26,12 @@ import Button from '@material-ui/core/Button';
 //     margin: theme.spacing(3, 0, 2),
 //   },
 // }));
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../../store/auth/auth-actions';
 
 const Login = (props) => {
-  const authContext = useContext(AuthContext);
-
-  const { login, isAuthenticated } = authContext;
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -63,12 +62,12 @@ const Login = (props) => {
 
     console.log('LOGIN COMPONENT', email, password);
 
-    login({
-      //   email: email[0],
-      //   password: password[0],
-      email,
-      password,
-    });
+    dispatch(
+      login({
+        email,
+        password,
+      })
+    );
   };
 
   return (

@@ -1,12 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
-import UserContext from './../../context/user/userContext';
+
+import { followUser, unfollowUser } from '../../store/user/user-actions';
 
 const FollowProfileButton = (props) => {
-  const userContext = useContext(UserContext);
-
-  const { followUser, unfollowUser } = userContext;
-
   const followClick = () => {
     props.onButtonClick(followUser);
   };

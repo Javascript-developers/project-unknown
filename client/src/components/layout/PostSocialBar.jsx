@@ -9,40 +9,29 @@ import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutline
 import BookmarkOutlinedIcon from '@material-ui/icons/BookmarkOutlined';
 import IconButton from '@material-ui/core/IconButton';
 
-const PostSocialBar = ({ currentUser, currentPost, likeOnPost }) => {
-  const checkLike = (likes) => {
-    let match = likes.indexOf(currentUser._id) !== -1;
-    return match;
-  };
-
-  const [values, setValues] = useState({
-    like: checkLike(currentPost.likes),
-    likes: currentPost.likes.length,
-  });
-
+const PostSocialBar = ({
+  currentUser,
+  currentPost,
+  likeOnPost,
+  likesNo,
+  currentPostLiked,
+}) => {
   const onLikePost = () => {
-    let callApi = values.like ? 'unlikePost' : 'likePost';
-    // callApi(currentPost.id).then((data) => {
-    //   setValues({
-    //     ...values,
-    //     like: !values.like,
-    //     likes: data.data.post.likes.length,
-    //   });
-    // });
-    console.log(currentPost);
+    let callApi = currentPostLiked ? 'unlikePost' : 'likePost';
+
     likeOnPost(callApi);
-    setValues({
-      ...values,
-      like: !values.like,
-    });
   };
 
-  const likeUnlike = values.like ? <FavoriteIcon /> : <FavoriteBorderIcon />;
-  const bookmarkIcon = values.bookmark ? (
-    <BookmarkOutlinedIcon />
+  const likeUnlike = currentPostLiked ? (
+    <FavoriteIcon />
   ) : (
-    <BookmarkBorderOutlinedIcon />
+    <FavoriteBorderIcon />
   );
+  // const bookmarkIcon = values.bookmark ? (
+  //   <BookmarkOutlinedIcon />
+  // ) : (
+  //   <BookmarkBorderOutlinedIcon />
+  // );
 
   return (
     <Container>
@@ -51,11 +40,11 @@ const PostSocialBar = ({ currentUser, currentPost, likeOnPost }) => {
         <Grid xs={12} item align="center">
           <IconButton onClick={onLikePost}>
             {likeUnlike}
-            {values.likes}
+            {likesNo}
           </IconButton>
         </Grid>
         <Grid xs={12} item align="center" sx={{ marginTop: '30px' }}>
-          <IconButton>{bookmarkIcon}</IconButton>
+          {/* <IconButton>{bookmarkIcon}</IconButton> */}
         </Grid>
       </Grid>
       {/* </Paper> */}

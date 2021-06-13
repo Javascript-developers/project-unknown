@@ -1,17 +1,18 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import AuthContext from '../../context/auth/authContext';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { loadUser } from '../../store/auth/auth-actions';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const authContext = useContext(AuthContext);
-  const { isAuthenticated, loadUser } = authContext;
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
     console.log('LOAD USER');
     if (localStorage.token) {
-      loadUser();
+      dispatch(loadUser());
     }
-    // eslint-disable-next-line
   }, []);
 
   return (

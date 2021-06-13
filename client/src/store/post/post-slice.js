@@ -1,9 +1,12 @@
+import { TextareaAutosize } from '@material-ui/core';
 import { createSlice } from '@reduxjs/toolkit';
 
 const postSlice = createSlice({
   name: 'post',
   initialState: {
     currentPost: null,
+    currentPostLikes: 0,
+    currentPostLiked: null,
     post: null,
     posts: [],
     myPosts: null,
@@ -38,6 +41,7 @@ const postSlice = createSlice({
       const id = action.payload;
       const post = state.trending.find((post) => post._id === id);
 
+      state.currentPostLikes = post.likes.length;
       state.post = post;
       state.commentsFromPost = post.comments.map((comment) => comment);
     },
@@ -64,12 +68,52 @@ const postSlice = createSlice({
       state.posts = action.payload;
     },
 
-    likePost(state) {
-      state.liked = true;
+    checkLike(state, action) {
+      const liked = state.post.likes.indexOf(action.payload._id) !== -1;
+      state.currentPostLiked = liked;
     },
 
-    unlikePost(state) {
-      state.liked = false;
+    //---------------------------------
+    //if action payload.currentUser is passed as true means user is liking
+    //list of posts / else - is liking a currentPost
+    likePost(state, action) {
+      if (!action.payload.currentUser) {
+        state.currentPostLikes++;
+        state.currentPostLiked = true;
+        console.log('liking current post');
+      } else {
+        const postIndex = state.trending.findIndex(
+          (post) => post._id === action.payload.postId
+        );
+        state.trending[postIndex].likes.push(action.payload.currentUser);
+      }
+    },
+
+    unlikePost(state, action) {
+      if (!action.payload.currentUser) {
+        state.currentPostLikes--;
+        state.currentPostLiked = false;
+      } else {
+        const postIndex = state.trending.findIndex(
+          (post) => post._id === action.payload.postId
+        );
+        state.trending[postIndex].likes.pop(action.payload.currentUser);
+      }
+    },
+    //----------------------------------
+
+    // deletePost(state, action) {
+    //   const postIndex = state.trending.findIndex(
+    //     (post) => post._id === action.payload
+    //   );
+
+    //   state.trending[postIndex].pop();
+    // },
+
+    //------------------------------------
+
+    getCommentsFromPost(state, action) {
+      state.commentsFromPost = action.payload;
     },
   },
 });

@@ -1,8 +1,7 @@
-import React, { Fragment, useContext, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import AuthContext from '../../context/auth/authContext';
 
 import { Image } from 'cloudinary-react';
 import { deepOrange } from '@material-ui/core/colors';
@@ -17,9 +16,14 @@ import MenuItem from '@material-ui/core/MenuItem/index';
 import Toolbar from '@material-ui/core/Toolbar';
 import Avatar from '@material-ui/core/Avatar';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../store/auth/auth-actions';
+
 const Navbar = (props) => {
-  const authContext = useContext(AuthContext);
-  const { isAuthenticated, currentUser, logout } = authContext;
+  const dispatch = useDispatch();
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const [anchorMenu, setAnchorMenu] = useState(null);
 
@@ -31,7 +35,8 @@ const Navbar = (props) => {
   };
 
   const onLogout = () => {
-    logout();
+    dispatch(logout());
+    console.log('lol');
   };
 
   const authLinks = (

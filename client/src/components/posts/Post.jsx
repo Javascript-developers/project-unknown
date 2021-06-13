@@ -1,6 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
-import PostContext from '../../context/post/postContext';
-import AuthContext from '../../context/auth/authContext';
+import React, { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -12,11 +10,11 @@ import {
   fetchTrendingPosts,
   likePost,
   unlikePost,
+  deletePost,
 } from '../../store/post/post-actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { postActions } from '../../store/post/post-slice';
 
-import styled from 'styled-components';
 import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
 import FollowProfileButton from './../layout/FollowProfileButton';
@@ -80,23 +78,10 @@ const Post = (props) => {
   const currentPostFetched = useSelector((state) => state.post.currentPost);
   const currentPost = useSelector((state) => state.post.post);
   const comments = useSelector((state) => state.post.commentsFromPost);
+  const currentPostLikes = useSelector((state) => state.post.currentPostLikes);
+  const currentPostLiked = useSelector((state) => state.post.currentPostLiked);
 
-  const authContext = useContext(AuthContext);
-  const postContext = useContext(PostContext);
-
-  const { currentUser, loadUser } = authContext;
-  const {
-    getCurrentPost,
-    getUser,
-    user,
-    cleanUp,
-    deletePost,
-    // createCommentOnPost,
-    getCommentsFromPost,
-    commentsFromPost,
-    // likePost,
-    // unlikePost,
-  } = postContext;
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const [commentState, setCommentState] = useState({
     comment: '',
@@ -113,23 +98,9 @@ const Post = (props) => {
   const { comment } = commentState;
 
   useEffect(() => {
-    loadUser();
-    //TODO:
-    // dispatch(fetchCurrentPost(id));
-    // getCommentsFromPost(id);
-    // console.log('current post', currentPost);
-  }, []);
-
-  useEffect(() => {
     dispatch(postActions.addPost(id));
-  }, [dispatch]);
-
-  // useEffect(() => {
-  //   if (commentsFromPost !== null) {
-  //     comments = commentsFromPost;
-  //   }
-  //   console.log(commentsFromPost);
-  // }, [commentsFromPost]);
+    dispatch(postActions.checkLike(currentUser));
+  }, []);
 
   useEffect(() => {
     if (currentPost !== null && currentUser !== null) {
@@ -142,23 +113,6 @@ const Post = (props) => {
     }
   }, [currentPost]);
 
-  useEffect(() => {
-    // console.log(currentUser);
-    if (currentPost) {
-      getUser(currentPost.user.id);
-    }
-    //makes the post load every time you access it
-    return () => {
-      if (currentPost) {
-        cleanUp();
-      }
-    };
-  }, [currentPost]);
-
-  // const reFetchPost = () => {
-  //   dispatch(fetchCurrentPost(id));
-  // };
-
   const checkFollow = (user, me) => {
     const match = user.some((follower) => follower._id === me._id);
     return match;
@@ -166,20 +120,15 @@ const Post = (props) => {
 
   //FIXME: history.push will take you to home page even if the post cannot be deleted
   const onDeletePost = () => {
-    deletePost(id);
+    dispatch(deletePost(id));
+
+    //FIXME: push() is undefiend >>>> ?
     props.history.push('/');
   };
 
   const onSubmitComment = (e) => {
     e.preventDefault();
     if (commentState.comment > '') {
-      // createCommentOnPost(id, commentState);
-      // getCommentsFromPost(id);
-      // //FIXME: setTimeout it's an work arround.. find a better solution
-      // setTimeout(() => {
-      //   getCommentsFromPost(id);
-      //   // comments = commentsFromPost;
-      // }, 700);
       dispatch(createCommentOnPost(id, commentState, currentUser));
       setCommentState({
         comment: '',
@@ -204,7 +153,7 @@ const Post = (props) => {
   };
 
   const clickFollowButton = (followApi) => {
-    followApi(currentPost.user.id).then((data) => {
+    dispatch(followApi(currentPost.user.id)).then((data) => {
       setValues({
         ...values,
         following: !values.following,
@@ -256,6 +205,8 @@ const Post = (props) => {
               <PostSocialBar
                 // likePost={likePost}
                 // unlikePost={unlikePost}
+                currentPostLiked={currentPostLiked}
+                likesNo={currentPostLikes}
                 currentUser={currentUser}
                 currentPost={currentPost}
                 likeOnPost={likeOnPost}
