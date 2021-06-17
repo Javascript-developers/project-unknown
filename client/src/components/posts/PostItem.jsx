@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import * as moment from 'moment';
 
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -52,10 +53,11 @@ const PostItem = ({ post, likeOnPost }) => {
   return (
     <Container>
       <Card
+        variant="outlined"
         sx={{
           maxWidth: '100%',
           padding: '10px',
-          borderRadius: '10px',
+          borderRadius: '5px',
         }}
       >
         <CardHeader
@@ -76,23 +78,30 @@ const PostItem = ({ post, likeOnPost }) => {
           //     <MoreVertIcon />
           //   </IconButton>
           // }
-          title={currentPost.title}
-          subheader={currentPost.createdAt}
+          title={
+            <Link to={`/user/${currentPost.user._id}`}>
+              {currentPost.user.name}
+            </Link>
+          }
+          subheader={moment(
+            currentPost.createdAt.toString(),
+            'YYYYMMDD HH:mm:ss'
+          ).fromNow()}
         ></CardHeader>
 
         <Header>
           <Title>
             <h3>{currentPost.title}</h3>
-            <Link to={`/user/${currentPost.user._id}`}>
-              @{currentPost.user.name}
-            </Link>
-            <p className="author-post">@{currentPost.user.name}</p>
+            {/* <p className="author-post">@{currentPost.user.name}</p> */}
           </Title>
-          <Tags>{currentPost.tags}</Tags>
         </Header>
         <div className="bottom-post">
           <Description>
-            <p>Description of the post/ not implemented yet</p>
+            <ul>
+              {currentPost.tags.map((tag, i) => (
+                <li key={i}>#{tag}</li>
+              ))}
+            </ul>
           </Description>
         </div>
         <CardActions>
@@ -129,10 +138,10 @@ const Container = styled.div`
   height: 160px; */
   /* border: 1px solid red; */
   /* background: #ffffff; */
-  padding: 15px;
-  margin: 20px auto;
+  margin: 5px auto;
   display: flex;
   flex-direction: column;
+  /* border: 1px solid blue; */
 
   /* &:hover {
     background: #f7f9fa;

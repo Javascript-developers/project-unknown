@@ -10,6 +10,8 @@ const commentSchema = new mongoose.Schema(
       type: Date,
       default: Date.now(),
     },
+    // createdAt: Number,
+    // updatedAt: Number,
     post: {
       type: mongoose.Schema.ObjectId,
       ref: 'Post',
@@ -22,6 +24,7 @@ const commentSchema = new mongoose.Schema(
     },
   },
   {
+    // timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }

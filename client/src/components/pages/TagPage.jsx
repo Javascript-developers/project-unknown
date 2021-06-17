@@ -26,13 +26,13 @@ const TagPage = (props) => {
   return (
     <Container maxWidth="lg">
       <Typography variant="h2">#{id}</Typography>
-      <Paper elevation={3}>
-        {tagPosts !== null ? (
-          tagPosts.map((post, i) => <PostItem key={i} post={post} />)
-        ) : (
-          <Spinner />
-        )}
-      </Paper>
+      {/* <Paper elevation={3}> */}
+      {tagPosts !== null ? (
+        tagPosts.map((post, i) => <PostItem key={i} post={post} />)
+      ) : (
+        <Spinner />
+      )}
+      {/* </Paper> */}
     </Container>
   );
 };

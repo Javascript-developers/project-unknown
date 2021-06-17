@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+
+import * as moment from 'moment';
 
 import {
   deleteCommentOnPost,
@@ -17,6 +19,8 @@ import { postActions } from '../../store/post/post-slice';
 
 import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
+import ImageMaterial from 'material-ui-image';
+
 import FollowProfileButton from './../layout/FollowProfileButton';
 import PostSocialBar from '../layout/PostSocialBar';
 
@@ -41,23 +45,6 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-
-const bannerBoxStyle = {
-  backgroundImage:
-    "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80')",
-  color: '#fff',
-  overflow: 'hidden',
-  height: '250px',
-  backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: 'cover',
-  position: 'relative',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: '5px',
-  flexDirection: 'column',
-};
 
 const modalStyle = {
   position: 'absolute',
@@ -91,6 +78,8 @@ const Post = (props) => {
     following: null,
   });
 
+  const [redirectTo, setRedirectTo] = useState(false);
+
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -100,6 +89,7 @@ const Post = (props) => {
   useEffect(() => {
     dispatch(postActions.addPost(id));
     dispatch(postActions.checkLike(currentUser));
+    dispatch(postActions.cleanUpNewPost());
   }, []);
 
   useEffect(() => {
@@ -114,16 +104,13 @@ const Post = (props) => {
   }, [currentPost]);
 
   const checkFollow = (user, me) => {
-    const match = user.some((follower) => follower._id === me._id);
+    const match = user.some((follower) => follower._id === me);
     return match;
   };
 
-  //FIXME: history.push will take you to home page even if the post cannot be deleted
   const onDeletePost = () => {
     dispatch(deletePost(id));
-
-    //FIXME: push() is undefiend >>>> ?
-    props.history.push('/');
+    setRedirectTo(true);
   };
 
   const onSubmitComment = (e) => {
@@ -181,6 +168,28 @@ const Post = (props) => {
       </span>
     );
 
+  const bannerBoxStyle = {
+    // backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5))
+    // `,
+    // `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80')`,
+    // color: '#fff',
+    overflow: 'hidden',
+    height: '300px',
+    // backgroundPosition: 'center',
+    // backgroundRepeat: 'no-repeat',
+    // backgroundSize: 'cover',
+    // position: 'absolute',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '5px',
+    flexDirection: 'column',
+    zIndex: '1',
+  };
+
+  if (redirectTo) {
+    return <Redirect to="/" />;
+  }
   return (
     <Container maxWidth="lg">
       <Modal
@@ -215,13 +224,29 @@ const Post = (props) => {
             <Grid sx={{ marginTop: '30px' }} item xs={12} md={7}>
               <Paper elevation={3}>
                 <Box sx={bannerBoxStyle}>
-                  <Box>
-                    <Typography variant="h5">{currentPost.title}</Typography>
-                  </Box>
-                  <Box sx={{ fontStyle: 'italic', color: '#d6d6d6' }}>
-                    <Typography variant="caption">
-                      "{currentPost.description}"
-                    </Typography>
+                  {/* <Box> */}
+                  {/* <ImageMaterial
+                    imageStyle={bannerBoxStyle}
+                    src={bannerImage}
+                  /> */}
+                  <Image
+                    cloudName="dsmrt6yiw"
+                    publicId={currentPost.banner}
+                    with="100%"
+                  />
+                  <Box
+                    sx={{
+                      position: 'relative',
+                    }}
+                  >
+                    <Box>
+                      <Typography variant="h5">{currentPost.title}</Typography>
+                    </Box>
+                    <Box sx={{ fontStyle: 'italic', color: '#d6d6d6' }}>
+                      <Typography variant="caption">
+                        "{currentPost.description}"
+                      </Typography>
+                    </Box>
                   </Box>
                 </Box>
                 <Grid sx={{ marginTop: '20px' }} container spacing={2}>
@@ -231,7 +256,10 @@ const Post = (props) => {
                       variant="inherit"
                       style={{ color: 'grey' }}
                     >
-                      {currentPost.createdAt}
+                      {moment(
+                        currentPost.createdAt.toString(),
+                        'YYYYMMDD HH:mm:ss'
+                      ).fromNow()}
                     </Typography>
                   </Grid>
                   <Grid

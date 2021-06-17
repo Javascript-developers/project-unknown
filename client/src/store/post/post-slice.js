@@ -7,6 +7,7 @@ const postSlice = createSlice({
     currentPost: null,
     currentPostLikes: 0,
     currentPostLiked: null,
+    newPost: null,
     post: null,
     posts: [],
     myPosts: null,
@@ -35,6 +36,11 @@ const postSlice = createSlice({
 
     createPost(state, action) {
       state.trending.push(action.payload);
+      state.newPost = action.payload;
+    },
+
+    cleanUpNewPost(state) {
+      state.newPost = null;
     },
 
     addPost(state, action) {

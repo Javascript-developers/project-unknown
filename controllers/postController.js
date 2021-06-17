@@ -1,6 +1,7 @@
 const Post = require('../models/postModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const { cloudinary } = require('../utils/cloudinary');
 
 exports.getAllPosts = catchAsync(async (req, res) => {
   const posts = await Post.find().populate('comments');
@@ -60,10 +61,26 @@ exports.createPost = catchAsync(async (req, res, next) => {
   //   console.log('No query tags');
   // }
 
-  // console.log(createdTags);
+  const { banner } = req.body;
+
+  const postFields = { ...req.body };
+
+  if (banner) {
+    const uploadedRes = await cloudinary.uploader.upload(banner, {
+      upload_preset: 'banner',
+    });
+
+    console.log(uploadedRes);
+
+    if (!uploadedRes) {
+      return next(new AppError('Banner could not been uploaded', 404));
+    }
+
+    postFields.banner = uploadedRes.public_id;
+  }
 
   const newPost = await Post.create({
-    ...req.body,
+    ...postFields,
     user: req.user.id,
   });
 

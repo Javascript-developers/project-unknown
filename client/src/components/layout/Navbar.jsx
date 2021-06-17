@@ -15,6 +15,8 @@ import Menu from '@material-ui/core/Menu/index';
 import MenuItem from '@material-ui/core/MenuItem/index';
 import Toolbar from '@material-ui/core/Toolbar';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+// import Link from '@material-ui/core/Link';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/auth/auth-actions';
@@ -43,6 +45,16 @@ const Navbar = (props) => {
     <Fragment>
       <ListItem>
         <Link to="/">Home</Link>
+      </ListItem>
+      <ListItem>
+        <Button
+          component={Link}
+          to={'/new'}
+          variant="contained"
+          color="secondary"
+        >
+          Create Post
+        </Button>
       </ListItem>
       <ListAvatarItem>
         <div>

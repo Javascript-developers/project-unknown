@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
-// import PostContext from '../../context/post/postContext';
-// import AuthContext from '../../context/auth/authContext';
 import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
+
+import * as moment from 'moment';
 
 import { Divider, Avatar, Grid } from '@material-ui/core';
 import { deepOrange } from '@material-ui/core/colors';
@@ -53,7 +53,8 @@ const Comment = ({ comment, onRemove }) => {
         <h4 style={{ margin: '0', textAlign: 'left' }}>{comment.user.name}</h4>
         <p style={{ textAlign: 'left' }}>{comment.comment}</p>
         <p style={{ textAlign: 'left', color: 'gray', marginTop: '10px' }}>
-          posted 1 minute AGO
+          {/* posted 1 minute AGO */}
+          {moment(comment.createdAt.toString(), 'YYYYMMDD HH:mm:ss').fromNow()}
         </p>
         {/* {currentUser !== null && comment.user.id === currentUser.id ? (
           <button onClick={removeComment}>Remove</button>

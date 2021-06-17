@@ -48,7 +48,6 @@ exports.editUser = catchAsync(async (req, res) => {
     const uploadedRes = await cloudinary.uploader.upload(avatar, {
       upload_preset: 'dexld2c6',
     });
-    console.log(uploadedRes);
 
     if (!uploadedRes) {
       return next(new AppError('Avatar could not been uploaded', 404));

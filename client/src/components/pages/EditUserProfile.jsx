@@ -17,7 +17,8 @@ import { editUserProfile } from '../../store/user/user-actions';
 const EditUserProfile = () => {
   const dispatch = useDispatch();
 
-  const [fileInputState, setFileInputState] = useState(null);
+  //fileInputState = null originally
+  const [fileInputState, setFileInputState] = useState('');
 
   const [user, setUser] = useState({
     name: '',
