@@ -152,3 +152,41 @@ exports.deleteUser = catchAsync(async (req, res) => {
     message: 'This route is not yet defined',
   });
 });
+
+exports.followTag = catchAsync(async (req, res, next) => {
+  const tag = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      $push: { followTags: req.body.tag },
+    },
+    { new: true }
+  );
+
+  if (!tag) {
+    return next(new AppError('Could not add tag to following', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { tag },
+  });
+});
+
+exports.unfollowTag = catchAsync(async (req, res, next) => {
+  const tag = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      $pull: { followTags: req.body.tag },
+    },
+    { new: true }
+  );
+
+  if (!tag) {
+    return next(new AppError('Could not delete tag to following', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { tag },
+  });
+});

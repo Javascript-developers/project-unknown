@@ -23,6 +23,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    followTags: [
+      {
+        type: String,
+        trim: true,
+        lowercase: true,
+      },
+    ],
     followers: [
       {
         type: mongoose.Schema.ObjectId,
@@ -72,6 +79,8 @@ const userSchema = new mongoose.Schema(
 //virtual populate
 
 userSchema.pre('save', async function (next) {
+  this.followTags = _.unique(this.followTags);
+
   if (!this.isModified('password')) return next();
 
   this.password = await bcrypt.hash(this.password, 12);

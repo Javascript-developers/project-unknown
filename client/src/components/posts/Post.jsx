@@ -21,7 +21,7 @@ import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
 import ImageMaterial from 'material-ui-image';
 
-import FollowProfileButton from './../layout/FollowProfileButton';
+import FollowButton from './../layout/FollowButton';
 import PostSocialBar from '../layout/PostSocialBar';
 
 import Comment from '../layout/Comment';
@@ -350,7 +350,8 @@ const Post = (props) => {
                     {deleteButton}
                   </Grid>
                 </Grid>
-                <FollowProfileButton
+                <FollowButton
+                  profile={true}
                   following={values.following}
                   onButtonClick={clickFollowButton}
                 />
