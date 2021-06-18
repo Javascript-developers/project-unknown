@@ -13,6 +13,8 @@ const {
   addFollower,
   removeFollowing,
   removeFollower,
+  followTag,
+  unfollowTag,
 } = userController;
 
 const { login, signup, protect } = authController;
@@ -24,6 +26,11 @@ router.post('/login', login);
 
 router.get('/me', protect, getMe, getUser);
 router.patch('/me', protect, getMe, editUser);
+
+// router.route('/unfollowTag').patch(protect, unfollowTag);
+// router.route('/followTag').patch(protect, followTag);
+router.patch('/followTag', protect, followTag);
+router.patch('/unfollowTag', protect, unfollowTag);
 
 router.route('/').get(getAllUsers).post(createUser);
 router.route('/:id').get(getUser).patch(editUser).delete(deleteUser);

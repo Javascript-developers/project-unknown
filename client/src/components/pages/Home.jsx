@@ -13,8 +13,7 @@ import Typography from '@material-ui/core/Typography';
 const Home = () => {
   return (
     <Container maxWidth="lg">
-      <Box sx={{ flexGrow: 1 }}>
-        <CreatePostModal />
+      <Box sx={{ flexGrow: 1, marginTop: '25px' }}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
             <Typography variant="h6">Feed</Typography>

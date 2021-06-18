@@ -2,13 +2,14 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 
 import { followUser, unfollowUser } from '../../store/user/user-actions';
+import { followTag, unfollowTag } from '../../store/tags/tag-actions';
 
-const FollowProfileButton = (props) => {
+const FollowButton = (props) => {
   const followClick = () => {
-    props.onButtonClick(followUser);
+    props.onButtonClick(props.profile ? followUser : followTag);
   };
   const unfollowClick = () => {
-    props.onButtonClick(unfollowUser);
+    props.onButtonClick(props.profile ? unfollowUser : unfollowTag);
   };
 
   return (
@@ -26,4 +27,4 @@ const FollowProfileButton = (props) => {
   );
 };
 
-export default FollowProfileButton;
+export default FollowButton;

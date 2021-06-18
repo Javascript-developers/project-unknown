@@ -13,7 +13,6 @@ export const fetchPostsByTag = (id) => {
       if (res.statusText !== 'OK') {
         throw new Error('Could not fetch tag posts');
       }
-      console.log('REDUCER RES', res);
 
       return res.data.data.posts;
     };
@@ -278,13 +277,13 @@ export const fetchCommetsFromPost = async (postId) => {
     const sendReq = async () => {
       const res = await axios.get(`/api/v1/posts/${postId}/comments`);
 
-      return res.data.data.comments
+      return res.data.data.comments;
     };
 
     try {
-      const comments = await sendReq()
+      const comments = await sendReq();
 
-      dispatch(postActions.getCommentsFromPost(comments))
+      dispatch(postActions.getCommentsFromPost(comments));
     } catch (error) {
       console.log(error);
     }
