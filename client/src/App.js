@@ -13,7 +13,6 @@ import Post from './components/posts/Post';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import EditUserProfile from './components/pages/EditUserProfile';
-import CreatePostSecond from './components/pages/CreatePostSecond';
 
 function App() {
   return (
@@ -21,10 +20,9 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          <Route exact path="/create" component={CreatePostSecond} />
-
           <PrivateRoute exact path="/" component={Home} />
           <PrivateRoute exact path="/new" component={CreatePost} />
+
           <PrivateRoute exact path="/about" component={AboutMe} />
           <PrivateRoute exact path="/post/:id" component={Post} />
           <PrivateRoute exact path="/t/:id" component={TagPage} />

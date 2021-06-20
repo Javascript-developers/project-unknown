@@ -234,23 +234,33 @@ const Post = (props) => {
                     publicId={currentPost.banner}
                     with="100%"
                   />
-                  <Box
-                    sx={{
-                      position: 'relative',
-                    }}
-                  >
-                    <Box>
-                      <Typography variant="h5">{currentPost.title}</Typography>
-                    </Box>
-                    <Box sx={{ fontStyle: 'italic', color: '#d6d6d6' }}>
+                </Box>
+                <Box
+                  sx={{
+                    position: 'relative',
+                  }}
+                >
+                  <Container>
+                    <Typography
+                      variant="h2"
+                      sx={{ fontWeight: 'bold', marginTop: '15px' }}
+                    >
+                      {currentPost.title}
+                    </Typography>
+                    <Box
+                      sx={{
+                        fontStyle: 'italic',
+                        color: 'grey',
+                      }}
+                    >
                       <Typography variant="caption">
                         "{currentPost.description}"
                       </Typography>
                     </Box>
-                  </Box>
+                  </Container>
                 </Box>
                 <Grid sx={{ marginTop: '20px' }} container spacing={2}>
-                  <Grid item xs={12} md={4}>
+                  <Grid item xs={12}>
                     <Typography
                       sx={{ marginLeft: '20px' }}
                       variant="inherit"
@@ -262,20 +272,20 @@ const Post = (props) => {
                       ).fromNow()}
                     </Typography>
                   </Grid>
-                  <Grid
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}
-                    item
-                    xs={12}
-                    md={4}
-                  >
-                    test grid
-                  </Grid>
                 </Grid>
                 <Divider />
-                <Box>asdsad</Box>
+                <Container>
+                  <div>
+                    {currentPost.postBody.split('\n').map((item, i) => {
+                      return (
+                        <span key={i}>
+                          <Typography variant="subtitle1">{item}</Typography>
+                          <br />
+                        </span>
+                      );
+                    })}
+                  </div>
+                </Container>
               </Paper>
               <Typography sx={{ marginTop: '20px' }} variant="h5">
                 Comments

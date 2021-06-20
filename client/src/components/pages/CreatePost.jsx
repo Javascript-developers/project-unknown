@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
-
 import { Redirect } from 'react-router-dom';
 
-import Image from 'material-ui-image';
-
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Modal from '@material-ui/core/Modal';
-import Slide from '@material-ui/core/Slide';
+import useStyles from '../../styles/create-post.styles';
+import {
+  Container,
+  Box,
+  Grid,
+  Button,
+  InputBase,
+  Typography,
+} from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
-import TextField from '@material-ui/core/TextField';
 import ChipInput from 'material-ui-chip-input';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+
+import Image from 'material-ui-image';
 
 import { createPost } from '../../store/post/post-actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const CreatePost = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const newPost = useSelector((state) => state.post.newPost);
 
@@ -58,16 +59,14 @@ const CreatePost = () => {
   };
   const onSubmitCreatePost = (e) => {
     e.preventDefault();
-    dispatch(createPost(createPostState));
-    // setTimeout(() => {
-    //   setCreatePostState({
-    //     title: '',
-    //     postBody: '',
-    //     description: '',
-    //     tags: [],
-    //   });
-    // }, 1000);
+    dispatch(
+      createPost({
+        ...createPostState,
+        postBody: postBody.replace('\\n', '\n'),
+      })
+    );
   };
+
   const onChange = (e) => {
     setCreatePostState({
       ...createPostState,
@@ -78,7 +77,7 @@ const CreatePost = () => {
   const handleAddChip = (chip) => {
     setCreatePostState({
       ...createPostState,
-      tags: [...createPostState.tags, chip],
+      tags: [...createPostState.tags, chip.toLowerCase()],
     });
   };
   const handleDeleteChip = (chip, index) => {
@@ -87,85 +86,120 @@ const CreatePost = () => {
       tags: createPostState.tags.filter((chip, i) => i !== index),
     });
   };
+
   if (redirectTo) {
     return <Redirect to={`/post/${newPost._id}`} />;
   } else {
     return (
-      <Container maxWidth="lg">
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container item xs={12}>
-            <Image
-              style={{
-                marginTop: '15px',
-                paddingTop: '0px',
-                margin: '0px auto',
-              }}
-              imageStyle={{
-                height: '250px',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: '5px',
-                flexDirection: 'column',
-              }}
-              src={createPostState.banner && createPostState.banner}
-            />
-            <form onSubmit={onSubmitCreatePost}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                label="Title"
-                name="title"
-                autoComplete="title"
-                autoFocus
+      <div className={classes.root}>
+        <Container className={classes.container} maxWidth="md">
+          {/* <form onSubmit={onSubmitCreatePost}> */}
+          <Grid container spacing={4}>
+            <Grid item xs={12}>
+              <Image
+                style={{
+                  marginTop: '15px',
+                  paddingTop: '0px',
+                  margin: '0px auto',
+                }}
+                imageStyle={{
+                  height: '150px',
+                  width: '300px',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'cover',
+                  position: 'relative',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: '5px',
+                  flexDirection: 'column',
+                }}
+                src={createPostState.banner && createPostState.banner}
+                disableSpinner={true}
+              />
+              <Button variant="outlined" component="label">
+                Add cover image
+                <input
+                  accept=".png, .jpg, .jpeg"
+                  type="file"
+                  name="banner"
+                  onChange={handleFileInputChange}
+                  hidden
+                />
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                variant="h1"
+                component={InputBase}
+                placeholder="Title..."
                 value={title}
                 onChange={onChange}
+                required
+                label="Title"
+                name="title"
+                fullWidth
+                autoFocus
+                multiline
+                sx={{ fontWeight: 'bold' }}
+              >
+                Lol
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              {/* //TODO: Limit to 4 tags
+                  //FIXME: aaa and AAA will result in dubplicates */}
+              <ChipInput
+                placeholder="Add up to 4 tags..."
+                value={createPostState.tags}
+                onAdd={(chip) => handleAddChip(chip)}
+                onDelete={(chip, index) => handleDeleteChip(chip, index)}
+                disableUnderline
+                newChipKeyCodes={[32]}
               />
-              <TextField
+            </Grid>
+            <Grid item xs={12}>
+              <InputBase
+                placeholder="Add a description of the post..."
                 variant="outlined"
                 margin="normal"
                 required
                 fullWidth
                 label="Description"
                 name="description"
-                autoComplete="description"
+                // autoComplete="description"
                 autoFocus
                 value={description}
                 onChange={onChange}
               />
-              <TextField
+            </Grid>
+            <Grid item xs={12}>
+              <InputBase
+                fullWidth={true}
+                placeholder="Add your post content here..."
                 name="postBody"
                 id="outlined-textarea"
                 label="Multiline Placeholder"
-                placeholder="Placeholder"
                 multiline
                 value={postBody}
                 onChange={onChange}
               />
-              <ChipInput
-                value={createPostState.tags}
-                onAdd={(chip) => handleAddChip(chip)}
-                onDelete={(chip, index) => handleDeleteChip(chip, index)}
-              />
-              <input
-                accept=".png, .jpg, .jpeg"
-                type="file"
-                name="banner"
-                onChange={handleFileInputChange}
-              />
-              <Button type="submit" variant="contained" endIcon={<SendIcon />}>
-                Create New Post
-              </Button>
-            </form>
+            </Grid>
           </Grid>
-        </Box>
-      </Container>
+          <Button
+            className={classes.publishButton}
+            variant="contained"
+            color="primary"
+            type="submit"
+            endIcon={<SendIcon />}
+            onClick={onSubmitCreatePost}
+          >
+            Publish
+          </Button>
+          {/* </form> */}
+        </Container>
+      </div>
     );
   }
 };
