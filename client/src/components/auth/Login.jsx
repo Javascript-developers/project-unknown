@@ -1,35 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import Avatar from '@material-ui/core/Avatar';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Button from '@material-ui/core/Button';
+import {
+  CssBaseline,
+  Grid,
+  Typography,
+  TextField,
+  Avatar,
+  Paper,
+} from '@material-ui/core';
 
-// const useStyles = makeStyles((theme) => ({
-//   paper: {
-//     marginTop: theme.spacing(8),
-//     display: 'flex',
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//   },
-//   avatar: {
-//     margin: theme.spacing(1),
-//     backgroundColor: theme.palette.secondary.main,
-//   },
-//   form: {
-//     width: '100%',
-//     marginTop: theme.spacing(1),
-//   },
-//   submit: {
-//     margin: theme.spacing(3, 0, 2),
-//   },
-// }));
+import useStyles from '../../styles/auth.styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../../store/auth/auth-actions';
 
 const Login = (props) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
@@ -71,50 +58,51 @@ const Login = (props) => {
   };
 
   return (
-    <Container maxWidth="xs">
-      {/* <CssBaseline /> */}
-      <div>
-        <Avatar>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-      </div>
-      <form onSubmit={onSubmit}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          label="Email Address"
-          name="email"
-          autoComplete="email"
-          autoFocus
-          value={email}
-          onChange={onChange}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          type="password"
-          label="Password"
-          name="password"
-          autoComplete="password"
-          autoFocus
-          value={password}
-          onChange={onChange}
-        />
-        <Button type="submit" fullWidth variant="contained" color="primary">
-          Sign In
-        </Button>
-      </form>
-    </Container>
+    <Grid container component="main" className={classes.root}>
+      <CssBaseline />
+      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <div className={classes.paper}>
+          <Avatar>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form onSubmit={onSubmit} className={classes}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              value={email}
+              onChange={onChange}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              type="password"
+              label="Password"
+              name="password"
+              autoComplete="password"
+              autoFocus
+              value={password}
+              onChange={onChange}
+            />
+            <Button type="submit" fullWidth variant="contained" color="primary">
+              Sign In
+            </Button>
+          </form>
+        </div>
+      </Grid>
+    </Grid>
   );
 };
 
 export default Login;
-
-// const Container = styled.div``;

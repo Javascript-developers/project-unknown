@@ -58,6 +58,25 @@ const modalStyle = {
   borderRadius: 10,
 };
 
+const bannerBoxStyle = {
+  // backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5))
+  // `,
+  // `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80')`,
+  // color: '#fff',
+  overflow: 'hidden',
+  height: '300px',
+  // backgroundPosition: 'center',
+  // backgroundRepeat: 'no-repeat',
+  // backgroundSize: 'cover',
+  // position: 'absolute',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: '5px',
+  flexDirection: 'column',
+  zIndex: '1',
+};
+
 const Post = (props) => {
   let { id } = useParams();
 
@@ -79,6 +98,7 @@ const Post = (props) => {
   });
 
   const [redirectTo, setRedirectTo] = useState(false);
+  const [bannerStyle, setBannerStyle] = useState(null);
 
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
@@ -87,6 +107,9 @@ const Post = (props) => {
   const { comment } = commentState;
 
   useEffect(() => {
+    if (currentPost !== null && currentPost.banner) {
+      setBannerStyle(bannerBoxStyle);
+    }
     dispatch(postActions.addPost(id));
     dispatch(postActions.checkLike(currentUser));
     dispatch(postActions.cleanUpNewPost());
@@ -100,6 +123,12 @@ const Post = (props) => {
         ...values,
         following,
       });
+    }
+
+    if (currentPost !== null && currentPost.banner) {
+      setBannerStyle(bannerBoxStyle);
+    } else {
+      setBannerStyle(null);
     }
   }, [currentPost]);
 
@@ -168,25 +197,6 @@ const Post = (props) => {
       </span>
     );
 
-  const bannerBoxStyle = {
-    // backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5))
-    // `,
-    // `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80')`,
-    // color: '#fff',
-    overflow: 'hidden',
-    height: '300px',
-    // backgroundPosition: 'center',
-    // backgroundRepeat: 'no-repeat',
-    // backgroundSize: 'cover',
-    // position: 'absolute',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: '5px',
-    flexDirection: 'column',
-    zIndex: '1',
-  };
-
   if (redirectTo) {
     return <Redirect to="/" />;
   }
@@ -223,7 +233,7 @@ const Post = (props) => {
             </Grid>
             <Grid sx={{ marginTop: '30px' }} item xs={12} md={7}>
               <Paper elevation={3}>
-                <Box sx={bannerBoxStyle}>
+                <Container sx={bannerStyle}>
                   {/* <Box> */}
                   {/* <ImageMaterial
                     imageStyle={bannerBoxStyle}
@@ -234,7 +244,7 @@ const Post = (props) => {
                     publicId={currentPost.banner}
                     with="100%"
                   />
-                </Box>
+                </Container>
                 <Box
                   sx={{
                     position: 'relative',
