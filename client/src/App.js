@@ -9,6 +9,7 @@ import CreatePost from './components/pages/CreatePost';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import PostSecond from './components/posts/PostSecond';
 import Post from './components/posts/Post';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
@@ -22,9 +23,13 @@ function App() {
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
           <PrivateRoute exact path="/new" component={CreatePost} />
-
           <PrivateRoute exact path="/about" component={AboutMe} />
-          <PrivateRoute exact path="/post/:id" component={Post} />
+
+          <Route exact path="/newPost" component={PostSecond} />
+          {/* <PrivateRoute exact path="/post/:id" component={Post} /> */}
+          <PrivateRoute exact path="/post/:id" component={PostSecond} />
+
+
           <PrivateRoute exact path="/t/:id" component={TagPage} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />

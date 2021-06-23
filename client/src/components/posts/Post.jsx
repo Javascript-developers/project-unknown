@@ -275,26 +275,12 @@ const Post = (props) => {
                       sx={{ marginLeft: '20px' }}
                       variant="inherit"
                       style={{ color: 'grey' }}
-                    >
-                      {moment(
-                        currentPost.createdAt.toString(),
-                        'YYYYMMDD HH:mm:ss'
-                      ).fromNow()}
-                    </Typography>
+                    ></Typography>
                   </Grid>
                 </Grid>
                 <Divider />
                 <Container>
-                  <div>
-                    {currentPost.postBody.split('\n').map((item, i) => {
-                      return (
-                        <span key={i}>
-                          <Typography variant="subtitle1">{item}</Typography>
-                          <br />
-                        </span>
-                      );
-                    })}
-                  </div>
+                  <div></div>
                 </Container>
               </Paper>
               <Typography sx={{ marginTop: '20px' }} variant="h5">

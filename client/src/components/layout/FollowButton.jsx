@@ -15,11 +15,11 @@ const FollowButton = (props) => {
   return (
     <div>
       {props.following ? (
-        <Button variant="contained" color="secondary" onClick={unfollowClick}>
+        <Button variant="contained" color="secondary" onClick={unfollowClick} sx={{width: '100%'}}>
           Unfollow
         </Button>
       ) : (
-        <Button variant="contained" color="primary" onClick={followClick}>
+        <Button variant="contained" color="primary" onClick={followClick} sx={{width: '100%'}}>
           Follow
         </Button>
       )}
