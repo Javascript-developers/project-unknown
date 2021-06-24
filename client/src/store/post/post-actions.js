@@ -66,18 +66,6 @@ export const fetchTrendingPosts = () => {
 
 export const createCommentOnPost = (postId, commentData, user) => {
   return async (dispatch) => {
-    dispatch(
-      postActions.addComment({
-        createdAt: Date.now(),
-        comment: commentData.comment,
-        post: postId,
-        user: {
-          id: user.id,
-          avatar: user.avatar,
-        },
-      })
-    );
-
     const sendReq = async () => {
       const res = await axios.post(
         `/api/v1/posts/${postId}/comments`,
@@ -90,10 +78,23 @@ export const createCommentOnPost = (postId, commentData, user) => {
       if (!res) {
         throw new Error('Could not post the comment');
       }
+      return res;
     };
 
     try {
-      await sendReq();
+      const post = await sendReq();
+
+      dispatch(
+        postActions.addComment({
+          ...post.data.data.comment,
+          user: {
+            id: user.id,
+            avatar: user.avatar,
+            name: user.name,
+            _id: user.id,
+          },
+        })
+      );
     } catch (error) {
       console.log(error);
     }

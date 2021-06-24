@@ -376,7 +376,7 @@ const Post = (props) => {
                     {currentPost.tags.map((tag, i) => (
                       <Link
                         key={i}
-                        sstyle={{ textDecoration: 'none' }}
+                        style={{ textDecoration: 'none' }}
                         to={`/t/${tag}`}
                       >
                         <Chip clickable label={`#${tag}`} variant="outlined" />

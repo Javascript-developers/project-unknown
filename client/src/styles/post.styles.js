@@ -5,11 +5,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   postGrid: {
-    marginRight: theme.spacing(5)
+    marginRight: theme.spacing(5),
   },
   afterBannerContainer: {
-    padding: theme.spacing(6, 8, 6,),
-
+    padding: theme.spacing(6, 8, 6),
   },
   bannerBoxStyle: {
     // backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5), url(https://source.unsplash.com/random)`,
@@ -47,15 +46,14 @@ const useStyles = makeStyles((theme) => ({
     hover: { color: 'black' },
   },
 
-//-------------------------------------------------------
+  //-------------------------------------------------------
 
   userPost: {
     display: 'flex',
     flexDirection: 'row',
     textAlign: 'center',
     alignItems: 'center',
-    marginTop: theme.spacing(3)
-    
+    marginTop: theme.spacing(3),
   },
   avatarPost: {
     width: 24,
@@ -65,30 +63,29 @@ const useStyles = makeStyles((theme) => ({
   userPostName: {
     fontWeight: 'bold',
     marginRight: theme.spacing(1),
-    
   },
-  userPostDate : {
-    color: 'grey'
+  userPostDate: {
+    color: 'grey',
   },
 
-//-------------------------------------------------------
+  //-------------------------------------------------------
 
   postBodyContainer: {
-    margin: theme.spacing(3, 0, 5, 0)
+    margin: theme.spacing(3, 0, 5, 0),
   },
   postBodyTypo: {},
 
-//-------------------------------------------------------
+  //-------------------------------------------------------
 
   commentSection: {
-    paddingTop: theme.spacing(3)
+    paddingTop: theme.spacing(3),
   },
   addCommentContainer: {
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   avatarAddComment: {
     width: 24,
-    height: 24
+    height: 24,
   },
   commentTextArea: {
     fontFamily: 'inherit',
@@ -99,27 +96,28 @@ const useStyles = makeStyles((theme) => ({
     // backgroundColor: '#eee',
     borderRadius: '5px',
     width: '100%',
-    resize:'none',
-    height: '50%',
-    transition: '180ms height ease',
+    resize: 'none',
+    // height: '50%',
+    // transition: '180ms height ease',
     padding: theme.spacing(2),
 
     '&:focus': {
-      height: '120%',
+      // height: '120%',
       outline: 'none',
       border: '2px solid lightblue',
     },
 
+    comments: {
+      // marginTop: theme.spacing(7),
+    },
 
-  //-------------------------------------------------------
+    //-------------------------------------------------------
 
-  postInfoContainer: {
+    postInfoContainer: {
       // marginLeft: theme.spacing(1),
-    padding: theme.spacing(3, 3, 3, 3),
-    
-  }
-
-  }
+      padding: theme.spacing(3, 3, 3, 3),
+    },
+  },
 }));
 
 export default useStyles;
