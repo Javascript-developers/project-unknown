@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+// import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { ThemeProvider } from '@material-ui/core/styles';
+import { Paper } from '@material-ui/core';
 import { theme } from './utils/theme';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -16,8 +17,10 @@ ReactDOM.render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <React.Fragment>
-          {/* <CssBaseline /> */}
+          <CssBaseline />
+          {/* <Paper> */}
           <App />
+          {/* </Paper> */}
         </React.Fragment>
       </ThemeProvider>
     </Provider>

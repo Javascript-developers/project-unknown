@@ -40,7 +40,6 @@ import { Image } from 'cloudinary-react';
 import PostSocialBar from '../layout/PostSocialBar';
 import PostUserProfile from '../layout/PostUserProfile';
 import Comment from '../layout/Comment';
-import CommentSecond from '../layout/CommentSecond';
 import TagsOnPost from '../layout/TagsOnPost';
 
 import useStyles from '../../styles/post.styles';
@@ -161,21 +160,6 @@ const PostSecond = (props) => {
     dispatch(f(id));
   };
 
-  // const deleteButton =
-  //   currentPost !== null &&
-  //   currentUser !== null &&
-  //   currentPost.user.id === currentUser.id ? (
-  //     <Button onClick={handleOpenModal} variant="contained" color="secondary">
-  //       Delete Post
-  //     </Button>
-  //   ) : (
-  //     <span style={{ cursor: 'not-allowed' }}>
-  //       <Button variant="contained" disabled>
-  //         Delete Post
-  //       </Button>
-  //     </span>
-  //   );
-
   if (redirectTo) {
     return <Redirect to="/" />;
   }
@@ -198,7 +182,7 @@ const PostSecond = (props) => {
       </Modal>
       {currentPost && currentUser ? (
         <Grid container component="main" className={classes.root}>
-          <Grid item align="center" xs={12} sm={1}>
+          <Grid item align="center" xs={12} md={1}>
             <PostSocialBar
               currentPostLiked={currentPostLiked}
               likesNo={currentPostLikes}
@@ -232,27 +216,6 @@ const PostSecond = (props) => {
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                {/* <Chip
-                  clickable
-                  className={classes.color1}
-                  label={`#tag1`}
-                  variant="filled"
-                  size="small"
-                />
-                <Chip
-                  className={classes.color2}
-                  clickable
-                  label={`#tag2`}
-                  variant="outlined"
-                  size="small"
-                />
-                <Chip
-                  className={classes.color3}
-                  clickable
-                  label={`#tag3`}
-                  variant="outlined"
-                  size="small"
-                /> */}
                 <TagsOnPost tags={currentPost.tags} />
               </Grid>
               <Grid item xs={12} className={classes.userPost}>
@@ -336,16 +299,11 @@ const PostSecond = (props) => {
                     <Grid item xs={12}>
                       {comments !== null ? (
                         comments.map((com, i) => (
-                          <CommentSecond
+                          <Comment
                             key={i}
                             onRemove={removeComment}
                             comment={com}
                           />
-                          // <Comment
-                          //   key={i}
-                          //   onRemove={removeComment}
-                          //   comment={com}
-                          // />
                         ))
                       ) : (
                         <Spinner />

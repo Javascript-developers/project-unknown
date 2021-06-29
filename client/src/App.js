@@ -9,11 +9,15 @@ import CreatePost from './components/pages/CreatePost';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import PostSecond from './components/posts/PostSecond';
 import Post from './components/posts/Post';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import EditUserProfile from './components/pages/EditUserProfile';
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 function App() {
   return (
@@ -25,10 +29,7 @@ function App() {
           <PrivateRoute exact path="/new" component={CreatePost} />
           <PrivateRoute exact path="/about" component={AboutMe} />
 
-          <Route exact path="/newPost" component={PostSecond} />
-          {/* <PrivateRoute exact path="/post/:id" component={Post} /> */}
-          <PrivateRoute exact path="/post/:id" component={PostSecond} />
-
+          <PrivateRoute exact path="/post/:id" component={Post} />
 
           <PrivateRoute exact path="/t/:id" component={TagPage} />
           <Route exact path="/login" component={Login} />

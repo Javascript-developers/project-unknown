@@ -50,18 +50,21 @@ const PostSocialBar = ({
     <Container>
       {/* <Paper elevation={3}> */}
       <Grid container align="center" sx={{ marginTop: '30px' }}>
-        <Grid xs={12} item align="center">
+        <Grid xs={4} md={12} item align="center">
           <IconButton onClick={onLikePost}>
             {likeUnlike}
             {likesNo}
           </IconButton>
         </Grid>
-        <Grid item xs={12} align="center">
-          <IconButton>
-            <BookmarkBorderOutlinedIcon />
-          </IconButton>
+        {/* <Grid item xs={4} md={12} align="center"></Grid> */}
+        <Grid xs={4} md={12} item align="center">
+          <div>
+            <IconButton>
+              <BookmarkBorderOutlinedIcon />
+            </IconButton>
+          </div>
         </Grid>
-        <Grid item align="center" xs={12}>
+        <Grid item align="center" xs={4} md={12}>
           <div>
             <IconButton onClick={handleOpenMenu}>
               <MoreHorizIcon />
@@ -89,9 +92,6 @@ const PostSocialBar = ({
               )}
             </Menu>
           </div>
-        </Grid>
-        <Grid xs={12} item align="center" sx={{ marginTop: '30px' }}>
-          {/* <IconButton>{bookmarkIcon}</IconButton> */}
         </Grid>
       </Grid>
       {/* </Paper> */}

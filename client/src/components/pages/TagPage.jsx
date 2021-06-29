@@ -4,16 +4,18 @@ import PostItem from '../posts/PostItem';
 import FollowButton from '../layout/FollowButton';
 import Spinner from '../layout/Spinner';
 import { useParams } from 'react-router';
+import tagsColor from '../../utils/tagsBackgroundColor';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
+import { Container, Typography, Grid, Paper } from '@material-ui/core';
 
 import { fetchPostsByTag } from '../../store/post/post-actions';
 
+import useStyles from '../../styles/layout/tag-page.styles';
+
 const TagPage = (props) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const tagPosts = useSelector((state) => state.post.postsByTag);
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -23,7 +25,8 @@ const TagPage = (props) => {
   });
 
   const { id } = useParams();
-  console.log('TAG NAME', id);
+
+  let bgBanner = tagsColor.find((tag) => tag.tagName === id);
 
   useEffect(() => {
     dispatch(fetchPostsByTag(id));
@@ -49,21 +52,41 @@ const TagPage = (props) => {
   };
 
   return (
-    <Container maxWidth="lg">
-      <Typography variant="h2">#{id}</Typography>
-      <FollowButton
-        profile={false}
-        following={values.following}
-        onButtonClick={clickFollowButton}
-      />
-      {/* <Paper elevation={3}> */}
-      {tagPosts !== null ? (
-        tagPosts.map((post, i) => <PostItem key={i} post={post} />)
-      ) : (
-        <Spinner />
-      )}
-      {/* </Paper> */}
-    </Container>
+    <div>
+      <div
+        style={{
+          backgroundColor: bgBanner !== undefined ? bgBanner.bg : 'gray',
+        }}
+        className={classes.tagBanner}
+      ></div>
+      <Container maxWidth="lg">
+        <Grid container component="main">
+          <Grid component={Paper} item xs={12} className={classes.tagHeader}>
+            <Grid container>
+              <Grid item xs={8} md={10} className={classes.headerItems}>
+                <Typography className={classes.tagName} variant="h2">
+                  #{id}
+                </Typography>
+              </Grid>
+              <Grid item xs={4} md={2} className={classes.headerItems}>
+                <FollowButton
+                  profile={false}
+                  following={values.following}
+                  onButtonClick={clickFollowButton}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} className={classes.tagPosts}>
+            {tagPosts !== null ? (
+              tagPosts.map((post, i) => <PostItem key={i} post={post} />)
+            ) : (
+              <Spinner />
+            )}
+          </Grid>
+        </Grid>
+      </Container>
+    </div>
   );
 };
 

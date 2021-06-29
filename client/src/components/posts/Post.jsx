@@ -1,9 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 import { Link, Redirect } from 'react-router-dom';
 
 import * as moment from 'moment';
+
+import {
+  Container,
+  Grid,
+  Divider,
+  Box,
+  Typography,
+  Paper,
+  Avatar,
+  Chip,
+  Stack,
+  Button,
+  Modal,
+  CssBaseline,
+  Zoom,
+} from '@material-ui/core';
 
 import {
   deleteCommentOnPost,
@@ -14,37 +30,19 @@ import {
   unlikePost,
   deletePost,
 } from '../../store/post/post-actions';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { postActions } from '../../store/post/post-slice';
 
 import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
-import ImageMaterial from 'material-ui-image';
 
-import FollowButton from './../layout/FollowButton';
 import PostSocialBar from '../layout/PostSocialBar';
-
+import PostUserProfile from '../layout/PostUserProfile';
 import Comment from '../layout/Comment';
+import TagsOnPost from '../layout/TagsOnPost';
 
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Avatar from '@material-ui/core/Avatar';
-import { deepOrange } from '@material-ui/core/colors';
-import Chip from '@material-ui/core/Chip';
-import Stack from '@material-ui/core/Stack';
-import Button from '@material-ui/core/Button';
-import Modal from '@material-ui/core/Modal';
-import Zoom from '@material-ui/core/Zoom';
-import Card from '@material-ui/core/Card';
-
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import useStyles from '../../styles/post.styles';
 
 const modalStyle = {
   position: 'absolute',
@@ -59,9 +57,7 @@ const modalStyle = {
 };
 
 const bannerBoxStyle = {
-  // backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5))
-  // `,
-  // `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80')`,
+  // backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5), url(https://source.unsplash.com/random)`,
   // color: '#fff',
   overflow: 'hidden',
   height: '300px',
@@ -79,22 +75,27 @@ const bannerBoxStyle = {
 
 const Post = (props) => {
   let { id } = useParams();
+  const classes = useStyles();
+  const commentTextArea = useRef(null);
 
   const dispatch = useDispatch();
-  const currentPostFetched = useSelector((state) => state.post.currentPost);
+  // const currentPostFetched = useSelector((state) => state.post.currentPost);
   const currentPost = useSelector((state) => state.post.post);
   const comments = useSelector((state) => state.post.commentsFromPost);
   const currentPostLikes = useSelector((state) => state.post.currentPostLikes);
   const currentPostLiked = useSelector((state) => state.post.currentPostLiked);
 
+  //TODO: when you want to add a comment straight from outside of component
+  // useEffect(() => {
+  //   if(commentTextArea.current) {
+  //     commentTextArea.current.focus()
+  //   }
+  // }, [])
+
   const currentUser = useSelector((state) => state.auth.currentUser);
 
   const [commentState, setCommentState] = useState({
     comment: '',
-  });
-
-  const [values, setValues] = useState({
-    following: null,
   });
 
   const [redirectTo, setRedirectTo] = useState(false);
@@ -116,26 +117,12 @@ const Post = (props) => {
   }, []);
 
   useEffect(() => {
-    if (currentPost !== null && currentUser !== null) {
-      console.log('LOL');
-      let following = checkFollow(currentPost.user.followers, currentUser._id);
-      setValues({
-        ...values,
-        following,
-      });
-    }
-
     if (currentPost !== null && currentPost.banner) {
       setBannerStyle(bannerBoxStyle);
     } else {
       setBannerStyle(null);
     }
   }, [currentPost]);
-
-  const checkFollow = (user, me) => {
-    const match = user.some((follower) => follower._id === me);
-    return match;
-  };
 
   const onDeletePost = () => {
     dispatch(deletePost(id));
@@ -168,38 +155,15 @@ const Post = (props) => {
     });
   };
 
-  const clickFollowButton = (followApi) => {
-    dispatch(followApi(currentPost.user.id)).then((data) => {
-      setValues({
-        ...values,
-        following: !values.following,
-      });
-    });
-  };
-
   const likeOnPost = (callApi) => {
     const f = callApi === 'likePost' ? likePost : unlikePost;
     dispatch(f(id));
   };
 
-  const deleteButton =
-    currentPost !== null &&
-    currentUser !== null &&
-    currentPost.user.id === currentUser.id ? (
-      <Button onClick={handleOpenModal} variant="contained" color="secondary">
-        Delete Post
-      </Button>
-    ) : (
-      <span style={{ cursor: 'not-allowed' }}>
-        <Button variant="contained" disabled>
-          Delete Post
-        </Button>
-      </span>
-    );
-
   if (redirectTo) {
     return <Redirect to="/" />;
   }
+
   return (
     <Container maxWidth="lg">
       <Modal
@@ -216,183 +180,157 @@ const Post = (props) => {
           </Box>
         </Zoom>
       </Modal>
-
-      <Box sx={{ flexGrow: 1 }}>
-        {currentPost && currentUser ? (
-          <Grid container spacing={3}>
-            <Grid align="center" sx={{ marginTop: '30px' }} item xs={12} md={1}>
-              <PostSocialBar
-                // likePost={likePost}
-                // unlikePost={unlikePost}
-                currentPostLiked={currentPostLiked}
-                likesNo={currentPostLikes}
-                currentUser={currentUser}
-                currentPost={currentPost}
-                likeOnPost={likeOnPost}
-              />
-            </Grid>
-            <Grid sx={{ marginTop: '30px' }} item xs={12} md={7}>
-              <Paper elevation={3}>
-                <Container sx={bannerStyle}>
-                  {/* <Box> */}
-                  {/* <ImageMaterial
-                    imageStyle={bannerBoxStyle}
-                    src={bannerImage}
-                  /> */}
-                  <Image
-                    cloudName="dsmrt6yiw"
-                    publicId={currentPost.banner}
-                    with="100%"
-                  />
-                </Container>
-                <Box
-                  sx={{
-                    position: 'relative',
-                  }}
-                >
-                  <Container>
-                    <Typography
-                      variant="h2"
-                      sx={{ fontWeight: 'bold', marginTop: '15px' }}
-                    >
-                      {currentPost.title}
-                    </Typography>
-                    <Box
-                      sx={{
-                        fontStyle: 'italic',
-                        color: 'grey',
-                      }}
-                    >
-                      <Typography variant="caption">
-                        "{currentPost.description}"
-                      </Typography>
-                    </Box>
-                  </Container>
-                </Box>
-                <Grid sx={{ marginTop: '20px' }} container spacing={2}>
-                  <Grid item xs={12}>
-                    <Typography
-                      sx={{ marginLeft: '20px' }}
-                      variant="inherit"
-                      style={{ color: 'grey' }}
-                    ></Typography>
-                  </Grid>
-                </Grid>
-                <Divider />
-                <Container>
-                  <div></div>
-                </Container>
-              </Paper>
-              <Typography sx={{ marginTop: '20px' }} variant="h5">
-                Comments
-              </Typography>
-              <Divider />
-              <div>
-                <form onSubmit={onSubmitComment}>
-                  <textarea
-                    name="comment"
-                    cols="50"
-                    rows="3"
-                    value={comment}
-                    onChange={onChange}
-                  ></textarea>
-                  <input type="submit" value="Add Comment" />
-                </form>
-              </div>
-              <Paper
-                sx={{
-                  padding: '20px 20px',
-                  marginTop: '30px',
-                }}
-              >
-                {comments !== null ? (
-                  comments.map((com, i) => (
-                    <Comment key={i} onRemove={removeComment} comment={com} />
-                  ))
-                ) : (
-                  <Spinner />
-                )}
-              </Paper>
-            </Grid>
-            <Grid align="center" item xs={12} md={4} sx={{ marginTop: '30px' }}>
-              <Paper elevation={3} sx={{ paddingBottom: '40px' }}>
-                <Container sx={{ paddingTop: '40px' }}>
-                  <div>
-                    <Avatar
-                      alt="user avatar"
-                      sx={{ bgcolor: deepOrange[500], width: 100, height: 100 }}
-                    >
-                      {currentPost.user.avatar ? (
-                        <Image
-                          cloudName="dsmrt6yiw"
-                          publicId={currentPost.user.avatar}
-                          width="100%"
-                          // crop="scale"
-                        />
-                      ) : null}
-                    </Avatar>
-
-                    <Typography component="h1" variant="h5">
-                      {currentPost.user.name}
-                    </Typography>
-                    <Typography variant="caption">
-                      {currentPost ? currentPost.user.about : null}
-                    </Typography>
-                  </div>
-                </Container>
-                <Container align="left" sx={{ marginTop: '30px' }}>
-                  asd
-                </Container>
-                <Grid
-                  align="center"
-                  container
-                  spacing={3}
-                  sx={{ marginTop: '15px' }}
-                >
-                  <Grid item xs={12} md={6}>
-                    <Button variant="contained">Edit Post</Button>
-                  </Grid>
-                  <Grid item xs={12} md={6} sx={{ marginBottom: '20px' }}>
-                    {deleteButton}
-                  </Grid>
-                </Grid>
-                <FollowButton
-                  profile={true}
-                  following={values.following}
-                  onButtonClick={clickFollowButton}
+      {currentPost && currentUser ? (
+        <Grid container component="main" className={classes.root}>
+          <Grid item align="center" xs={12} md={1}>
+            <PostSocialBar
+              currentPostLiked={currentPostLiked}
+              likesNo={currentPostLikes}
+              currentUser={currentUser}
+              currentPost={currentPost}
+              likeOnPost={likeOnPost}
+              deletePostOpenModal={handleOpenModal}
+            />
+          </Grid>
+          <Grid
+            item
+            component={Paper}
+            // elevation={3}
+            xs={12}
+            md={7}
+            className={classes.postGrid}
+          >
+            <Grid item xs={12}>
+              <Container sx={bannerStyle}>
+                <Image
+                  cloudName="dsmrt6yiw"
+                  publicId={currentPost.banner}
+                  with="100%"
                 />
-              </Paper>
-              <Paper elevation={3}>
-                <Container sx={{ marginTop: '30px', padding: '20px 0' }}>
-                  <Typography align="left" variant="h6">
-                    Tags
-                  </Typography>
-                  <Divider />
-                  <Stack
-                    sx={{ margin: '15px 0 10px 0' }}
-                    direction="row"
-                    spacing={1}
-                  >
-                    {currentPost.tags.map((tag, i) => (
-                      <Link
-                        key={i}
-                        style={{ textDecoration: 'none' }}
-                        to={`/t/${tag}`}
+              </Container>
+            </Grid>
+            <Grid item className={classes.afterBannerContainer}>
+              <Grid item xs={12}>
+                <Typography variant="h2" className={classes.title}>
+                  {currentPost.title}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <TagsOnPost tags={currentPost.tags} />
+              </Grid>
+              <Grid item xs={12} className={classes.userPost}>
+                <Avatar className={classes.avatarPost} alt="user avatar">
+                  {currentPost.user.avatar ? (
+                    //TODO: cloudname should be in .env
+                    <Image
+                      cloudName="dsmrt6yiw"
+                      publicId={currentPost.user.avatar}
+                      width="100%"
+                    />
+                  ) : null}
+                </Avatar>
+                <Typography
+                  className={classes.userPostName}
+                  variant="subtitle2"
+                >
+                  {currentPost.user.name}
+                </Typography>
+                <Typography className={classes.userPostDate} variant="caption">
+                  ●{' '}
+                  {moment(
+                    currentPost.createdAt.toString(),
+                    'YYYYMMDD HH:mm:ss'
+                  ).fromNow()}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} className={classes.postBodyContainer}>
+                {currentPost.postBody.split('\n').map((item, i) => {
+                  return (
+                    <span key={i}>
+                      <Typography
+                        className={classes.postBodyTypo}
+                        variant="subtitle1"
                       >
-                        <Chip clickable label={`#${tag}`} variant="outlined" />
-                      </Link>
-                    ))}
-                    {/* <Chip clickable label="Technology" variant="outlined" />
-                    <Chip clickable label="Learning" variant="outlined" /> */}
-                  </Stack>
-                </Container>
-              </Paper>
+                        {item}
+                      </Typography>
+                      <br />
+                    </span>
+                  );
+                })}
+              </Grid>
+              <Divider />
+              <Grid item xs={12} className={classes.commentSection}>
+                <Typography variant="h4">Comments</Typography>
+                <div className={classes.addCommentContainer}>
+                  <Grid container>
+                    <Grid item xs={1}>
+                      <Avatar
+                        alt="user avatar"
+                        className={classes.avatarAddComment}
+                      >
+                        {currentUser.avatar ? (
+                          //TODO: cloudname should be in .env
+                          <Image
+                            cloudName="dsmrt6yiw"
+                            publicId={currentUser.avatar}
+                            width="100%"
+                          />
+                        ) : null}
+                      </Avatar>
+                    </Grid>
+                    <Grid item xs={11}>
+                      <textarea
+                        className={classes.commentTextArea}
+                        name="comment"
+                        rows="3"
+                        ref={commentTextArea}
+                        placeholder="Start writing a comment..."
+                        value={comment}
+                        onChange={onChange}
+                      ></textarea>
+                      <Button onClick={onSubmitComment} variant="contained">
+                        Submit
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </div>
+                <div className={classes.comments}>
+                  <Grid container>
+                    <Grid item xs={12}>
+                      {comments !== null ? (
+                        comments.map((com, i) => (
+                          <Comment
+                            key={i}
+                            onRemove={removeComment}
+                            comment={com}
+                          />
+                        ))
+                      ) : (
+                        <Spinner />
+                      )}
+                    </Grid>
+                  </Grid>
+                </div>
+              </Grid>
             </Grid>
           </Grid>
-        ) : (
-          <Spinner />
-        )}
-      </Box>
+          <Grid
+            item
+            align="center"
+            xs={12}
+            md={3}
+            elevation={3}
+            className={classes.postInfoContainer}
+          >
+            <PostUserProfile
+              currentPostUser={currentPost.user}
+              currentUser={currentUser}
+            />
+          </Grid>
+        </Grid>
+      ) : (
+        <Spinner />
+      )}
     </Container>
   );
 };

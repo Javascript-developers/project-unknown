@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import PostItem from '../posts/PostItem';
 import Spinner from '../layout/Spinner';
 
+import PostItemSecond from '../posts/PostItem';
+
 import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchTrendingPosts,

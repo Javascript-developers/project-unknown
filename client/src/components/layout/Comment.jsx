@@ -3,17 +3,25 @@ import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
 
 import * as moment from 'moment';
+import useStyles from '../../styles/layout/comment.styles';
 
-import { Divider, Avatar, Grid } from '@material-ui/core';
+import {
+  Divider,
+  Avatar,
+  Grid,
+  Menu,
+  MenuItem,
+  IconButton,
+  Typography,
+  Button,
+} from '@material-ui/core';
 import { deepOrange } from '@material-ui/core/colors';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import IconButton from '@material-ui/core/IconButton';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 import { useSelector } from 'react-redux';
 
 const Comment = ({ comment, onRemove }) => {
+  const classes = useStyles();
   const currentUser = useSelector((state) => state.auth.currentUser);
 
   const [deletingComment, setDeletingComment] = useState(null);
@@ -31,14 +39,10 @@ const Comment = ({ comment, onRemove }) => {
     handleCloseMenu();
     onRemove(comment.post, comment.id);
   };
-
-  // removeButton
-  // comment.user.id === currentUser.id
-  //FIXME: Spinner is too big, needs resizing
   return (
-    <Grid container wrap="nowrap" spacing={2}>
-      <Grid item>
-        <Avatar alt="user avatar" sx={{ bgcolor: deepOrange[500] }}>
+    <Grid container className={classes.root}>
+      <Grid item xs={1}>
+        <Avatar alt="user avatar" className={classes.avatar}>
           {comment.user.avatar ? (
             <Image
               cloudName="dsmrt6yiw"
@@ -49,52 +53,62 @@ const Comment = ({ comment, onRemove }) => {
           ) : null}
         </Avatar>
       </Grid>
-      <Grid item justifyContent="left" xs zeroMinWidth>
-        <h4 style={{ margin: '0', textAlign: 'left' }}>{comment.user.name}</h4>
-        <p style={{ textAlign: 'left' }}>{comment.comment}</p>
-        <p style={{ textAlign: 'left', color: 'gray', marginTop: '10px' }}>
-          {/* posted 1 minute AGO */}
-          {moment(comment.createdAt.toString(), 'YYYYMMDD HH:mm:ss').fromNow()}
-        </p>
-        {/* {currentUser !== null && comment.user.id === currentUser.id ? (
-          <button onClick={removeComment}>Remove</button>
-        ) : null} */}
-        <div>{deletingComment ? <Spinner /> : null}</div>
-        <Divider variant="fullWidth" style={{ margin: '30px 0' }} />
-      </Grid>
-      <Grid item>
-        <div>
-          <IconButton
-            aria-label="more"
-            id="long-button"
-            aria-controls="long-menu"
-            aria-haspopup="true"
-            onClick={handleOpenMenu}
-          >
-            <MoreVertIcon />
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorMenu}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            open={Boolean(anchorMenu)}
-            onClose={handleCloseMenu}
-          >
-            {currentUser !== null && comment.user.id === currentUser.id ? (
-              <MenuItem onClick={removeComment}>Remove</MenuItem>
-            ) : (
-              <MenuItem onClick={handleCloseMenu}>No options</MenuItem>
-            )}
-          </Menu>
+      <Grid item xs={11}>
+        <div className={classes.commentContainer}>
+          <Grid container className={classes.commentTitle}>
+            <Grid item xs={6}>
+              <Typography variant="" className={classes.commentUsername}>
+                {comment.user.name} •{' '}
+                <span className={classes.date}>
+                  {comment.createdAt !== null
+                    ? moment(
+                        comment.createdAt.toString(),
+                        'YYYYMMDD HH:mm:ss'
+                      ).fromNow()
+                    : 'just now...'}
+                </span>
+              </Typography>
+            </Grid>
+            <Grid item xs={6} className={classes.menuItem}>
+              <div>
+                <IconButton
+                  size="small"
+                  aria-label="more"
+                  id="long-button"
+                  aria-controls="long-menu"
+                  aria-haspopup="true"
+                  onClick={handleOpenMenu}
+                >
+                  <MoreHorizIcon fontSize="small" />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorMenu}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  open={Boolean(anchorMenu)}
+                  onClose={handleCloseMenu}
+                >
+                  {currentUser !== null &&
+                  comment.user.id === currentUser.id ? (
+                    <MenuItem onClick={removeComment}>Remove</MenuItem>
+                  ) : (
+                    <MenuItem onClick={handleCloseMenu}>No options</MenuItem>
+                  )}
+                </Menu>
+              </div>
+            </Grid>
+          </Grid>
+          <Typography className={classes.comment}>{comment.comment}</Typography>
         </div>
+        <Button>Reply</Button>
       </Grid>
     </Grid>
   );
