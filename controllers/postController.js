@@ -233,4 +233,17 @@ exports.getPostsByTag = catchAsync(async (req, res, next) => {
   });
 });
 
+//--------------------------------------------------------------------------------
 
+exports.getMyBookmarks = catchAsync(async (req, res, next) => {
+  const posts = await Post.find({ _id: { $in: req.body.posts } });
+
+  if (!posts) {
+    return next(new AppError('No bookmarks could be found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { posts },
+  });
+});

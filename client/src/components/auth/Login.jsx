@@ -13,12 +13,13 @@ import {
 
 import useStyles from '../../styles/auth.styles';
 import { useSelector, useDispatch } from 'react-redux';
-import { login } from '../../store/auth/auth-actions';
+// import { login } from '../../store/auth/auth-actions';
+import { login } from '../../store/user/user-actions';
 
 const Login = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   useEffect(() => {
     if (isAuthenticated) {

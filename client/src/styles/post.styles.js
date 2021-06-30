@@ -64,6 +64,10 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     marginRight: theme.spacing(1),
   },
+  userPostNameLink: {
+    textDecoration: 'none',
+    color: '#1d2022',
+  },
   userPostDate: {
     color: 'grey',
   },

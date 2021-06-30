@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { loadUser } from '../../store/auth/auth-actions';
+import { loadUser } from '../../store/user/user-actions';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   useEffect(() => {
     console.log('LOAD USER');

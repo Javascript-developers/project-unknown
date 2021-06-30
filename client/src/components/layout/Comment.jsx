@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
+import { Link } from 'react-router-dom';
 
 import * as moment from 'moment';
 import useStyles from '../../styles/layout/comment.styles';
@@ -22,7 +23,7 @@ import { useSelector } from 'react-redux';
 
 const Comment = ({ comment, onRemove }) => {
   const classes = useStyles();
-  const currentUser = useSelector((state) => state.auth.currentUser);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   const [deletingComment, setDeletingComment] = useState(null);
 
@@ -58,7 +59,13 @@ const Comment = ({ comment, onRemove }) => {
           <Grid container className={classes.commentTitle}>
             <Grid item xs={6}>
               <Typography variant="" className={classes.commentUsername}>
-                {comment.user.name} •{' '}
+                <Link
+                  className={classes.commentUsernameLink}
+                  to={`/user/${comment.user.id}`}
+                >
+                  {comment.user.name}
+                </Link>{' '}
+                •{' '}
                 <span className={classes.date}>
                   {comment.createdAt !== null
                     ? moment(

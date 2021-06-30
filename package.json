@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/Javascript-developers/project-unknown#readme",
   "dependencies": {
-    "@material-ui/core": "^5.0.0-alpha.32",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.25.1",
     "concurrently": "^6.0.0",

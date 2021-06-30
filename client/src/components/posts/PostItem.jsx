@@ -27,15 +27,44 @@ import { Image } from 'cloudinary-react';
 import { useSelector } from 'react-redux';
 import useStyles from '../../styles/layout/postItem.styles';
 
-const PostItem = ({ post, likeOnPost }) => {
+const PostItem = ({ post, bookmarkOnPost }) => {
   let currentPost = post;
 
   const classes = useStyles();
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   const [raised, setRaised] = useState(0);
 
   const cardHover = () => setRaised(3);
   const cardLeaveHover = () => setRaised(0);
+
+  const checkBookmark = (bookmarks) => {
+    let match = bookmarks.indexOf(currentPost._id) !== -1;
+    return match;
+  };
+
+  const [bookmarkValue, setbookmarkValue] = useState({
+    bookmark: checkBookmark(currentUser.bookmarkedPosts),
+  });
+
+  const onBookmarkPost = () => {
+    let callApi = bookmarkValue.bookmark ? 'unBookmark' : 'bookmark';
+
+    setbookmarkValue({
+      ...bookmarkValue,
+      bookmark: !bookmarkValue.bookmark,
+    });
+    bookmarkOnPost(callApi, currentPost._id);
+  };
+
+  const bookmarkButton = (
+    <Button
+      onClick={onBookmarkPost}
+      variant={bookmarkValue.bookmark ? 'contained' : 'outlined'}
+    >
+      {bookmarkValue.bookmark ? 'Saved' : 'Save'}
+    </Button>
+  );
 
   return (
     <Grid
@@ -123,7 +152,7 @@ const PostItem = ({ post, likeOnPost }) => {
                 xs={6}
                 className={classes.socialItemBookmark}
               >
-                Bookmark
+                {bookmarkButton}
               </Grid>
             </Grid>
           </Grid>

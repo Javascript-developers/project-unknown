@@ -17,6 +17,8 @@ const PostSocialBar = ({
   likesNo,
   currentPostLiked,
   deletePostOpenModal,
+  currentPostBookmarked,
+  bookmarkOnPost,
 }) => {
   const [anchorMenu, setAnchorMenu] = useState(null);
 
@@ -24,6 +26,12 @@ const PostSocialBar = ({
     let callApi = currentPostLiked ? 'unlikePost' : 'likePost';
 
     likeOnPost(callApi);
+  };
+
+  const onBookmarkPost = () => {
+    let callApi = currentPostBookmarked ? 'unbookmark' : 'bookmark';
+
+    bookmarkOnPost(callApi);
   };
 
   const handleCloseMenu = () => {
@@ -40,11 +48,11 @@ const PostSocialBar = ({
   );
 
   //TODO: Add bookmark feature
-  // const bookmarkIcon = values.bookmark ? (
-  //   <BookmarkOutlinedIcon />
-  // ) : (
-  //   <BookmarkBorderOutlinedIcon />
-  // );
+  const bookmarkIcon = currentPostBookmarked ? (
+    <BookmarkOutlinedIcon />
+  ) : (
+    <BookmarkBorderOutlinedIcon />
+  );
 
   return (
     <Container>
@@ -59,9 +67,7 @@ const PostSocialBar = ({
         {/* <Grid item xs={4} md={12} align="center"></Grid> */}
         <Grid xs={4} md={12} item align="center">
           <div>
-            <IconButton>
-              <BookmarkBorderOutlinedIcon />
-            </IconButton>
+            <IconButton onClick={onBookmarkPost}>{bookmarkIcon}</IconButton>
           </div>
         </Grid>
         <Grid item align="center" xs={4} md={12}>

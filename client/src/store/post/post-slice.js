@@ -86,7 +86,6 @@ const postSlice = createSlice({
       if (!action.payload.currentUser) {
         state.currentPostLikes++;
         state.currentPostLiked = true;
-        console.log('liking current post');
       } else {
         const postIndex = state.trending.findIndex(
           (post) => post._id === action.payload.postId

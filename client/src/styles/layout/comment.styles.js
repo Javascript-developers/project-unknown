@@ -32,6 +32,13 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     color: '#8b8989',
   },
+  commentUsernameLink: {
+    textDecoration: 'none',
+    color: '#8b8989',
+    '&:hover': {
+      color: '#606971',
+    },
+  },
   date: {
     fontWeight: 'normal',
     fontSize: '0.8rem',

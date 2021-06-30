@@ -30,6 +30,12 @@ const userSchema = new mongoose.Schema(
         lowercase: true,
       },
     ],
+    bookmarkedPosts: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Post',
+      },
+    ],
     followers: [
       {
         type: mongoose.Schema.ObjectId,

@@ -19,13 +19,13 @@ import Button from '@material-ui/core/Button';
 // import Link from '@material-ui/core/Link';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../store/auth/auth-actions';
+import { logout } from '../../store/user/user-actions';
 
 const Navbar = (props) => {
   const dispatch = useDispatch();
 
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const currentUser = useSelector((state) => state.auth.currentUser);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   const [anchorMenu, setAnchorMenu] = useState(null);
 

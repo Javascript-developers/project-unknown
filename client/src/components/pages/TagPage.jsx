@@ -18,7 +18,7 @@ const TagPage = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const tagPosts = useSelector((state) => state.post.postsByTag);
-  const currentUser = useSelector((state) => state.auth.currentUser);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   const [values, setValues] = useState({
     following: null,

@@ -14,6 +14,7 @@ const {
   getMyPosts,
   getUserPosts,
   getPostsByTag,
+  getMyBookmarks,
 } = postController;
 
 const { protect } = authController;
@@ -27,6 +28,7 @@ router.route('/t/:tagId').get(getPostsByTag);
 router.route('/:userId/getUserPosts').get(getUserPosts);
 
 router.route('/myPosts').get(protect, getMyPosts);
+router.route('/myBookmarks').get(protect, getMyBookmarks);
 
 router.route('/').get(getAllPosts).post(protect, createPost);
 router

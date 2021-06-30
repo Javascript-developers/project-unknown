@@ -3,27 +3,22 @@ import styled from 'styled-components';
 import PostItem from '../posts/PostItem';
 import Spinner from '../layout/Spinner';
 
-import PostItemSecond from '../posts/PostItem';
-
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  fetchTrendingPosts,
-  likePost,
-  unlikePost,
-} from '../../store/post/post-actions';
+import { fetchTrendingPosts } from '../../store/post/post-actions';
+import { bookmarkPost, unBookmarkPost } from '../../store/user/user-actions';
 
 const TrendingPosts = () => {
   const dispatch = useDispatch();
   const trending = useSelector((state) => state.post.trending);
-  const currentUser = useSelector((state) => state.auth.currentUser);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     dispatch(fetchTrendingPosts());
   }, [dispatch]);
 
-  const likeOnPost = (callApi, postId, currentUserId) => {
-    const f = callApi === 'likePost' ? likePost : unlikePost;
-    dispatch(f(postId, currentUserId));
+  const bookmarkOnPost = (callApi, postId) => {
+    const f = callApi === 'bookmark' ? bookmarkPost : unBookmarkPost;
+    dispatch(f(postId));
   };
 
   if (trending !== null && trending.length === 0) {
@@ -42,7 +37,7 @@ const TrendingPosts = () => {
               <PostItem
                 post={post}
                 user={currentUser}
-                likeOnPost={likeOnPost}
+                bookmarkOnPost={bookmarkOnPost}
               />
             </div>
           ))

@@ -15,6 +15,8 @@ const {
   removeFollower,
   followTag,
   unfollowTag,
+  bookmarkPost,
+  unBookmarkPost,
 } = userController;
 
 const { login, signup, protect } = authController;
@@ -31,6 +33,9 @@ router.patch('/me', protect, getMe, editUser);
 // router.route('/followTag').patch(protect, followTag);
 router.patch('/followTag', protect, followTag);
 router.patch('/unfollowTag', protect, unfollowTag);
+
+router.route('/bookmark').patch(protect, bookmarkPost);
+router.route('/unBookmark').patch(protect, unBookmarkPost);
 
 router.route('/').get(getAllUsers).post(createUser);
 router.route('/:id').get(getUser).patch(editUser).delete(deleteUser);

@@ -30,9 +30,11 @@ import {
   unlikePost,
   deletePost,
 } from '../../store/post/post-actions';
+import { bookmarkPost, unBookmarkPost } from '../../store/user/user-actions';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { postActions } from '../../store/post/post-slice';
+import { userActions } from '../../store/user/user-slice';
 
 import Spinner from '../layout/Spinner';
 import { Image } from 'cloudinary-react';
@@ -85,6 +87,10 @@ const Post = (props) => {
   const currentPostLikes = useSelector((state) => state.post.currentPostLikes);
   const currentPostLiked = useSelector((state) => state.post.currentPostLiked);
 
+  const currentPostBookmarked = useSelector(
+    (state) => state.user.currentPostBookmarked
+  );
+
   //TODO: when you want to add a comment straight from outside of component
   // useEffect(() => {
   //   if(commentTextArea.current) {
@@ -92,7 +98,7 @@ const Post = (props) => {
   //   }
   // }, [])
 
-  const currentUser = useSelector((state) => state.auth.currentUser);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   const [commentState, setCommentState] = useState({
     comment: '',
@@ -114,6 +120,12 @@ const Post = (props) => {
     dispatch(postActions.addPost(id));
     dispatch(postActions.checkLike(currentUser));
     dispatch(postActions.cleanUpNewPost());
+    dispatch(
+      userActions.checkBookmark({
+        bookmarks: currentUser.bookmarkedPosts,
+        postId: id,
+      })
+    );
   }, []);
 
   useEffect(() => {
@@ -160,6 +172,11 @@ const Post = (props) => {
     dispatch(f(id));
   };
 
+  const bookmarkOnPost = (callApi) => {
+    const f = callApi === 'bookmark' ? bookmarkPost : unBookmarkPost;
+    dispatch(f(id));
+  };
+
   if (redirectTo) {
     return <Redirect to="/" />;
   }
@@ -185,10 +202,12 @@ const Post = (props) => {
           <Grid item align="center" xs={12} md={1}>
             <PostSocialBar
               currentPostLiked={currentPostLiked}
+              currentPostBookmarked={currentPostBookmarked}
               likesNo={currentPostLikes}
               currentUser={currentUser}
               currentPost={currentPost}
               likeOnPost={likeOnPost}
+              bookmarkOnPost={bookmarkOnPost}
               deletePostOpenModal={handleOpenModal}
             />
           </Grid>
@@ -233,7 +252,12 @@ const Post = (props) => {
                   className={classes.userPostName}
                   variant="subtitle2"
                 >
-                  {currentPost.user.name}
+                  <Link
+                    to={`/user/${currentPost.user.id}`}
+                    className={classes.userPostNameLink}
+                  >
+                    {currentPost.user.name}
+                  </Link>
                 </Typography>
                 <Typography className={classes.userPostDate} variant="caption">
                   ●{' '}

@@ -18,7 +18,7 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <React.Fragment>
           <CssBaseline />
-          {/* <Paper> */}
+          {/* <Paper style={{ height: '100vh' }}> */}
           <App />
           {/* </Paper> */}
         </React.Fragment>

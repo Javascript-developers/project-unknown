@@ -80,6 +80,8 @@ exports.editUser = catchAsync(async (req, res) => {
   });
 });
 
+//---------------------------------------------------------------------------
+
 exports.addFollowing = catchAsync(async (req, res, next) => {
   const result = await User.findByIdAndUpdate(req.user.id, {
     $push: { following: req.params.id },
@@ -146,12 +148,16 @@ exports.removeFollower = catchAsync(async (req, res, next) => {
   });
 });
 
+//---------------------------------------------------------------------------
+
 exports.deleteUser = catchAsync(async (req, res) => {
   res.status(500).json({
     status: 'error',
     message: 'This route is not yet defined',
   });
 });
+
+//---------------------------------------------------------------------------
 
 exports.followTag = catchAsync(async (req, res, next) => {
   const tag = await User.findByIdAndUpdate(
@@ -188,5 +194,45 @@ exports.unfollowTag = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: { tag },
+  });
+});
+
+//---------------------------------------------------------------------------
+
+exports.bookmarkPost = catchAsync(async (req, res, next) => {
+  const post = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      $push: { bookmarkedPosts: req.body.postId },
+    },
+    { new: true }
+  );
+
+  if (!post) {
+    return next(new AppError('Could not bookmark this post', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { post },
+  });
+});
+
+exports.unBookmarkPost = catchAsync(async (req, res, next) => {
+  const post = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      $pull: { bookmarkedPosts: req.body.postId },
+    },
+    { new: true }
+  );
+
+  if (!post) {
+    return next(new AppError('Could not unbookmark this post', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { post },
   });
 });

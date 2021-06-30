@@ -245,7 +245,6 @@ export const unlikePost = (postId, currentUser) => {
       if (!res) {
         throw new Error('Could not unlike the post');
       }
-      console.log(res);
     };
 
     try {
@@ -290,3 +289,5 @@ export const fetchCommetsFromPost = async (postId) => {
     }
   };
 };
+
+//-----------------------------------------------------------
