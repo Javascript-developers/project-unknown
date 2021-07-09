@@ -14,7 +14,7 @@ import { Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { editUserProfile } from '../../store/user/user-actions';
 
-const EditUserProfile = () => {
+const Settings = () => {
   const dispatch = useDispatch();
 
   //fileInputState = null originally
@@ -125,4 +125,4 @@ const EditUserProfile = () => {
   );
 };
 
-export default EditUserProfile;
+export default Settings;

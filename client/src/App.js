@@ -12,12 +12,13 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Post from './components/posts/Post';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
-import EditUserProfile from './components/pages/EditUserProfile';
+import Settings from './components/pages/Settings';
+import Dashboard from './components/pages/Dashboard';
 
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+// import '@fontsource/roboto/300.css';
+// import '@fontsource/roboto/400.css';
+// import '@fontsource/roboto/500.css';
+// import '@fontsource/roboto/700.css';
 
 function App() {
   return (
@@ -35,11 +36,8 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <PrivateRoute exact path="/user/:id" component={UserPage} />
-          <PrivateRoute
-            exact
-            path="/edit-profile"
-            component={EditUserProfile}
-          />
+          <PrivateRoute exact path="/settings" component={Settings} />
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
         </Switch>
       </Router>
     </div>

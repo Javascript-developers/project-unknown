@@ -5,10 +5,13 @@ const userSlice = createSlice({
   initialState: {
     user: null,
     currentPostBookmarked: null,
+    currentPostUserFollowing: null,
     // loading: true,
     error: null,
     currentUser: null,
     isAuthenticated: null,
+    followers: [],
+    following: [],
   },
   reducers: {
     getUser(state, action) {
@@ -22,17 +25,27 @@ const userSlice = createSlice({
     },
 
     bookmarkPost(state, action) {
-      console.log('BOOKMARK REDUCER', action.payload);
       state.currentPostBookmarked = true;
       state.currentUser.bookmarkedPosts.push(action.payload);
     },
     unBookmarkPost(state, action) {
-      console.log('UN-BOOKMARK REDUCER', action.payload);
       state.currentPostBookmarked = false;
       const index = state.currentUser.bookmarkedPosts.indexOf(action.payload);
       if (index > -1) {
         state.currentUser.bookmarkedPosts.splice(index, 1);
       }
+    },
+
+    checkFollowing(state, action) {
+      const followed =
+        action.payload.followers.indexOf(action.payload.me) !== -1;
+      state.currentPostUserFollowing = followed;
+    },
+    followUser(state, action) {
+      state.currentPostUserFollowing = true;
+    },
+    unFollowUser(state, action) {
+      state.currentPostUserFollowing = false;
     },
 
     loadUser(state, action) {
@@ -55,6 +68,14 @@ const userSlice = createSlice({
     register(state) {
       state.isAuthenticated = true;
       state.loading = false;
+    },
+
+    addFollowers(state, action) {
+      state.followers = action.payload;
+    },
+
+    addFollowingUsers(state, action) {
+      state.following = action.payload;
     },
   },
 });

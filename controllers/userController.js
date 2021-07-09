@@ -236,3 +236,31 @@ exports.unBookmarkPost = catchAsync(async (req, res, next) => {
     data: { post },
   });
 });
+
+//---------------------------------------------------------------------------
+
+exports.getFollowers = catchAsync(async (req, res, next) => {
+  const followers = await User.find({ _id: { $in: req.user.followers } });
+
+  if (!followers) {
+    return next(new AppError('No followers could be found!', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { followers },
+  });
+});
+
+exports.getFollowing = catchAsync(async (req, res, next) => {
+  const following = await User.find({ _id: { $in: req.user.following } });
+
+  if (!following) {
+    return next(new AppError('No following users could be found!', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { following },
+  });
+});

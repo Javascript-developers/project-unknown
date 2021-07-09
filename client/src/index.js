@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
-import { theme } from './utils/theme';
+import { theme } from './styles/theme';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { Provider } from 'react-redux';

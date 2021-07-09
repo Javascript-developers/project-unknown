@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
   },
   usernameLink: {
     textDecoration: 'none',
-    color: '#1d2022',
+    // color: '#1d2022',
+    color: theme.palette.grey[900],
   },
   followButton: {
     marginTop: theme.spacing(3),

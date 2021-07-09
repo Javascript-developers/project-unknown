@@ -93,9 +93,16 @@ const Navbar = (props) => {
               <Link to="/about">Profile</Link>
             </MenuItem>
             <MenuItem onClick={handleCloseMenu}>
-              <Link to="/edit-profile">Edit Profile</Link>
+              <Link to="/settings">Settings</Link>
             </MenuItem>
-            <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
+            <MenuItem onClick={handleCloseMenu}>
+              <Link to="/dashboard">Dashboard</Link>
+            </MenuItem>
+            <MenuItem onClick={handleCloseMenu}>
+              {/* <Link to="/bookmarks">Bookmarks</Link> */}
+              Bookmarks
+            </MenuItem>
+
             <MenuItem onClick={onLogout}>
               <i className="fas fa-sign-out-alt"></i>Logout
             </MenuItem>

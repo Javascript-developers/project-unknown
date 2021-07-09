@@ -12,33 +12,12 @@ const PostUserProfile = ({ currentPostUser, currentUser }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const [values, setValues] = useState({
-    following: null,
-  });
-
-  useEffect(() => {
-    if (currentPostUser !== null && currentUser !== null) {
-      console.log('LOL');
-      let following = checkFollow(currentPostUser.followers, currentUser._id);
-      setValues({
-        ...values,
-        following,
-      });
-    }
-  }, []);
-
-  const checkFollow = (user, me) => {
-    const match = user.some((follower) => follower._id === me);
-    return match;
-  };
+  const postUserFollowing = useSelector(
+    (state) => state.user.currentPostUserFollowing
+  );
 
   const clickFollowButton = (followApi) => {
-    dispatch(followApi(currentPostUser.id)).then((data) => {
-      setValues({
-        ...values,
-        following: !values.following,
-      });
-    });
+    dispatch(followApi(currentPostUser.id));
   };
 
   return (
@@ -72,15 +51,11 @@ const PostUserProfile = ({ currentPostUser, currentUser }) => {
         <Grid item align="center" xs={12} className={classes.followButton}>
           <FollowButton
             profile={true}
-            following={values.following}
+            following={postUserFollowing}
             onButtonClick={clickFollowButton}
           />
         </Grid>
-        <Grid item xs={12} className={classes.userInfo}>
-          <Typography></Typography>
-          <Typography></Typography>
-          <Typography></Typography>
-        </Grid>
+        <Grid item xs={12} className={classes.userInfo}></Grid>
       </Grid>
     </div>
   );

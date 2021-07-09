@@ -129,6 +129,17 @@ const Post = (props) => {
   }, []);
 
   useEffect(() => {
+    if (currentPost !== null) {
+      dispatch(
+        userActions.checkFollowing({
+          followers: currentPost.user.followers,
+          me: currentUser._id,
+        })
+      );
+    }
+  }, [currentPost]);
+
+  useEffect(() => {
     if (currentPost !== null && currentPost.banner) {
       setBannerStyle(bannerBoxStyle);
     } else {

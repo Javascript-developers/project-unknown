@@ -26,6 +26,7 @@ export const getUser = (id) => {
 export const followUser = (userId) => {
   return async (dispatch) => {
     try {
+      dispatch(userActions.followUser(userId));
       await axios.patch(
         `/api/v1/users/${userId}/follow`,
         {},
@@ -44,6 +45,8 @@ export const followUser = (userId) => {
 export const unfollowUser = (userId) => {
   return async (dispatch) => {
     try {
+      dispatch(userActions.unFollowUser(userId));
+
       await axios.patch(
         `/api/v1/users/${userId}/unfollow`,
         {},
@@ -188,6 +191,52 @@ export const register = (formData) => {
 
       localStorage.setItem('token', token);
       dispatch(userActions.register());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+//-------------------------------------------------------
+
+export const getFollowers = () => {
+  return async (dispatch) => {
+    const sendReq = async () => {
+      const res = await axios.get('/api/v1/users/getFollowers', {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+      });
+
+      return res.data.data.followers;
+    };
+
+    try {
+      const followers = await sendReq();
+
+      dispatch(userActions.addFollowers(followers));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const getFollowing = () => {
+  return async (dispatch) => {
+    const sendReq = async () => {
+      const res = await axios.get('/api/v1/users/getFollowing', {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+      });
+
+      return res.data.data.following;
+    };
+
+    try {
+      const following = await sendReq();
+
+      dispatch(userActions.addFollowingUsers(following));
     } catch (error) {
       console.log(error);
     }

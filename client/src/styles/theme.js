@@ -6,7 +6,10 @@ import { green, purple, grey } from '@material-ui/core/colors';
 
 export const theme = createTheme({
   palette: {
-    mode: 'light',
+    // mode: 'dark',
     primary: { main: grey[800] },
+    background: {
+      default: grey[200],
+    },
   },
 });
