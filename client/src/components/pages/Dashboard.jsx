@@ -37,6 +37,9 @@ const Dashboard = () => {
 
   return (
     <Container maxWidth="lg">
+      <Typography variant="h2" className={classes.topTitle}>
+        Dashboard
+      </Typography>
       <Grid container className={classes.tabsContainer}>
         <Grid item xs={12} md={2}>
           <Grid container className={classes.tabLabelsContainer}>
@@ -51,7 +54,14 @@ const Dashboard = () => {
                     }
                     onClick={() => selectTab(tab.tabNo)}
                   >
-                    <Typography variant="h6">{tab.tabName}</Typography>
+                    <Typography
+                      variant="h6"
+                      className={
+                        tab.tabNo === tabValue ? classes.activeTabText : null
+                      }
+                    >
+                      {tab.tabName}
+                    </Typography>
                   </Box>
                 </Grid>
               );

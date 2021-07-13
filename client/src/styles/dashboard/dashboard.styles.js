@@ -5,7 +5,10 @@ const useStyles = makeStyles((theme) => ({
   tabsContainer: {
     // border: '1px solid blue',
     width: '100%',
-    marginTop: theme.spacing(15),
+    marginTop: theme.spacing(10),
+  },
+  topTitle: {
+    marginTop: theme.spacing(3),
   },
   tabLabelsContainer: {
     display: 'flex',
@@ -13,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(4),
     [theme.breakpoints.down('md')]: {
       flexDirection: 'row',
+      marginBottom: theme.spacing(2),
     },
   },
   tabLabel: {
@@ -34,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
       color: blue[700],
     },
     backgroundColor: grey[50],
+  },
+  activeTabText: {
+    fontWeight: 'bold',
   },
 
   tabPanelContainer: {
