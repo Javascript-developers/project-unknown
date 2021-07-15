@@ -9,6 +9,8 @@ import FollowingTagsPannel from '../dashboard/FollowingTagsPanel';
 import AnalyticsPannel from '../dashboard/AnalyticsPanel';
 import FollowersPannel from '../dashboard/FollowersPanel';
 
+import Footer from '../layout/Footer';
+
 import { useDispatch } from 'react-redux';
 import { getFollowers, getFollowing } from '../../store/user/user-actions';
 
@@ -36,47 +38,50 @@ const Dashboard = () => {
   };
 
   return (
-    <Container maxWidth="lg">
-      <Typography variant="h2" className={classes.topTitle}>
-        Dashboard
-      </Typography>
-      <Grid container className={classes.tabsContainer}>
-        <Grid item xs={12} md={2}>
-          <Grid container className={classes.tabLabelsContainer}>
-            {tabs.map((tab, i) => {
-              return (
-                <Grid item key={i}>
-                  <Box
-                    className={
-                      tab.tabNo === tabValue
-                        ? classes.tabLabelActive
-                        : classes.tabLabel
-                    }
-                    onClick={() => selectTab(tab.tabNo)}
-                  >
-                    <Typography
-                      variant="h6"
+    <>
+      <Container maxWidth="lg">
+        <Typography variant="h2" className={classes.topTitle}>
+          Dashboard
+        </Typography>
+        <Grid container className={classes.tabsContainer}>
+          <Grid item xs={12} md={2}>
+            <Grid container className={classes.tabLabelsContainer}>
+              {tabs.map((tab, i) => {
+                return (
+                  <Grid item key={i}>
+                    <Box
                       className={
-                        tab.tabNo === tabValue ? classes.activeTabText : null
+                        tab.tabNo === tabValue
+                          ? classes.tabLabelActive
+                          : classes.tabLabel
                       }
+                      onClick={() => selectTab(tab.tabNo)}
                     >
-                      {tab.tabName}
-                    </Typography>
-                  </Box>
-                </Grid>
-              );
-            })}
+                      <Typography
+                        variant="h6"
+                        className={
+                          tab.tabNo === tabValue ? classes.activeTabText : null
+                        }
+                      >
+                        {tab.tabName}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Grid>
+          <Grid item className={classes.tabPanelContainer} xs={12} md={10}>
+            {tabValue === 0 && <PostsPannel />}
+            {tabValue === 1 && <FollowersPannel />}
+            {tabValue === 2 && <FollowingUsersPannel />}
+            {tabValue === 3 && <FollowingTagsPannel />}
+            {tabValue === 4 && <AnalyticsPannel />}
           </Grid>
         </Grid>
-        <Grid item className={classes.tabPanelContainer} xs={12} md={10}>
-          {tabValue === 0 && <PostsPannel />}
-          {tabValue === 1 && <FollowersPannel />}
-          {tabValue === 2 && <FollowingUsersPannel />}
-          {tabValue === 3 && <FollowingTagsPannel />}
-          {tabValue === 4 && <AnalyticsPannel />}
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+      <Footer />
+    </>
   );
 };
 

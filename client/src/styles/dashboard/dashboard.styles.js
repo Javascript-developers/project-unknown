@@ -37,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
       // backgroundColor: grey[300],
       color: blue[700],
     },
-    backgroundColor: grey[50],
+    // backgroundColor: grey[50],
+    backgroundColor: theme.palette.background.paper,
+    border: '1px solid #e2e2e2',
   },
   activeTabText: {
     fontWeight: 'bold',

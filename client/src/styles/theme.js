@@ -9,7 +9,7 @@ export const theme = createTheme({
     // mode: 'dark',
     primary: { main: grey[800] },
     background: {
-      default: grey[200],
+      default: grey[100],
     },
   },
 });

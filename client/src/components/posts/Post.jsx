@@ -43,6 +43,7 @@ import PostSocialBar from '../layout/PostSocialBar';
 import PostUserProfile from '../layout/PostUserProfile';
 import Comment from '../layout/Comment';
 import TagsOnPost from '../layout/TagsOnPost';
+import Footer from '../layout/Footer';
 
 import useStyles from '../../styles/post.styles';
 
@@ -193,180 +194,186 @@ const Post = (props) => {
   }
 
   return (
-    <Container maxWidth="lg">
-      <Modal
-        open={openModal}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-create-post"
-        aria-describedby="modal-modal-description"
-      >
-        <Zoom in={openModal}>
-          <Box sx={modalStyle}>
-            <p>Are you sure you want to delete this post?</p>
-            <Button onClick={onDeletePost}>Yes</Button>
-            <Button onClick={handleCloseModal}>No</Button>
-          </Box>
-        </Zoom>
-      </Modal>
-      {currentPost && currentUser ? (
-        <Grid container component="main" className={classes.root}>
-          <Grid item align="center" xs={12} md={1}>
-            <PostSocialBar
-              currentPostLiked={currentPostLiked}
-              currentPostBookmarked={currentPostBookmarked}
-              likesNo={currentPostLikes}
-              currentUser={currentUser}
-              currentPost={currentPost}
-              likeOnPost={likeOnPost}
-              bookmarkOnPost={bookmarkOnPost}
-              deletePostOpenModal={handleOpenModal}
-            />
-          </Grid>
-          <Grid
-            item
-            component={Paper}
-            // elevation={3}
-            xs={12}
-            md={7}
-            className={classes.postGrid}
-          >
-            <Grid item xs={12}>
-              <Container sx={bannerStyle}>
-                <Image
-                  cloudName="dsmrt6yiw"
-                  publicId={currentPost.banner}
-                  with="100%"
-                />
-              </Container>
+    <>
+      <Container maxWidth="lg">
+        <Modal
+          open={openModal}
+          onClose={handleCloseModal}
+          aria-labelledby="modal-create-post"
+          aria-describedby="modal-modal-description"
+        >
+          <Zoom in={openModal}>
+            <Box sx={modalStyle}>
+              <p>Are you sure you want to delete this post?</p>
+              <Button onClick={onDeletePost}>Yes</Button>
+              <Button onClick={handleCloseModal}>No</Button>
+            </Box>
+          </Zoom>
+        </Modal>
+        {currentPost && currentUser ? (
+          <Grid container component="main" className={classes.root}>
+            <Grid item align="center" xs={12} md={1}>
+              <PostSocialBar
+                currentPostLiked={currentPostLiked}
+                currentPostBookmarked={currentPostBookmarked}
+                likesNo={currentPostLikes}
+                currentUser={currentUser}
+                currentPost={currentPost}
+                likeOnPost={likeOnPost}
+                bookmarkOnPost={bookmarkOnPost}
+                deletePostOpenModal={handleOpenModal}
+              />
             </Grid>
-            <Grid item className={classes.afterBannerContainer}>
+            <Grid
+              item
+              component={Paper}
+              // elevation={3}
+              xs={12}
+              md={7}
+              className={classes.postGrid}
+            >
               <Grid item xs={12}>
-                <Typography variant="h2" className={classes.title}>
-                  {currentPost.title}
-                </Typography>
+                <Container sx={bannerStyle}>
+                  <Image
+                    cloudName="dsmrt6yiw"
+                    publicId={currentPost.banner}
+                    with="100%"
+                  />
+                </Container>
               </Grid>
-              <Grid item xs={12}>
-                <TagsOnPost tags={currentPost.tags} />
-              </Grid>
-              <Grid item xs={12} className={classes.userPost}>
-                <Avatar className={classes.avatarPost} alt="user avatar">
-                  {currentPost.user.avatar ? (
-                    //TODO: cloudname should be in .env
-                    <Image
-                      cloudName="dsmrt6yiw"
-                      publicId={currentPost.user.avatar}
-                      width="100%"
-                    />
-                  ) : null}
-                </Avatar>
-                <Typography
-                  className={classes.userPostName}
-                  variant="subtitle2"
-                >
-                  <Link
-                    to={`/user/${currentPost.user.id}`}
-                    className={classes.userPostNameLink}
+              <Grid item className={classes.afterBannerContainer}>
+                <Grid item xs={12}>
+                  <Typography variant="h2" className={classes.title}>
+                    {currentPost.title}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TagsOnPost tags={currentPost.tags} />
+                </Grid>
+                <Grid item xs={12} className={classes.userPost}>
+                  <Avatar className={classes.avatarPost} alt="user avatar">
+                    {currentPost.user.avatar ? (
+                      //TODO: cloudname should be in .env
+                      <Image
+                        cloudName="dsmrt6yiw"
+                        publicId={currentPost.user.avatar}
+                        width="100%"
+                      />
+                    ) : null}
+                  </Avatar>
+                  <Typography
+                    className={classes.userPostName}
+                    variant="subtitle2"
                   >
-                    {currentPost.user.name}
-                  </Link>
-                </Typography>
-                <Typography className={classes.userPostDate} variant="caption">
-                  ●{' '}
-                  {moment(
-                    currentPost.createdAt.toString(),
-                    'YYYYMMDD HH:mm:ss'
-                  ).fromNow()}
-                </Typography>
-              </Grid>
-              <Grid item xs={12} className={classes.postBodyContainer}>
-                {currentPost.postBody.split('\n').map((item, i) => {
-                  return (
-                    <span key={i}>
-                      <Typography
-                        className={classes.postBodyTypo}
-                        variant="subtitle1"
-                      >
-                        {item}
-                      </Typography>
-                      <br />
-                    </span>
-                  );
-                })}
-              </Grid>
-              <Divider />
-              <Grid item xs={12} className={classes.commentSection}>
-                <Typography variant="h4">Comments</Typography>
-                <div className={classes.addCommentContainer}>
-                  <Grid container>
-                    <Grid item xs={1}>
-                      <Avatar
-                        alt="user avatar"
-                        className={classes.avatarAddComment}
-                      >
-                        {currentUser.avatar ? (
-                          //TODO: cloudname should be in .env
-                          <Image
-                            cloudName="dsmrt6yiw"
-                            publicId={currentUser.avatar}
-                            width="100%"
-                          />
-                        ) : null}
-                      </Avatar>
+                    <Link
+                      to={`/user/${currentPost.user.id}`}
+                      className={classes.userPostNameLink}
+                    >
+                      {currentPost.user.name}
+                    </Link>
+                  </Typography>
+                  <Typography
+                    className={classes.userPostDate}
+                    variant="caption"
+                  >
+                    ●{' '}
+                    {moment(
+                      currentPost.createdAt.toString(),
+                      'YYYYMMDD HH:mm:ss'
+                    ).fromNow()}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} className={classes.postBodyContainer}>
+                  {currentPost.postBody.split('\n').map((item, i) => {
+                    return (
+                      <span key={i}>
+                        <Typography
+                          className={classes.postBodyTypo}
+                          variant="subtitle1"
+                        >
+                          {item}
+                        </Typography>
+                        <br />
+                      </span>
+                    );
+                  })}
+                </Grid>
+                <Divider />
+                <Grid item xs={12} className={classes.commentSection}>
+                  <Typography variant="h4">Comments</Typography>
+                  <div className={classes.addCommentContainer}>
+                    <Grid container>
+                      <Grid item xs={1}>
+                        <Avatar
+                          alt="user avatar"
+                          className={classes.avatarAddComment}
+                        >
+                          {currentUser.avatar ? (
+                            //TODO: cloudname should be in .env
+                            <Image
+                              cloudName="dsmrt6yiw"
+                              publicId={currentUser.avatar}
+                              width="100%"
+                            />
+                          ) : null}
+                        </Avatar>
+                      </Grid>
+                      <Grid item xs={11}>
+                        <textarea
+                          className={classes.commentTextArea}
+                          name="comment"
+                          rows="3"
+                          ref={commentTextArea}
+                          placeholder="Start writing a comment..."
+                          value={comment}
+                          onChange={onChange}
+                        ></textarea>
+                        <Button onClick={onSubmitComment} variant="contained">
+                          Submit
+                        </Button>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={11}>
-                      <textarea
-                        className={classes.commentTextArea}
-                        name="comment"
-                        rows="3"
-                        ref={commentTextArea}
-                        placeholder="Start writing a comment..."
-                        value={comment}
-                        onChange={onChange}
-                      ></textarea>
-                      <Button onClick={onSubmitComment} variant="contained">
-                        Submit
-                      </Button>
+                  </div>
+                  <div className={classes.comments}>
+                    <Grid container>
+                      <Grid item xs={12}>
+                        {comments !== null ? (
+                          comments.map((com, i) => (
+                            <Comment
+                              key={i}
+                              onRemove={removeComment}
+                              comment={com}
+                            />
+                          ))
+                        ) : (
+                          <Spinner />
+                        )}
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </div>
-                <div className={classes.comments}>
-                  <Grid container>
-                    <Grid item xs={12}>
-                      {comments !== null ? (
-                        comments.map((com, i) => (
-                          <Comment
-                            key={i}
-                            onRemove={removeComment}
-                            comment={com}
-                          />
-                        ))
-                      ) : (
-                        <Spinner />
-                      )}
-                    </Grid>
-                  </Grid>
-                </div>
+                  </div>
+                </Grid>
               </Grid>
             </Grid>
+            <Grid
+              item
+              align="center"
+              xs={12}
+              md={3}
+              elevation={3}
+              className={classes.postInfoContainer}
+            >
+              <PostUserProfile
+                currentPostUser={currentPost.user}
+                currentUser={currentUser}
+              />
+            </Grid>
           </Grid>
-          <Grid
-            item
-            align="center"
-            xs={12}
-            md={3}
-            elevation={3}
-            className={classes.postInfoContainer}
-          >
-            <PostUserProfile
-              currentPostUser={currentPost.user}
-              currentUser={currentUser}
-            />
-          </Grid>
-        </Grid>
-      ) : (
-        <Spinner />
-      )}
-    </Container>
+        ) : (
+          <Spinner />
+        )}
+      </Container>
+      <Footer />
+    </>
   );
 };
 

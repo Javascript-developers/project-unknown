@@ -1,9 +1,8 @@
 import { makeStyles } from '@material-ui/core';
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2),
     border: '1px solid #e2e2e2',
     padding: theme.spacing(2),
   },
@@ -57,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': { color: 'black' },
     // flexDirection: 'column',
     // justifyContent: 'center',
+    fontWeight: 300,
   },
 }));
 

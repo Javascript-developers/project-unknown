@@ -74,7 +74,8 @@ const PostItem = ({ post, bookmarkOnPost }) => {
       className={classes.root}
       container
       component={Paper}
-      elevation={raised}
+      // elevation={raised}
+      elevation={0}
     >
       <Grid item align="center" className={classes.avatarContainer} xs={1}>
         <Avatar sx={{ bgcolor: red[500] }} arial-label="post">

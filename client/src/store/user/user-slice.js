@@ -12,10 +12,15 @@ const userSlice = createSlice({
     isAuthenticated: null,
     followers: [],
     following: [],
+    // visitedUser: null,
   },
   reducers: {
     getUser(state, action) {
       state.user = action.payload;
+    },
+
+    cleanUpUser(state) {
+      state.user = null;
     },
 
     checkBookmark(state, action) {

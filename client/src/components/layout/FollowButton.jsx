@@ -20,6 +20,7 @@ const FollowButton = (props) => {
           color="secondary"
           onClick={unfollowClick}
           sx={{ width: '100%' }}
+          disableElevation
         >
           Unfollow
         </Button>
@@ -29,6 +30,7 @@ const FollowButton = (props) => {
           color="primary"
           onClick={followClick}
           sx={{ width: '100%' }}
+          disableElevation
         >
           Follow
         </Button>

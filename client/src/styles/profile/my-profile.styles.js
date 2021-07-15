@@ -1,0 +1,88 @@
+import { makeStyles } from '@material-ui/core';
+import { blueGrey, indigo } from '@material-ui/core/colors';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingTop: theme.spacing(6),
+  },
+  profileBanner: {
+    // backgroundColor: 'blue',
+    height: '300px',
+    position: 'absolute',
+    zIndex: '-1',
+    width: '100%',
+  },
+  userTopDetails: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(4),
+    border: '1px solid #e2e2e2',
+  },
+  avatar: {
+    height: 80,
+    width: 80,
+  },
+  username: {
+    fontWeight: 'bold',
+    marginBottom: theme.spacing(2),
+  },
+  userDescription: {
+    fontSize: 22,
+    color: blueGrey[900],
+    marginBottom: theme.spacing(2),
+    fontWeight: 300,
+  },
+  userDetails: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  iconContainer: {
+    marginRight: theme.spacing(2),
+  },
+  icon: {
+    color: blueGrey[700],
+    fontSize: 30,
+  },
+  iconSocialLink: {
+    cursor: 'pointer',
+    color: blueGrey[700],
+    fontSize: 30,
+    '&:hover': {
+      color: blueGrey[900],
+    },
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    flexGrow: 1,
+  },
+  bannerButtons: {
+    width: '100%',
+    margin: theme.spacing(6, 6, 0, 6),
+    // borderRadius: '70p',
+  },
+
+  //-------------------- BELLOW USER BANNER ----------------------------------
+
+  postsDetails: {
+    border: '1px solid #e2e2e2',
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(2),
+  },
+  postsDetailsItem: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    color: blueGrey[700],
+    marginLeft: theme.spacing(2),
+  },
+  postsDetailsTypo: {
+    marginLeft: theme.spacing(2),
+  },
+}));
+
+export default useStyles;
