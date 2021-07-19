@@ -41,7 +41,17 @@ exports.getUser = catchAsync(async (req, res, next) => {
 });
 
 exports.editUser = catchAsync(async (req, res) => {
-  const { name, about, avatar } = req.body;
+  const {
+    name,
+    about,
+    avatar,
+    website,
+    twitter,
+    instagram,
+    github,
+    location,
+    showEmail,
+  } = req.body;
   const profileFileds = {};
 
   if (avatar) {
@@ -57,9 +67,16 @@ exports.editUser = catchAsync(async (req, res) => {
 
   if (name) profileFileds.name = name;
   if (about) profileFileds.about = about;
+  if (website) profileFileds.website = website;
+  if (twitter) profileFileds.twitter = twitter;
+  if (instagram) profileFileds.instagram = instagram;
+  if (github) profileFileds.github = github;
+  if (location) profileFileds.location = location;
+  if (showEmail !== null) profileFileds.showEmail = showEmail;
+
   // if (req.file) profileFileds.avatar = req.file.filename;
   // console.log('profile-fields', profileFileds);
-  console.log(profileFileds);
+  // console.log(profileFileds);
 
   const user = await User.findByIdAndUpdate(req.params.id, profileFileds, {
     new: true,

@@ -1,128 +1,139 @@
 import React, { useState } from 'react';
 
-import Avatar from '@material-ui/core/Avatar';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Button from '@material-ui/core/Button';
-import FileUpload from '@material-ui/icons/AddPhotoAlternate';
-import { deepOrange } from '@material-ui/core/colors';
+import { Typography, Container, Grid, Box } from '@material-ui/core';
+
+import ProfilePanel from '../settings/ProfilePanel';
+import CustomizationPanel from '../settings/CustomizationPanel';
+import AccountPanel from '../settings/AccountPanel';
+import Footer from '../layout/Footer';
 
 import { Redirect } from 'react-router-dom';
+import useStyles from '../../styles/settings/settings-page.styles';
 
-import { useDispatch } from 'react-redux';
-import { editUserProfile } from '../../store/user/user-actions';
+const tabs = [
+  { tabName: 'Profile', tabNo: 0 },
+  { tabName: 'Customization', tabNo: 1 },
+  { tabName: 'Account', tabNo: 2 },
+];
 
 const Settings = () => {
-  const dispatch = useDispatch();
+  const classes = useStyles();
 
-  //fileInputState = null originally
-  const [fileInputState, setFileInputState] = useState('');
+  const [tabValue, setTabValue] = useState(0);
 
-  const [user, setUser] = useState({
-    name: '',
-    about: '',
-    avatar: '',
-  });
-
-  const { name, about } = user;
-
-  //TODO: ONE STEP BEHIND, you have to upload twice
-  const handleFileInputChange = (e) => {
-    const file = e.target.files[0];
-    previewFile(file);
-  };
-
-  const previewFile = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      // setPreviewSource(reader.result);
-      setUser({
-        ...user,
-        avatar: reader.result,
-      });
-    };
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    dispatch(editUserProfile(user));
-    console.log(user);
-  };
-
-  //TODO: REDO THIS PART
-  const onChange = (e) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
-    });
+  const selectTab = (newValue) => {
+    setTabValue(newValue);
   };
 
   return (
-    <Container maxWidth="xs">
-      <div>
-        <Avatar
-          sx={{
-            bgcolor: deepOrange[500],
-            width: 100,
-            height: 100,
-            margin: '0 auto',
-          }}
-          src={user.avatar ?? user.avatar}
-        >
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Edit Profile
-        </Typography>
-      </div>
-      {/* encType="multipart/form-data" */}
-      <form onSubmit={onSubmit}>
-        <input
-          // accept="image/*"
-          accept=".png, .jpg, .jpeg"
-          type="file"
-          name="avatar"
-          value={fileInputState}
-          onChange={handleFileInputChange}
-          style={{ display: 'none' }}
-          id="icon-button-file"
-        />
-        <label htmlFor="icon-button-file">
-          <Button variant="contained" component="span">
-            Upload Avatar Image <FileUpload />
-          </Button>
-        </label>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          label="Name"
-          name="name"
-          autoComplete="name"
-          autoFocus
-          value={name}
-          onChange={onChange}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          label="About"
-          name="about"
-          autoComplete="about"
-          autoFocus
-          value={about}
-          onChange={onChange}
-        />
-        <Button type="submit" fullWidth variant="contained" color="primary">
-          Submit Changes
-        </Button>
-      </form>
-    </Container>
+    <>
+      <Container maxWidth="md" className={classes.root}>
+        <div className={classes.titlePage}>
+          <Typography variant="h4">
+            Settings for <span className={classes.spanUserTitle}>@user</span>
+          </Typography>
+        </div>
+
+        <Grid container className={classes.tabsContainer}>
+          <Grid item xs={12} md={2}>
+            <Grid container className={classes.tabLabelsContainer}>
+              {tabs.map((tab, i) => {
+                return (
+                  <Grid item key={i}>
+                    <Box
+                      className={
+                        tab.tabNo === tabValue
+                          ? classes.tabLabelActive
+                          : classes.tabLabel
+                      }
+                      onClick={() => selectTab(tab.tabNo)}
+                    >
+                      <Typography
+                        variant="h6"
+                        className={
+                          tab.tabNo === tabValue ? classes.activeTabText : null
+                        }
+                      >
+                        {tab.tabName}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Grid>
+          <Grid item className={classes.tabPanelContainer} xs={12} md={10}>
+            {tabValue === 0 && <ProfilePanel />}
+            {tabValue === 1 && <CustomizationPanel />}
+            {tabValue === 2 && <AccountPanel />}
+          </Grid>
+        </Grid>
+      </Container>
+      <Footer />
+    </>
   );
 };
 
 export default Settings;
+
+// <Container maxWidth="xs">
+//   <div>
+//     <Avatar
+//       sx={{
+//         bgcolor: deepOrange[500],
+//         width: 100,
+//         height: 100,
+//         margin: '0 auto',
+//       }}
+//       src={user.avatar ?? user.avatar}
+//     >
+//       <LockOutlinedIcon />
+//     </Avatar>
+//     <Typography component="h1" variant="h5">
+//       Edit Profile
+//     </Typography>
+//   </div>
+
+//   <form onSubmit={onSubmit}>
+//     <input
+//       // accept="image/*"
+//       accept=".png, .jpg, .jpeg"
+//       type="file"
+//       name="avatar"
+//       value={fileInputState}
+//       onChange={handleFileInputChange}
+//       style={{ display: 'none' }}
+//       id="icon-button-file"
+//     />
+//     <label htmlFor="icon-button-file">
+//       <Button variant="contained" component="span">
+//         Upload Avatar Image <FileUpload />
+//       </Button>
+//     </label>
+//     <TextField
+//       variant="outlined"
+//       margin="normal"
+//       fullWidth
+//       label="Name"
+//       name="name"
+//       autoComplete="name"
+//       autoFocus
+//       value={name}
+//       onChange={onChange}
+//     />
+//     <TextField
+//       variant="outlined"
+//       margin="normal"
+//       fullWidth
+//       label="About"
+//       name="about"
+//       autoComplete="about"
+//       autoFocus
+//       value={about}
+//       onChange={onChange}
+//     />
+//     <Button type="submit" fullWidth variant="contained" color="primary">
+//       Submit Changes
+//     </Button>
+//   </form>
+// </Container>

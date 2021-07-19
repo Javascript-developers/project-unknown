@@ -53,6 +53,7 @@ const PostUserProfile = ({ currentPostUser, currentUser }) => {
             profile={true}
             following={postUserFollowing}
             onButtonClick={clickFollowButton}
+            disableButton={currentPostUser.id === currentUser._id}
           />
         </Grid>
         <Grid item xs={12} className={classes.userInfo}></Grid>

@@ -138,7 +138,7 @@ const Register = (props) => {
               onChange={onChange}
             />
             <Button type="submit" fullWidth variant="contained" color="primary">
-              Sign In
+              Register
             </Button>
           </form>
         </div>

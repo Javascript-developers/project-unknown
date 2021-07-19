@@ -23,6 +23,8 @@ import { postActions } from '../../store/post/post-slice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from '../../styles/profile/my-profile.styles';
+import { Link } from 'react-router-dom';
+import * as moment from 'moment';
 
 import Footer from '../layout/Footer';
 import FollowButton from '../layout/FollowButton';
@@ -39,6 +41,7 @@ import {
   PostAdd,
   Email,
 } from '@material-ui/icons';
+import LinkIcon from '@material-ui/icons/Link';
 
 const UserPage = () => {
   const classes = useStyles();
@@ -112,36 +115,93 @@ const UserPage = () => {
                   </Typography>
                 </div>
                 <div className={classes.userDetails}>
-                  <div className={classes.iconContainer}>
-                    <LocationOn className={classes.icon} />
-                  </div>
+                  {visitedUser.location && (
+                    <div className={classes.iconContainerWithText}>
+                      <LocationOn className={classes.icon} />
+                      <Typography variant="body1" className={classes.iconText}>
+                        {visitedUser.location}
+                      </Typography>
+                    </div>
+                  )}
+                  {visitedUser.joinDate && (
+                    <div className={classes.iconContainerWithText}>
+                      <Cake className={classes.icon} />
+                      <Typography variant="body1" className={classes.iconText}>
+                        Joined on {moment(visitedUser.joinDate).format('LL')}
+                      </Typography>
+                    </div>
+                  )}
 
-                  <div className={classes.iconContainer}>
-                    <Cake className={classes.icon} />
-                  </div>
+                  {visitedUser.twitter && (
+                    <div className={classes.iconContainer}>
+                      <Link
+                        to={{
+                          pathname: `https://twitter.com/${visitedUser.twitter}`,
+                        }}
+                        target="_blank"
+                      >
+                        <Twitter className={classes.iconSocialLink} />
+                      </Link>
+                    </div>
+                  )}
 
-                  <div className={classes.iconContainer}>
-                    <Twitter className={classes.iconSocialLink} />
-                  </div>
+                  {/* <div className={classes.iconContainer}>
+                <Facebook className={classes.iconSocialLink} />
+              </div> */}
 
-                  <div className={classes.iconContainer}>
-                    <Facebook className={classes.iconSocialLink} />
-                  </div>
+                  {visitedUser.github && (
+                    <div className={classes.iconContainer}>
+                      <Link
+                        to={{
+                          pathname: `https://github.com/${visitedUser.github}`,
+                        }}
+                        target="_blank"
+                      >
+                        <GitHub className={classes.iconSocialLink} />
+                      </Link>
+                    </div>
+                  )}
 
-                  <div className={classes.iconContainer}>
-                    <GitHub className={classes.iconSocialLink} />
-                  </div>
+                  {visitedUser.instagram && (
+                    <div className={classes.iconContainer}>
+                      <Link
+                        to={{
+                          pathname: `https://instagram.com/${visitedUser.instagram}`,
+                        }}
+                        target="_blank"
+                      >
+                        <Instagram className={classes.iconSocialLink} />
+                      </Link>
+                    </div>
+                  )}
 
-                  <div className={classes.iconContainer}>
-                    <Instagram className={classes.iconSocialLink} />
-                  </div>
+                  {visitedUser.website && (
+                    <div className={classes.iconContainerWithText}>
+                      <Link
+                        to={{ pathname: `https://${visitedUser.website}` }}
+                        target="_blank"
+                        className={classes.websiteLink}
+                      >
+                        <LinkIcon className={classes.icon} />
+                        <Typography
+                          variant="body1"
+                          className={classes.iconTextWebsite}
+                        >
+                          {visitedUser.website}
+                        </Typography>
+                      </Link>
+                      {/* <Typography>https://www.yourwebsite.com</Typography> */}
+                    </div>
+                  )}
 
-                  <div className={classes.iconContainer}>
-                    <Web className={classes.iconSocialLink} />
-                  </div>
-                  <div className={classes.iconContainer}>
-                    <Email className={classes.iconSocialLink} />
-                  </div>
+                  {visitedUser.showEmail && (
+                    <div className={classes.iconContainerWithText}>
+                      <Email className={classes.iconSocialLink} />
+                      <Typography variant="body1" className={classes.iconText}>
+                        {visitedUser.email}
+                      </Typography>
+                    </div>
+                  )}
                 </div>
                 <div className={classes.buttons}>
                   <div className={classes.bannerButtons}>
@@ -149,10 +209,16 @@ const UserPage = () => {
                       profile={true}
                       following={postUserFollowing}
                       onButtonClick={clickFollowButton}
+                      //TODO: DISABLE BUTTON
+                      disableButton={visitedUser.id === me._id}
                     />
                   </div>
                   <div className={classes.bannerButtons}>
-                    <Button sx={{ width: '100%' }} variant="outlined">
+                    <Button
+                      sx={{ width: '100%' }}
+                      variant="outlined"
+                      disabled={visitedUser.id === me._id}
+                    >
                       Send Dm
                     </Button>
                   </div>

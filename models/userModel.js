@@ -9,6 +9,11 @@ const userSchema = new mongoose.Schema(
       trim: true,
       required: [true, 'Please insert your name'],
     },
+    username: {
+      type: String,
+      trim: true,
+      unique: true,
+    },
     email: {
       type: String,
       required: [true, 'Please insert your email'],
@@ -18,6 +23,10 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: Object,
+    },
+    joinDate: {
+      type: Date,
+      default: Date.now(),
     },
     about: {
       type: String,
@@ -75,6 +84,30 @@ const userSchema = new mongoose.Schema(
       default: true,
       select: false,
     },
+    twitter: {
+      type: String,
+      trim: true,
+    },
+    github: {
+      type: String,
+      trim: true,
+    },
+    location: {
+      type: String,
+      trim: true,
+    },
+    instagram: {
+      type: String,
+      trim: true,
+    },
+    website: {
+      type: String,
+      trim: true,
+    },
+    showEmail: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -85,7 +118,7 @@ const userSchema = new mongoose.Schema(
 //virtual populate
 
 userSchema.pre('save', async function (next) {
-  this.followTags = _.unique(this.followTags);
+  // this.followTags = _.unique(this.followTags); //Breaks the registration call
 
   if (!this.isModified('password')) return next();
 

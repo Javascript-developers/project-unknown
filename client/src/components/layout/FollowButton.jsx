@@ -21,6 +21,7 @@ const FollowButton = (props) => {
           onClick={unfollowClick}
           sx={{ width: '100%' }}
           disableElevation
+          disabled={props.disableButton}
         >
           Unfollow
         </Button>
@@ -31,6 +32,7 @@ const FollowButton = (props) => {
           onClick={followClick}
           sx={{ width: '100%' }}
           disableElevation
+          disabled={props.disableButton}
         >
           Follow
         </Button>

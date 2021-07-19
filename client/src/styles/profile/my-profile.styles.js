@@ -41,11 +41,40 @@ const useStyles = makeStyles((theme) => ({
   iconContainer: {
     marginRight: theme.spacing(2),
   },
+  iconContainerWithText: {
+    marginRight: theme.spacing(2),
+    display: 'flex',
+    // alignItems: 'center'
+  },
+  websiteLink: {
+    display: 'flex',
+    textDecoration: 'none',
+    color: 'red',
+
+    '&:hover': {
+      // textDecoration: 'underline',
+    },
+  },
   icon: {
     color: blueGrey[700],
     fontSize: 30,
+    paddingTop: theme.spacing(0.5),
+  },
+  iconText: {
+    color: blueGrey[400],
+    paddingTop: theme.spacing(1),
+  },
+  iconTextWebsite: {
+    color: blueGrey[400],
+    paddingTop: theme.spacing(1),
+    '&:hover': {
+      color: blueGrey[700],
+      textDecoration: 'underline',
+    },
   },
   iconSocialLink: {
+    // display: 'flex',
+    paddingTop: theme.spacing(0.5),
     cursor: 'pointer',
     color: blueGrey[700],
     fontSize: 30,
