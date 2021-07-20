@@ -5,23 +5,31 @@ import { Link } from 'react-router-dom';
 
 import { Image } from 'cloudinary-react';
 import { deepOrange } from '@material-ui/core/colors';
+import logo from '../../assets/logo.png';
+
+import {
+  Typography,
+  Toolbar,
+  Avatar,
+  Button,
+  Container,
+} from '@material-ui/core';
 
 import AppBar from '@material-ui/core/AppBar/index';
-import Typography from '@material-ui/core/Typography';
 import BookIcon from '@material-ui/icons/Book';
 // import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu/index';
 import MenuItem from '@material-ui/core/MenuItem/index';
-import Toolbar from '@material-ui/core/Toolbar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 // import Link from '@material-ui/core/Link';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/user/user-actions';
 
+import useStyles from '../../styles/layout/navbar.styles';
+
 const Navbar = (props) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
 
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -43,9 +51,6 @@ const Navbar = (props) => {
 
   const authLinks = (
     <Fragment>
-      <ListItem>
-        <Link to="/">Home</Link>
-      </ListItem>
       <ListItem>
         <Button
           component={Link}
@@ -112,28 +117,21 @@ const Navbar = (props) => {
     </Fragment>
   );
 
-  const guestLinks = (
-    <Fragment>
-      <ListItem>
-        <Link to="/login">Login</Link>
-      </ListItem>
-      <ListItem>
-        <Link to="/register">Register</Link>
-      </ListItem>
-    </Fragment>
-  );
-
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <BookIcon />
-        <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
-          My Blog
-        </Typography>
-        <ListContainer>
-          {isAuthenticated ? authLinks : guestLinks}
-        </ListContainer>
-      </Toolbar>
+    <AppBar position="static" className={classes.navBar} elevation={0}>
+      <Container maxWidth="lg">
+        <Toolbar>
+          <Link to="/" style={{ flexGrow: 1 }}>
+            <img src={logo} style={{ height: '40px' }} />
+          </Link>
+
+          {/* <BookIcon />
+          <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
+            My Blog
+          </Typography> */}
+          <ListContainer>{isAuthenticated && authLinks}</ListContainer>
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 };

@@ -1,5 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 
+import { blueGrey } from '@material-ui/core/colors';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3, 3, 3),
@@ -14,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   usernameLink: {
     textDecoration: 'none',
     // color: '#1d2022',
-    color: theme.palette.grey[900],
+    color: blueGrey[900],
   },
   followButton: {
     marginTop: theme.spacing(3),

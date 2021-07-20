@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import { blueGrey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     color: '#606971',
     '&:hover': {
-      color: '#1d2022',
+      color: blueGrey[900],
     },
   },
   usernameLink: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontWeight: 'bold',
+    color: blueGrey[900],
     '&:hover': {
       color: '#323ebe',
     },
@@ -43,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
     color: 'inherit',
     marginRight: theme.spacing(1),
-    '&:hover': { color: '#1d2022' },
+    '&:hover': { color: blueGrey[900] },
   },
   taghash: { color: '#9aa2aa' },
   socialContainer: {
@@ -53,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   socialItem: {
     display: 'flex',
     color: '#61666c',
-    '&:hover': { color: 'black' },
+    '&:hover': { color: blueGrey[900] },
     // flexDirection: 'column',
     // justifyContent: 'center',
     fontWeight: 300,

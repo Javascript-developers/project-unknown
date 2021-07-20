@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { Link } from 'react-router-dom';
+
 import Container from '@material-ui/core/Container';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Button from '@material-ui/core/Button';
@@ -140,6 +142,13 @@ const Register = (props) => {
             <Button type="submit" fullWidth variant="contained" color="primary">
               Register
             </Button>
+            <Grid item sx={12} className={classes.linkContainer}>
+              <Link to="/login" className={classes.link}>
+                <Typography variant="body1">
+                  Already have an account? Sign in
+                </Typography>
+              </Link>
+            </Grid>
           </form>
         </div>
       </Grid>

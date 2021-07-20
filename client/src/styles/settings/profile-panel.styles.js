@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
   panelTitle: {
     fontWeight: 'bold',
+    color: blueGrey[900],
   },
   avatar: {
     height: 80,

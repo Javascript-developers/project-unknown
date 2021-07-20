@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   username: {
     fontWeight: 'bold',
+    color: blueGrey[900],
     marginBottom: theme.spacing(2),
   },
   userDescription: {

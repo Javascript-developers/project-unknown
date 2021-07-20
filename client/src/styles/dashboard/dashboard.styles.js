@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import { grey, blue } from '@material-ui/core/colors';
+import { grey, blue, blueGrey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   tabsContainer: {
@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
   topTitle: {
     marginTop: theme.spacing(3),
+    color: blueGrey[900],
   },
   tabLabelsContainer: {
     display: 'flex',

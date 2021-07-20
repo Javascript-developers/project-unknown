@@ -1,5 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 
+import { blueGrey } from '@material-ui/core/colors';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(3),
@@ -13,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid #ccc',
     borderRadius: '5px',
     padding: theme.spacing(1),
+    color: blueGrey[900],
   },
 
   comments: {

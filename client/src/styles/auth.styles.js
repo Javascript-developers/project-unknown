@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import { indigo } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +21,22 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  linkContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginTop: theme.spacing(3),
+  },
+  link: {
+    textDecoration: 'none',
+    color: indigo[500],
+
+    '&:visited': {
+      color: indigo[500],
+    },
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   },
 }));
 

@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import { indigo, blue, grey } from '@material-ui/core/colors';
+import { indigo, blue, grey, blueGrey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme) => ({
   titlePage: {
     display: 'flex',
   },
+  settingsTitle: {
+    color: blueGrey[900],
+  },
+
   spanUserTitle: {
     color: indigo['A400'],
     fontWeight: 'bold',
@@ -23,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   tabLabel: {
     padding: theme.spacing(2),
     borderRadius: '5px',
+    color: blueGrey[900],
     '&:hover': {
       cursor: 'pointer',
       backgroundColor: grey[300],
@@ -60,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
   activeTabText: {
     fontWeight: 'bold',
+    color: blueGrey[900],
   },
 }));
 

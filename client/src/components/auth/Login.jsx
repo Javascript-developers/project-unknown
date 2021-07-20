@@ -15,6 +15,7 @@ import useStyles from '../../styles/auth.styles';
 import { useSelector, useDispatch } from 'react-redux';
 // import { login } from '../../store/auth/auth-actions';
 import { login } from '../../store/user/user-actions';
+import { Link } from 'react-router-dom';
 
 const Login = (props) => {
   const classes = useStyles();
@@ -99,6 +100,13 @@ const Login = (props) => {
             <Button type="submit" fullWidth variant="contained" color="primary">
               Sign In
             </Button>
+            <Grid item sx={12} className={classes.linkContainer}>
+              <Link to="/register" className={classes.link}>
+                <Typography variant="body1">
+                  You don't have an account? Sign Up
+                </Typography>
+              </Link>
+            </Grid>
           </form>
         </div>
       </Grid>

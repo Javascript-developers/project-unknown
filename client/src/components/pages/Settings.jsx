@@ -29,7 +29,7 @@ const Settings = () => {
     <>
       <Container maxWidth="md" className={classes.root}>
         <div className={classes.titlePage}>
-          <Typography variant="h4">
+          <Typography variant="h4" className={classes.settingsTitle}>
             Settings for <span className={classes.spanUserTitle}>@user</span>
           </Typography>
         </div>
@@ -75,65 +75,3 @@ const Settings = () => {
 };
 
 export default Settings;
-
-// <Container maxWidth="xs">
-//   <div>
-//     <Avatar
-//       sx={{
-//         bgcolor: deepOrange[500],
-//         width: 100,
-//         height: 100,
-//         margin: '0 auto',
-//       }}
-//       src={user.avatar ?? user.avatar}
-//     >
-//       <LockOutlinedIcon />
-//     </Avatar>
-//     <Typography component="h1" variant="h5">
-//       Edit Profile
-//     </Typography>
-//   </div>
-
-//   <form onSubmit={onSubmit}>
-//     <input
-//       // accept="image/*"
-//       accept=".png, .jpg, .jpeg"
-//       type="file"
-//       name="avatar"
-//       value={fileInputState}
-//       onChange={handleFileInputChange}
-//       style={{ display: 'none' }}
-//       id="icon-button-file"
-//     />
-//     <label htmlFor="icon-button-file">
-//       <Button variant="contained" component="span">
-//         Upload Avatar Image <FileUpload />
-//       </Button>
-//     </label>
-//     <TextField
-//       variant="outlined"
-//       margin="normal"
-//       fullWidth
-//       label="Name"
-//       name="name"
-//       autoComplete="name"
-//       autoFocus
-//       value={name}
-//       onChange={onChange}
-//     />
-//     <TextField
-//       variant="outlined"
-//       margin="normal"
-//       fullWidth
-//       label="About"
-//       name="about"
-//       autoComplete="about"
-//       autoFocus
-//       value={about}
-//       onChange={onChange}
-//     />
-//     <Button type="submit" fullWidth variant="contained" color="primary">
-//       Submit Changes
-//     </Button>
-//   </form>
-// </Container>

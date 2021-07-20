@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-import { grey } from '@material-ui/core/colors';
+import { grey, blueGrey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontWeight: 'bold',
+    color: blueGrey[900],
     '&:hover': {
       color: '#323ebe',
     },

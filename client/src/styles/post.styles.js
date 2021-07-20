@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import { blueGrey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontWeight: 'bold',
+    color: blueGrey[900],
   },
   color1: {
     backgroundColor: 'green',
@@ -63,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
   userPostName: {
     fontWeight: 'bold',
     marginRight: theme.spacing(1),
+    color: blueGrey[900],
   },
   userPostNameLink: {
     textDecoration: 'none',
@@ -76,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
 
   postBodyContainer: {
     margin: theme.spacing(3, 0, 5, 0),
+    color: blueGrey[900],
   },
   postBodyTypo: {},
 

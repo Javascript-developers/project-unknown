@@ -61,11 +61,18 @@ const TagPage = (props) => {
       ></div>
       <Container maxWidth="lg">
         <Grid container component="main">
-          <Grid component={Paper} item xs={12} className={classes.tagHeader}>
+          <Grid
+            component={Paper}
+            elevation={0}
+            item
+            xs={12}
+            className={classes.tagHeader}
+          >
             <Grid container>
               <Grid item xs={8} md={10} className={classes.headerItems}>
                 <Typography className={classes.tagName} variant="h2">
-                  #{id}
+                  <span className={classes.hash}>#</span>
+                  {id}
                 </Typography>
               </Grid>
               <Grid item xs={4} md={2} className={classes.headerItems}>
