@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
   },
   postGrid: {
     marginRight: theme.spacing(5),
+    border: '1px solid #e2e2e2',
   },
   afterBannerContainer: {
     padding: theme.spacing(6, 8, 6),

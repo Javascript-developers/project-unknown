@@ -10,7 +10,7 @@ const MiniUserCard = ({ user }) => {
   const classes = useStyles();
 
   return (
-    <Grid component={Paper} className={classes.root}>
+    <Grid component={Paper} className={classes.root} elevation={0}>
       <Avatar alt="User Avatar" className={classes.avatar}>
         {user.avatar ? (
           <Image cloudName="dsmrt6yiw" publicId={user.avatar} width="100%" />

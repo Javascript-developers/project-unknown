@@ -9,7 +9,7 @@ const MiniPostItem = ({ post }) => {
   const classes = useStyles();
 
   return (
-    <Grid container className={classes.root} component={Paper}>
+    <Grid container elevation={0} className={classes.root} component={Paper}>
       <Grid item xs={12}>
         <Link
           to={{

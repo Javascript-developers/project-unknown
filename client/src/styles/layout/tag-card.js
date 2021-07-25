@@ -1,11 +1,12 @@
 import { makeStyles } from '@material-ui/core';
-import { grey, indigo } from '@material-ui/core/colors';
+import { grey, indigo, blueGrey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
+    border: '1px solid #e2e2e2',
   },
   colorContainer: {},
   tagTitleContainer: {
@@ -16,10 +17,16 @@ const useStyles = makeStyles((theme) => ({
   },
   titleLink: {
     textDecoration: 'none',
-    color: grey[900],
+  },
+  tag: {
+    fontWeight: 'bold',
+    color: blueGrey[900],
     '&:hover': {
       color: indigo['A700'],
     },
+  },
+  hash: {
+    color: blueGrey[300],
   },
 }));
 

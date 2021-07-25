@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding: theme.spacing(4),
+    border: '1px solid #e2e2e2',
   },
   avatar: {
     width: theme.spacing(7),

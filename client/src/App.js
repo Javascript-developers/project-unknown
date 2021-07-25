@@ -6,6 +6,7 @@ import PrivateRoute from './components/routing/PrivateRoute';
 import UserPage from './components/pages/UserPage';
 import TagPage from './components/pages/TagPage';
 import CreatePost from './components/pages/CreatePost';
+import { CssBaseline } from '@material-ui/core';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -24,6 +25,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <CssBaseline />
         <Navbar />
         <Switch>
           <PrivateRoute exact path="/" component={Home} />

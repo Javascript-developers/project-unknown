@@ -227,7 +227,7 @@ const Post = (props) => {
             <Grid
               item
               component={Paper}
-              // elevation={3}
+              elevation={0}
               xs={12}
               md={7}
               className={classes.postGrid}

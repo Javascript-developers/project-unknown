@@ -22,7 +22,7 @@ const PostUserProfile = ({ currentPostUser, currentUser }) => {
 
   return (
     <div>
-      <Grid container component={Paper} className={classes.root}>
+      <Grid container elevation={0} component={Paper} className={classes.root}>
         <Grid item align="center" xs={12}>
           <Avatar alt="user avatar" className={classes.avatar}>
             {currentPostUser.avatar ? (

@@ -5,6 +5,7 @@ import { blueGrey } from '@material-ui/core/colors';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3, 3, 3),
+    border: '1px solid #e2e2e2',
   },
   avatar: {
     width: 100,

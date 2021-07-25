@@ -1,10 +1,12 @@
 import React, { Fragment, useState } from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+
+import styled from 'styled-components';
 
 import { Image } from 'cloudinary-react';
 import { deepOrange } from '@material-ui/core/colors';
+import { blueGrey } from '@material-ui/core/colors';
+
 import logo from '../../assets/logo.png';
 
 import {
@@ -13,23 +15,34 @@ import {
   Avatar,
   Button,
   Container,
+  AppBar,
+  Box,
 } from '@material-ui/core';
 
-import AppBar from '@material-ui/core/AppBar/index';
 import BookIcon from '@material-ui/icons/Book';
 // import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Menu from '@material-ui/core/Menu/index';
-import MenuItem from '@material-ui/core/MenuItem/index';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 // import Link from '@material-ui/core/Link';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/user/user-actions';
+// import { makeStyles } from '@material-ui/core';
 
-import useStyles from '../../styles/layout/navbar.styles';
+// const useStyles = makeStyles((theme) => ({}));
+// import useStyles from '../../styles/layout/navbar.styles.js';
+const navItem = {
+  marginLeft: '15px',
+  // '&:hover': {
+  //   border: '5px solid red',
+  //   // borderRadius: '50%',
+  //   // padding: '5px',
+  // },
+};
 
 const Navbar = (props) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const dispatch = useDispatch();
 
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -50,23 +63,40 @@ const Navbar = (props) => {
   };
 
   const authLinks = (
-    <Fragment>
-      <ListItem>
+    <NavLink>
+      <div>
         <Button
           component={Link}
           to={'/new'}
           variant="contained"
-          color="secondary"
+          color="primary"
+          size="small"
+          sx={{ color: '#e2e2e2' }}
         >
           Create Post
         </Button>
-      </ListItem>
-      <ListAvatarItem>
-        <div>
-          <div onClick={handleOpenMenu}>
+      </div>
+      <div>
+        <div style={navItem}>
+          <Box
+            onClick={handleOpenMenu}
+            sx={{
+              border: '4px solid transparent',
+              borderRadius: '50%',
+              padding: '1px',
+              '&:hover': {
+                border: `4px solid ${blueGrey[50]}`,
+                cursor: 'pointer',
+              },
+            }}
+          >
             <Avatar
               alt="user avatar"
-              sx={{ bgcolor: deepOrange[500], width: 50, height: 50 }}
+              sx={{
+                bgcolor: deepOrange[500],
+                width: 35,
+                height: 35,
+              }}
             >
               {currentUser && currentUser.avatar ? (
                 <Image
@@ -77,8 +107,7 @@ const Navbar = (props) => {
                 />
               ) : null}
             </Avatar>
-            {/* {currentUser ? currentUser.name : null} */}
-          </div>
+          </Box>
           <Menu
             id="menu-appbar"
             anchorEl={anchorMenu}
@@ -113,12 +142,21 @@ const Navbar = (props) => {
             </MenuItem>
           </Menu>
         </div>
-      </ListAvatarItem>
-    </Fragment>
+      </div>
+    </NavLink>
   );
 
   return (
-    <AppBar position="static" className={classes.navBar} elevation={0}>
+    <AppBar
+      position="static"
+      elevation={0}
+      sx={{
+        // backgroundColor: (theme) => theme.palette.background.paper,
+        bgcolor: 'background.paper',
+        borderBottom: '1px solid #e2e2e2',
+        // p: 0.5,
+      }}
+    >
       <Container maxWidth="lg">
         <Toolbar>
           <Link to="/" style={{ flexGrow: 1 }}>
@@ -129,7 +167,7 @@ const Navbar = (props) => {
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             My Blog
           </Typography> */}
-          <ListContainer>{isAuthenticated && authLinks}</ListContainer>
+          <div>{isAuthenticated && authLinks}</div>
         </Toolbar>
       </Container>
     </AppBar>
@@ -138,15 +176,22 @@ const Navbar = (props) => {
 
 export default Navbar;
 
-Navbar.propTypes = {
-  title: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
-};
+// Navbar.propTypes = {
+//   title: PropTypes.string.isRequired,
+//   icon: PropTypes.string.isRequired,
+// };
 
-Navbar.defaultProps = {
-  title: 'My Blog',
-  icon: 'fas fa-blog',
-};
+// Navbar.defaultProps = {
+//   title: 'My Blog',
+//   icon: 'fas fa-blog',
+// };
+
+const NavLink = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
 
 // const Container = styled.div`
 //   display: flex;
@@ -169,18 +214,18 @@ Navbar.defaultProps = {
 //   }
 // `;
 
-const ListContainer = styled.ul`
-  list-style: none;
-  display: flex;
-  text-align: center;
-  justify-content: center;
-`;
-const ListItem = styled.li`
-  margin: 0 20px;
-`;
+// const ListContainer = styled.ul`
+//   list-style: none;
+//   display: flex;
+//   text-align: center;
+//   justify-content: center;
+// `;
+// const ListItem = styled.li`
+//   margin: 0 20px;
+// `;
 
-const ListAvatarItem = styled.li`
-  margin: 0 20px;
-  color: white;
-  cursor: pointer;
-`;
+// const ListAvatarItem = styled.li`
+//   margin: 0 20px;
+//   color: white;
+//   cursor: pointer;
+// `;

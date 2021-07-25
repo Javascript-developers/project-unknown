@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     padding: theme.spacing(2),
+    border: '1px solid #e2e2e2',
   },
   tagsContainer: {
     display: 'flex',

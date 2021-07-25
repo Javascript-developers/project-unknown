@@ -16,13 +16,22 @@ const TagCard = ({ tag }) => {
     };
   }
   return (
-    <Grid container component={Paper} className={classes.root}>
+    <Grid container elevation={0} component={Paper} className={classes.root}>
       <Grid item xs={12} className={classes.colorContainer}>
-        <Box style={{ padding: '10px', backgroundColor: tagColor.bg }}></Box>
+        <Box
+          style={{
+            padding: '10px',
+            backgroundColor: tagColor.bg,
+            borderRadius: '3px 3px 0 0',
+          }}
+        ></Box>
       </Grid>
       <Grid item xs={12} className={classes.tagTitleContainer}>
         <Link to={`/t/${tag}`} className={classes.titleLink}>
-          <Typography variant="h3">{tag}</Typography>
+          <Typography variant="h3" className={classes.tag}>
+            <span className={classes.hash}>#</span>
+            {tag}
+          </Typography>
         </Link>
       </Grid>
     </Grid>
