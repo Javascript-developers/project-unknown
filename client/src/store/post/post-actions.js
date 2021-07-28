@@ -208,6 +208,30 @@ export const getPosts = () => {
 };
 
 //-----------------------------------------------------------
+
+export const getFeed = (page) => {
+  return async (dispatch) => {
+    const sendReq = async () => {
+      dispatch(postActions.InfScrSetLoading(true));
+      dispatch(postActions.InfScrSetError(false));
+
+      const res = await axios.get(`api/v1/posts/feed?page=${page}&limit=5`);
+      return res.data.data.query;
+    };
+
+    try {
+      const posts = await sendReq();
+      dispatch(postActions.myFeed(posts));
+      dispatch(postActions.InfScrSetHasMore(posts.length > 0 ? true : false));
+      dispatch(postActions.InfScrSetLoading(false));
+    } catch (error) {
+      console.log(error);
+      dispatch(postActions.InfScrSetError(true));
+    }
+  };
+};
+
+//-----------------------------------------------------------
 //if current is not passed user is liking currentPost
 //if in current is  passing object {postId, currentUserId}, user liking post in a list
 export const likePost = (postId, currentUser) => {

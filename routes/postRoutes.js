@@ -15,6 +15,7 @@ const {
   getUserPosts,
   getPostsByTag,
   getMyBookmarks,
+  getFeed,
 } = postController;
 
 const { protect } = authController;
@@ -31,6 +32,8 @@ router.route('/myPosts').get(protect, getMyPosts);
 router.route('/myBookmarks').get(protect, getMyBookmarks);
 
 router.route('/').get(getAllPosts).post(protect, createPost);
+router.route('/feed').get(getFeed);
+
 router
   .route('/:id')
   .get(getPost)

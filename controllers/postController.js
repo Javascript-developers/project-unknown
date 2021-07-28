@@ -3,6 +3,32 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const { cloudinary } = require('../utils/cloudinary');
 
+exports.getFeed = catchAsync(async (req, res, next) => {
+  const page = req.query.page * 1 || 1;
+  const limit = req.query.limit * 1 || 100;
+  const skip = (page - 1) * limit;
+
+  let query = await Post.find()
+    .populate('comments')
+    .sort('-createdAt')
+    .skip(skip)
+    .limit(limit);
+
+  if (req.query.page) {
+    const numTours = await Post.countDocuments();
+    if (skip >= numTours)
+      return next(new AppError('This page does not exist', 404));
+  }
+
+  return res.status(200).json({
+    status: 'success',
+    length: query.length,
+    data: {
+      query,
+    },
+  });
+});
+
 exports.getAllPosts = catchAsync(async (req, res) => {
   const posts = await Post.find().populate('comments');
 

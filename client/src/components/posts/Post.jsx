@@ -71,7 +71,7 @@ const bannerBoxStyle = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  borderRadius: '5px',
+  borderRadius: '3px 3px 0 0',
   flexDirection: 'column',
   zIndex: '1',
 };

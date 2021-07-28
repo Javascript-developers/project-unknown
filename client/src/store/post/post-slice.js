@@ -17,8 +17,44 @@ const postSlice = createSlice({
     postsByTag: null,
     userPosts: [],
     liked: null,
+
+    //------Infinite Scroll State------
+    myFeed: [],
+    infScrLoading: true,
+    infScrError: false,
+    infScrHasMore: false,
   },
   reducers: {
+    //--------Infinite Scroll Actions -----------
+    InfScrSetLoading(state, action) {
+      state.infScrLoading = action.payload;
+    },
+    InfScrSetError(state, action) {
+      state.infScrError = action.payload;
+    },
+    InfScrSetHasMore(state, action) {
+      state.infScrHasMore = action.payload;
+    },
+
+    myFeed(state, action) {
+      //TODO: understand more functions with callbacks
+      function unique(posts, postId) {
+        let filteredPosts = new Set();
+        return posts.filter((post) => {
+          let id = postId(post);
+          return filteredPosts.has(id) ? false : filteredPosts.add(id);
+        });
+      }
+
+      const filtratedFeed = [...state.myFeed, ...action.payload];
+
+      state.myFeed = unique(filtratedFeed, (it) => it._id);
+
+      //SET f. to return unique posts
+      // state.myFeed = [...new Set([...state.myFeed, ...action.payload])];
+    },
+    //---------------------------------------------
+
     getPostsByTag(state, action) {
       state.postsByTag = action.payload;
     },
@@ -31,7 +67,8 @@ const postSlice = createSlice({
       //FIXME: needs to be handled by backend
       //FIXME: will give an error when you
       // access a post that is not on the 4 added with addPost() action bellow
-      state.trending = action.payload.slice(0, 4);
+      // state.trending = action.payload.slice(0, 4);
+      state.trending = action.payload;
     },
 
     createPost(state, action) {
