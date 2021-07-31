@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PostItem from '../posts/PostItem';
 import Spinner from '../layout/Spinner';
 
+import { postActions } from '../../store/post/post-slice';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchTrendingPosts, getFeed } from '../../store/post/post-actions';
 import { bookmarkPost, unBookmarkPost } from '../../store/user/user-actions';
@@ -14,7 +15,7 @@ const TrendingPosts = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
 
   //InfScroll----------------------------------------------------
-  const InfScrLoadig = useSelector((state) => state.post.infScrLoadig);
+  const InfScrLoadig = useSelector((state) => state.post.infScrLoading);
   const InfScrError = useSelector((state) => state.post.infScrError);
   const InfScrHasMore = useSelector((state) => state.post.infScrHasMore);
 
@@ -27,7 +28,10 @@ const TrendingPosts = () => {
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && InfScrHasMore) {
-          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+          dispatch(postActions.InfScrSetLoading(true));
+          setTimeout(() => {
+            setPageNumber((prevPageNumber) => prevPageNumber + 1);
+          }, 500);
         }
       });
 

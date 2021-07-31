@@ -242,3 +242,19 @@ export const getFollowing = () => {
     }
   };
 };
+
+export const searchUsers = (query) => {
+  return async (dispatch) => {
+    const sendReq = async () => {
+      const res = await axios.get(`/api/v1/users/search?q=${query}`);
+
+      return res.data.data.users;
+    };
+    try {
+      const users = await sendReq();
+      dispatch(userActions.addSearchUsers(users));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

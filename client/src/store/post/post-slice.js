@@ -23,8 +23,16 @@ const postSlice = createSlice({
     infScrLoading: true,
     infScrError: false,
     infScrHasMore: false,
+
+    //------Searched Posts------
+    searchedPosts: null,
   },
   reducers: {
+    //------Searched Posts------
+    addSearchPosts(state, action) {
+      state.searchedPosts = action.payload;
+    },
+
     //--------Infinite Scroll Actions -----------
     InfScrSetLoading(state, action) {
       state.infScrLoading = action.payload;

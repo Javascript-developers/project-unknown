@@ -12,12 +12,13 @@ const MyQuickTags = () => {
     <Box className={classes.root}>
       <Typography variant="h6">My Tags</Typography>
       <Box className={classes.tagsContainer}>
-        {currentUser.followTags.map((tag, i) => (
-          <Link key={i} to={`/t/${tag}`} className={classes.tag}>
-            <Typography variant="body1">#</Typography>
-            <Typography variant="body1">{tag}</Typography>
-          </Link>
-        ))}
+        {currentUser &&
+          currentUser.followTags.map((tag, i) => (
+            <Link key={i} to={`/t/${tag}`} className={classes.tag}>
+              <Typography variant="body1">#</Typography>
+              <Typography variant="body1">{tag}</Typography>
+            </Link>
+          ))}
       </Box>
     </Box>
   );

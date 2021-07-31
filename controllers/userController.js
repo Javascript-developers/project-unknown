@@ -283,3 +283,17 @@ exports.getFollowing = catchAsync(async (req, res, next) => {
 });
 
 //--------------------------------------------------------------------------
+
+exports.searchUsers = catchAsync(async (req, res, next) => {
+  const users = await User.find({
+    name: { $regex: req.query.q, $options: 'i' },
+  });
+  if (!users) {
+    return next(new AppError('No user could be found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { users },
+  });
+});

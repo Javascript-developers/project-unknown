@@ -2,6 +2,7 @@ const express = require('express');
 const postController = require('../controllers/postController');
 const authController = require('../controllers/authController');
 const commentsRouter = require('../routes/commentRoutes');
+const { route } = require('../routes/commentRoutes');
 
 const {
   getAllPosts,
@@ -16,6 +17,7 @@ const {
   getPostsByTag,
   getMyBookmarks,
   getFeed,
+  searchPosts,
 } = postController;
 
 const { protect } = authController;
@@ -33,6 +35,7 @@ router.route('/myBookmarks').get(protect, getMyBookmarks);
 
 router.route('/').get(getAllPosts).post(protect, createPost);
 router.route('/feed').get(getFeed);
+router.route('/search').get(searchPosts);
 
 router
   .route('/:id')

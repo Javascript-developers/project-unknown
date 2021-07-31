@@ -19,6 +19,7 @@ const {
   unBookmarkPost,
   getFollowers,
   getFollowing,
+  searchUsers,
 } = userController;
 
 const { login, signup, protect } = authController;
@@ -41,6 +42,8 @@ router.route('/unBookmark').patch(protect, unBookmarkPost);
 
 router.route('/getFollowers').get(protect, getFollowers);
 router.route('/getFollowing').get(protect, getFollowing);
+
+router.route('/search').get(searchUsers);
 
 router.route('/').get(getAllUsers).post(createUser);
 router.route('/:id').get(getUser).patch(editUser).delete(deleteUser);

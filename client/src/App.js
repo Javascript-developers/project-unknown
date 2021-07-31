@@ -15,6 +15,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Settings from './components/pages/Settings';
 import Dashboard from './components/pages/Dashboard';
+import Search from './components/pages/Search';
 
 // import '@fontsource/roboto/300.css';
 // import '@fontsource/roboto/400.css';
@@ -40,6 +41,11 @@ function App() {
           <PrivateRoute exact path="/user/:id" component={UserPage} />
           <PrivateRoute exact path="/settings" component={Settings} />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <Route
+            exact
+            path="/search"
+            render={(props) => <Search {...props} />}
+          />
         </Switch>
       </Router>
     </div>

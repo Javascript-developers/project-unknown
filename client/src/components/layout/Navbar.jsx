@@ -17,6 +17,7 @@ import {
   Container,
   AppBar,
   Box,
+  InputBase,
 } from '@material-ui/core';
 
 import BookIcon from '@material-ui/icons/Book';
@@ -24,7 +25,10 @@ import BookIcon from '@material-ui/icons/Book';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import MenuIcon from '@material-ui/icons/Menu';
 // import Link from '@material-ui/core/Link';
+
+import SearchBar from './SearchBar';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/user/user-actions';
@@ -159,10 +163,11 @@ const Navbar = (props) => {
     >
       <Container maxWidth="lg">
         <Toolbar>
-          <Link to="/" style={{ flexGrow: 1 }}>
+          <Link to="/">
             <img src={logo} style={{ height: '40px' }} />
           </Link>
-
+          <SearchBar />
+          <div style={{ flexGrow: 1 }}></div>
           {/* <BookIcon />
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             My Blog

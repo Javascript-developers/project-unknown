@@ -273,3 +273,20 @@ exports.getMyBookmarks = catchAsync(async (req, res, next) => {
     data: { posts },
   });
 });
+
+//--------------------------------------------------------------------------------
+
+exports.searchPosts = catchAsync(async (req, res, next) => {
+  const posts = await Post.find({
+    title: { $regex: req.query.q, $options: 'i' },
+  }).populate('comments');
+
+  if (!posts) {
+    return next(new AppError('No posts could be found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { posts },
+  });
+});

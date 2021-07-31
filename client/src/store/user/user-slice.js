@@ -13,8 +13,14 @@ const userSlice = createSlice({
     followers: [],
     following: [],
     // visitedUser: null,
+
+    //------------Searched Users--------------
+    searchedUsers: null,
   },
   reducers: {
+    addSearchUsers(state, action) {
+      state.searchedUsers = action.payload;
+    },
     getUser(state, action) {
       state.user = action.payload;
     },

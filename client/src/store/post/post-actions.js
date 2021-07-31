@@ -212,7 +212,7 @@ export const getPosts = () => {
 export const getFeed = (page) => {
   return async (dispatch) => {
     const sendReq = async () => {
-      dispatch(postActions.InfScrSetLoading(true));
+      // dispatch(postActions.InfScrSetLoading(true));
       dispatch(postActions.InfScrSetError(false));
 
       const res = await axios.get(`api/v1/posts/feed?page=${page}&limit=5`);
@@ -315,3 +315,19 @@ export const fetchCommetsFromPost = async (postId) => {
 };
 
 //-----------------------------------------------------------
+
+export const searchPosts = (query) => {
+  return async (dispatch) => {
+    const sendReq = async () => {
+      const res = await axios.get(`/api/v1/posts/search?q=${query}`);
+
+      return res.data.data.posts;
+    };
+    try {
+      const posts = await sendReq();
+      dispatch(postActions.addSearchPosts(posts));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
