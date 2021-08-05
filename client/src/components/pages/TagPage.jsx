@@ -53,12 +53,12 @@ const TagPage = (props) => {
 
   return (
     <div>
-      <div
+      {/* <div
         style={{
           backgroundColor: bgBanner !== undefined ? bgBanner.bg : 'gray',
         }}
         className={classes.tagBanner}
-      ></div>
+      ></div> */}
       <Container maxWidth="lg">
         <Grid container component="main">
           <Grid
@@ -68,21 +68,29 @@ const TagPage = (props) => {
             xs={12}
             className={classes.tagHeader}
           >
-            <Grid container>
-              <Grid item xs={8} md={10} className={classes.headerItems}>
-                <Typography className={classes.tagName} variant="h2">
-                  <span className={classes.hash}>#</span>
-                  {id}
-                </Typography>
+            <div
+              className={classes.tagColor}
+              style={{
+                backgroundColor: bgBanner !== undefined ? bgBanner.bg : 'gray',
+              }}
+            ></div>
+            <div className={classes.headerWrapper}>
+              <Grid container>
+                <Grid item xs={8} md={10} className={classes.headerItems}>
+                  <Typography className={classes.tagName} variant="h2">
+                    <span className={classes.hash}>#</span>
+                    {id}
+                  </Typography>
+                </Grid>
+                <Grid item xs={4} md={2} className={classes.headerItems}>
+                  <FollowButton
+                    profile={false}
+                    following={values.following}
+                    onButtonClick={clickFollowButton}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={4} md={2} className={classes.headerItems}>
-                <FollowButton
-                  profile={false}
-                  following={values.following}
-                  onButtonClick={clickFollowButton}
-                />
-              </Grid>
-            </Grid>
+            </div>
           </Grid>
           <Grid item xs={12} className={classes.tagPosts}>
             {tagPosts !== null ? (

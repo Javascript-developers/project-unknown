@@ -38,6 +38,15 @@ const useStyles = makeStyles((theme) => ({
   userDetails: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column',
+    },
+  },
+  userDetailsSocial: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
   iconContainer: {
     marginRight: theme.spacing(2),

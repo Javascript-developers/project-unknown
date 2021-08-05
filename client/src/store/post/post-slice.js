@@ -101,6 +101,22 @@ const postSlice = createSlice({
       state.commentsFromPost.push(action.payload);
     },
 
+    addReply(state, action) {
+      const commentIndex = state.commentsFromPost.findIndex(
+        (com) => com._id === action.payload.commentId
+      );
+
+      state.commentsFromPost[commentIndex].replies.push(action.payload.reply);
+    },
+    removeReply(state, action) {
+      const { replyId } = action.payload;
+
+      state.commentsFromPost = state.commentsFromPost.map((com) => ({
+        ...com,
+        replies: com.replies.filter((reply) => reply._id !== replyId),
+      }));
+    },
+
     removeComment(state, action) {
       state.commentsFromPost = state.commentsFromPost.filter(
         (comment) => comment.id !== action.payload

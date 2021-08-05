@@ -7,6 +7,8 @@ const {
   createComment,
   setPostUserIds,
   deleteComment,
+  createReply,
+  deleteReply,
 } = commentController;
 const { protect } = authController;
 
@@ -16,6 +18,9 @@ router
   .route('/')
   .get(getAllComments)
   .post(protect, setPostUserIds, createComment);
+
+router.route('/reply').patch(protect, createReply);
+router.route('/deleteReply').patch(protect, deleteReply);
 
 router.route('/:commentId').delete(protect, deleteComment);
 

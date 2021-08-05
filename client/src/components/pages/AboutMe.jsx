@@ -98,42 +98,44 @@ const AboutMe = () => {
                 </div>
               )}
 
-              {me.twitter && (
-                <div className={classes.iconContainer}>
-                  <Link
-                    to={{ pathname: `https://twitter.com/${me.twitter}` }}
-                    target="_blank"
-                  >
-                    <Twitter className={classes.iconSocialLink} />
-                  </Link>
-                </div>
-              )}
+              <div className={classes.userDetailsSocial}>
+                {me.twitter && (
+                  <div className={classes.iconContainer}>
+                    <Link
+                      to={{ pathname: `https://twitter.com/${me.twitter}` }}
+                      target="_blank"
+                    >
+                      <Twitter className={classes.iconSocialLink} />
+                    </Link>
+                  </div>
+                )}
 
-              {/* <div className={classes.iconContainer}>
+                {/* <div className={classes.iconContainer}>
                 <Facebook className={classes.iconSocialLink} />
               </div> */}
 
-              {me.github && (
-                <div className={classes.iconContainer}>
-                  <Link
-                    to={{ pathname: `https://github.com/${me.github}` }}
-                    target="_blank"
-                  >
-                    <GitHub className={classes.iconSocialLink} />
-                  </Link>
-                </div>
-              )}
+                {me.github && (
+                  <div className={classes.iconContainer}>
+                    <Link
+                      to={{ pathname: `https://github.com/${me.github}` }}
+                      target="_blank"
+                    >
+                      <GitHub className={classes.iconSocialLink} />
+                    </Link>
+                  </div>
+                )}
 
-              {me.instagram && (
-                <div className={classes.iconContainer}>
-                  <Link
-                    to={{ pathname: `https://instagram.com/${me.instagram}` }}
-                    target="_blank"
-                  >
-                    <Instagram className={classes.iconSocialLink} />
-                  </Link>
-                </div>
-              )}
+                {me.instagram && (
+                  <div className={classes.iconContainer}>
+                    <Link
+                      to={{ pathname: `https://instagram.com/${me.instagram}` }}
+                      target="_blank"
+                    >
+                      <Instagram className={classes.iconSocialLink} />
+                    </Link>
+                  </div>
+                )}
+              </div>
 
               {me.website && (
                 <div className={classes.iconContainerWithText}>

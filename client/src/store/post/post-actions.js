@@ -130,6 +130,75 @@ export const deleteCommentOnPost = (postId, commentId) => {
 
 //-----------------------------------------------------------
 
+export const createReplyOnComment = (commentId, replyComment, user) => {
+  return async (dispatch) => {
+    const sendReq = async () => {
+      const res = await axios.patch(
+        `/api/v1/comments/reply`,
+        { commentId, replyComment, user },
+        {
+          headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+        }
+      );
+
+      if (!res) {
+        throw new Error('Could not post the reply');
+      }
+      return res;
+    };
+
+    try {
+      const replyCom = await sendReq();
+
+      console.log(replyCom);
+
+      dispatch(
+        postActions.addReply({
+          commentId: commentId,
+          reply: {
+            ...replyCom.data.data.reply,
+            user: {
+              id: user.id,
+              avatar: user.avatar,
+              name: user.name,
+              _id: user.id,
+            },
+          },
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteReplyOnComment = (commentId, replyId) => {
+  return async (dispatch) => {
+    const sendReq = async () => {
+      const res = await axios.patch(
+        `/api/v1/comments/deleteReply`,
+        { commentId, replyId },
+        {
+          headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+        }
+      );
+
+      if (!res) {
+        throw new Error('Could not delete reply comment');
+      }
+    };
+
+    try {
+      await sendReq();
+      dispatch(postActions.removeReply({ replyId }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+//-----------------------------------------------------------
+
 export const getMyPosts = () => {
   return async (dispatch) => {
     const sendReq = async () => {

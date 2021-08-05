@@ -1,5 +1,26 @@
 const mongoose = require('mongoose');
 
+const replySchema = new mongoose.Schema(
+  {
+    replyComment: {
+      type: String,
+      required: [true, 'Reply comment cannot be empty'],
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'Comment must belong to a user'],
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 const commentSchema = new mongoose.Schema(
   {
     comment: {
@@ -22,6 +43,7 @@ const commentSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, 'Comment must belong to a user'],
     },
+    replies: [replySchema],
   },
   {
     // timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
@@ -30,11 +52,48 @@ const commentSchema = new mongoose.Schema(
   }
 );
 
+// replySchema.pre('save', function (next) {
+//   this.populate({
+//     path: 'user',
+//     select: 'name role avatar',
+//   });
+//   next();
+// });
+
+// commentSchema.pre(/^find/, function (next) {
+//   this.populate({
+//     path: 'user',
+//     select: 'name role avatar',
+//   });
+//   next();
+// });
+
+// commentSchema.pre(/^find/, function (next) {
+//   this.populate([
+//     'user',
+//     {
+//       path: 'replies',
+//       populate: 'user',
+//       select: 'name role avatar',
+//     },
+//   ]);
+//   next();
+// });
+
 commentSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'user',
-    select: 'name role avatar',
-  });
+  this.populate([
+    {
+      path: 'user',
+      select: 'name role avatar',
+    },
+    {
+      path: 'replies',
+      populate: {
+        path: 'user',
+        select: 'name role avatar',
+      },
+    },
+  ]);
   next();
 });
 

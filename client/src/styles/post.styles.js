@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import { blueGrey } from '@material-ui/core/colors';
+import { blueGrey, indigo } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -113,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
     '&:focus': {
       // height: '120%',
       outline: 'none',
-      border: '2px solid lightblue',
+      border: `2px solid ${indigo['A400']}`,
     },
 
     comments: {

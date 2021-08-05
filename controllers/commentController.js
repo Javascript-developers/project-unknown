@@ -62,3 +62,63 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
 // exports.updateComment = catchAsync(async (req, res, next) => {
 
 // });
+
+//--------------------------------------------------------------------
+
+exports.createReply = catchAsync(async (req, res, next) => {
+  const reply = await Comment.findByIdAndUpdate(
+    req.body.commentId,
+    {
+      $push: {
+        replies: {
+          replyComment: req.body.replyComment,
+          user: req.user.id,
+        },
+      },
+    },
+    { new: true }
+  );
+
+  if (!reply) {
+    return next(new AppError('Reply could not be posted', 404));
+  }
+
+  res.status(201).json({
+    status: 'success',
+    data: { reply },
+  });
+});
+
+exports.deleteReply = catchAsync(async (req, res, next) => {
+  const comment = await Comment.findById(req.body.commentId, {
+    replies: { $elemMatch: { _id: req.body.replyId } },
+  });
+
+  if (!comment) {
+    return next(new AppError('No comment found with that Id', 404));
+  }
+
+  // console.log('reply id - ', comment.replies[0].user._id);
+  // console.log('user id - ', req.user._id);
+
+  if (comment.replies[0].user._id.toString() === req.user._id.toString()) {
+    const reply = await Comment.findByIdAndUpdate(req.body.commentId, {
+      $pull: { replies: { _id: req.body.replyId } },
+    });
+
+    if (!reply) {
+      return next(new AppError("Reply couldn't be deleted", 404));
+    }
+  } else {
+    return next(
+      new AppError("You don't have access deleting another's user comment", 404)
+    );
+  }
+
+  res.status(204).json({
+    status: 'success',
+    // reply,
+  });
+});
+
+//--------------------------------------------------------------------

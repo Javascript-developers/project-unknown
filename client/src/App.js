@@ -16,6 +16,7 @@ import Register from './components/auth/Register';
 import Settings from './components/pages/Settings';
 import Dashboard from './components/pages/Dashboard';
 import Search from './components/pages/Search';
+import ScrollToTop from './utils/ScrollToTop';
 
 // import '@fontsource/roboto/300.css';
 // import '@fontsource/roboto/400.css';
@@ -26,6 +27,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <ScrollToTop />
         <CssBaseline />
         <Navbar />
         <Switch>

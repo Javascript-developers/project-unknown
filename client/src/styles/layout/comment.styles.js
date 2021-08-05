@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
     height: 24,
     width: 24,
   },
+  replyContainer: {
+    // borderLeft: '1px solid blue',
+  },
   commentContainer: {
     width: '100%',
     border: '1px solid #ccc',
