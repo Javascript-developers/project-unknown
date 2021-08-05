@@ -15,8 +15,10 @@ import {
 
 import { Image } from 'cloudinary-react';
 
-import { getUserPosts } from '../../store/post/post-actions';
 import { getUser } from '../../store/user/user-actions';
+
+import { getUserPosts } from '../../store/post/post-actions';
+import { getUserByUsername } from '../../store/user/user-actions';
 import { userActions } from '../../store/user/user-slice';
 import { postActions } from '../../store/post/post-slice';
 
@@ -56,12 +58,20 @@ const UserPage = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(getUser(id));
-    dispatch(getUserPosts(id));
+    dispatch(getUserByUsername(id));
+    // dispatch(getUser(id));
+
     return () => {
       dispatch(userActions.cleanUpUser());
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (visitedUser !== null) {
+      console.log('VISITED-USER', visitedUser);
+      dispatch(getUserPosts(visitedUser._id));
+    }
+  }, [visitedUser]);
 
   useEffect(() => {
     if (visitedUser !== null && me !== null) {
@@ -103,8 +113,11 @@ const UserPage = () => {
                     />
                   ) : null}
                 </Avatar>
-                <Typography className={classes.username} variant="h4">
+                <Typography className={classes.name} variant="h4">
                   {visitedUser.name}
+                </Typography>
+                <Typography variant="body1" className={classes.username}>
+                  @{visitedUser.username}
                 </Typography>
                 <div>
                   <Typography
@@ -238,7 +251,7 @@ const UserPage = () => {
                           variant="body1"
                           className={classes.postsDetailsTypo}
                         >
-                          {visitedUser.followTags.length} tags followed
+                          {visitedUser?.followTags?.length} tags followed
                         </Typography>
                       </div>
                       <div className={classes.postsDetailsItem}>
@@ -279,21 +292,3 @@ const UserPage = () => {
 };
 
 export default UserPage;
-
-// <div>
-// {/* {visitedUser ? <div>{visitedUser.user.name}</div> : <Spinner />} */}
-// <div>
-//   {visitedUserPosts ? (
-//     visitedUserPosts.map((post) => (
-//       <div
-//         style={{ textDecoration: 'none', color: 'black' }}
-//         key={post._id}
-//       >
-//         <PostItem post={post} />
-//       </div>
-//     ))
-//   ) : (
-//     <Spinner />
-//   )}
-// </div>
-// </div>

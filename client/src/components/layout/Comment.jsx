@@ -89,7 +89,7 @@ const Comment = ({ comment, onRemove }) => {
               <Typography variant="" className={classes.commentUsername}>
                 <Link
                   className={classes.commentUsernameLink}
-                  to={`/user/${comment.user.id}`}
+                  to={`/user/${comment.user.username}`}
                 >
                   {comment.user.name}
                 </Link>{' '}

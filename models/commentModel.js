@@ -84,13 +84,13 @@ commentSchema.pre(/^find/, function (next) {
   this.populate([
     {
       path: 'user',
-      select: 'name role avatar',
+      select: 'name role avatar username',
     },
     {
       path: 'replies',
       populate: {
         path: 'user',
-        select: 'name role avatar',
+        select: 'name role avatar username',
       },
     },
   ]);

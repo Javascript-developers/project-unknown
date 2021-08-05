@@ -266,7 +266,7 @@ const Post = (props) => {
                     variant="subtitle2"
                   >
                     <Link
-                      to={`/user/${currentPost.user.id}`}
+                      to={`/user/${currentPost.user.username}`}
                       className={classes.userPostNameLink}
                     >
                       {currentPost.user.name}

@@ -24,10 +24,13 @@ const useStyles = makeStyles((theme) => ({
     height: 80,
     width: 80,
   },
-  username: {
+  name: {
     fontWeight: 'bold',
     color: blueGrey[900],
+  },
+  username: {
     marginBottom: theme.spacing(2),
+    color: blueGrey[300],
   },
   userDescription: {
     fontSize: 22,

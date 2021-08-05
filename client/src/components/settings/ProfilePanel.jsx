@@ -49,6 +49,7 @@ const ProfilePanel = () => {
       setUser({
         ...user,
         name: me.name && me.name,
+        username: me.username && me.username,
         about: me.about && me.about,
         website: me.website && me.website,
         twitter: me.twitter && me.twitter,
@@ -62,6 +63,7 @@ const ProfilePanel = () => {
 
   const {
     name,
+    username,
     about,
     website,
     twitter,
@@ -132,7 +134,14 @@ const ProfilePanel = () => {
           onChange={onChange}
           margin="normal"
         />
-        <TextField fullWidth label="Username" />
+        <TextField
+          fullWidth
+          label="@username"
+          value={username}
+          name="username"
+          onChange={onChange}
+          margin="normal"
+        />
         <div>
           <div className={classes.uploadAvatar}>
             <Avatar className={classes.avatar} src={user.avatar ?? user.avatar}>

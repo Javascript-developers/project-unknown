@@ -12,7 +12,15 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       trim: true,
+      minLength: [4, '@username must be 4 or more characters long'],
+      maxLength: [16, '@username must not be more than 16 characters long'],
       unique: true,
+      lowercase: true,
+      required: [true, 'Please add username id'],
+      validate: [
+        validator.isAlphanumeric,
+        'Username can contain only letters and numbers',
+      ],
     },
     email: {
       type: String,

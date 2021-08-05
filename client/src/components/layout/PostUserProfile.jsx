@@ -36,11 +36,14 @@ const PostUserProfile = ({ currentPostUser, currentUser }) => {
           </Avatar>
           <Typography variant="h5" className={classes.username}>
             <Link
-              to={`/user/${currentPostUser.id}`}
-              className={classes.usernameLink}
+              to={`/user/${currentPostUser.username}`}
+              className={classes.nameLink}
             >
               {currentPostUser.name}
             </Link>
+          </Typography>
+          <Typography variant="body1" className={classes.username}>
+            @{currentPostUser.username}
           </Typography>
         </Grid>
         <Grid item align="center" className={classes.userDescriptionContainer}>

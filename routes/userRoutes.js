@@ -20,6 +20,7 @@ const {
   getFollowers,
   getFollowing,
   searchUsers,
+  getUserByUsername,
 } = userController;
 
 const { login, signup, protect } = authController;
@@ -36,6 +37,7 @@ router.patch('/me', protect, getMe, editUser);
 // router.route('/followTag').patch(protect, followTag);
 router.patch('/followTag', protect, followTag);
 router.patch('/unfollowTag', protect, unfollowTag);
+router.route('/username/:id').get(getUserByUsername);
 
 router.route('/bookmark').patch(protect, bookmarkPost);
 router.route('/unBookmark').patch(protect, unBookmarkPost);

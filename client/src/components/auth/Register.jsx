@@ -37,13 +37,14 @@ const Register = (props) => {
 
   const [user, setUser] = useState({
     name: '',
+    username: '',
     email: '',
     about: '',
     password: '',
     passwordConfirm: '',
   });
 
-  const { name, email, about, password, passwordConfirm } = user;
+  const { name, username, email, about, password, passwordConfirm } = user;
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -87,6 +88,18 @@ const Register = (props) => {
               autoComplete="name"
               autoFocus
               value={name}
+              onChange={onChange}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+              value={username}
               onChange={onChange}
             />
             <TextField

@@ -23,6 +23,26 @@ export const getUser = (id) => {
 
 //--------------------------------------------------------
 
+export const getUserByUsername = (username) => {
+  return async (dispatch) => {
+    const sendReq = async () => {
+      const res = await axios.get(`/api/v1/users/username/${username}`);
+
+      return res.data.data.user[0];
+    };
+
+    try {
+      const user = await sendReq();
+
+      dispatch(userActions.getUser(user));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+//--------------------------------------------------------
+
 export const followUser = (userId) => {
   return async (dispatch) => {
     try {

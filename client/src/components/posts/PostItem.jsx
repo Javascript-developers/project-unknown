@@ -93,7 +93,8 @@ const PostItem = ({ post, bookmarkOnPost }) => {
         <Grid container>
           <Grid item xs={12}>
             <Link
-              to={`/user/${currentPost.user._id}`}
+              // to={`/user/${currentPost.user._id}`}
+              to={`/user/${currentPost.user.username}`}
               className={classes.usernameLink}
             >
               <Typography variant="body2" className={classes.username}>

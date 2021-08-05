@@ -72,8 +72,11 @@ const AboutMe = () => {
                 />
               ) : null}
             </Avatar>
-            <Typography className={classes.username} variant="h4">
+            <Typography className={classes.name} variant="h4">
               {me.name}
+            </Typography>
+            <Typography variant="body1" className={classes.username}>
+              @{me.username}
             </Typography>
             <div>
               <Typography variant="body2" className={classes.userDescription}>

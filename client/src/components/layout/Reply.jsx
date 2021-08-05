@@ -23,7 +23,6 @@ const Reply = ({ reply, onRemove, commentId }) => {
   const classes = useStyles();
   const currentUser = useSelector((state) => state.user.currentUser);
 
-  console.log(reply);
 
   const [anchorMenu, setAnchorMenu] = useState(null);
 
@@ -60,7 +59,7 @@ const Reply = ({ reply, onRemove, commentId }) => {
               <Typography variant="" className={classes.commentUsername}>
                 <Link
                   className={classes.commentUsernameLink}
-                  to={`/user/${reply.user.id}`}
+                  to={`/user/${reply.user.username}`}
                 >
                   {reply.user.name}
                 </Link>{' '}

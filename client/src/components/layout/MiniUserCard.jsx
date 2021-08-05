@@ -19,7 +19,7 @@ const MiniUserCard = ({ user }) => {
       <Link className={classes.titleLink} to={`/user/${user._id}`}>
         <Typography variant="h5">{user.name}</Typography>
       </Link>
-      <Typography variant="body1">@{user.name}</Typography>
+      <Typography variant="body1">@{user.username}</Typography>
     </Grid>
   );
 };

@@ -29,8 +29,21 @@ exports.getMe = (req, res, next) => {
 
 exports.getUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id)
-    .populate('following', '_id name')
-    .populate('followers', '_id name');
+    .populate('following', '_id name username')
+    .populate('followers', '_id name username');
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
+  });
+});
+
+exports.getUserByUsername = catchAsync(async (req, res, next) => {
+  const user = await User.find({ username: req.params.id })
+    .populate('following', '_id name username')
+    .populate('followers', '_id name username');
 
   res.status(200).json({
     status: 'success',
@@ -43,6 +56,7 @@ exports.getUser = catchAsync(async (req, res, next) => {
 exports.editUser = catchAsync(async (req, res) => {
   const {
     name,
+    username,
     about,
     avatar,
     website,
@@ -66,6 +80,7 @@ exports.editUser = catchAsync(async (req, res) => {
   }
 
   if (name) profileFileds.name = name;
+  if (username) profileFileds.username = username;
   if (about) profileFileds.about = about;
   if (website) profileFileds.website = website;
   if (twitter) profileFileds.twitter = twitter;
@@ -117,8 +132,8 @@ exports.addFollower = catchAsync(async (req, res, next) => {
     { $push: { followers: req.user.id } },
     { new: true }
   )
-    .populate('following', '_id name')
-    .populate('followers', '_id name');
+    .populate('following', '_id name username')
+    .populate('followers', '_id name username');
 
   if (!result) {
     return next(new AppError('Could not find any user with that Id', 404));
@@ -150,8 +165,8 @@ exports.removeFollower = catchAsync(async (req, res, next) => {
     { $pull: { followers: req.user.id } },
     { new: true }
   )
-    .populate('following', '_id name')
-    .populate('followers', '_id name');
+    .populate('following', '_id name username')
+    .populate('followers', '_id name username');
 
   if (!result) {
     return next(new AppError('Could not find any user with that Id', 404));
@@ -286,7 +301,10 @@ exports.getFollowing = catchAsync(async (req, res, next) => {
 
 exports.searchUsers = catchAsync(async (req, res, next) => {
   const users = await User.find({
-    name: { $regex: req.query.q, $options: 'i' },
+    $or: [
+      { name: { $regex: req.query.q, $options: 'i' } },
+      { username: { $regex: req.query.q, $options: 'i' } },
+    ],
   });
   if (!users) {
     return next(new AppError('No user could be found', 404));
