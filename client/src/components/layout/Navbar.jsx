@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -10,6 +10,7 @@ import { blueGrey } from '@material-ui/core/colors';
 import logo from '../../assets/logo.png';
 
 import {
+  IconButton,
   Typography,
   Toolbar,
   Avatar,
@@ -18,7 +19,11 @@ import {
   AppBar,
   Box,
   InputBase,
+  Badge,
 } from '@material-ui/core';
+
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 
 import BookIcon from '@material-ui/icons/Book';
 // import IconButton from '@material-ui/core/IconButton';
@@ -45,6 +50,12 @@ const navItem = {
   // },
 };
 
+const notificationItems = {
+  display: 'flex',
+  color: blueGrey[800],
+  margin: '0 15px 0 30px',
+};
+
 const Navbar = (props) => {
   // const classes = useStyles();
   const dispatch = useDispatch();
@@ -63,7 +74,6 @@ const Navbar = (props) => {
 
   const onLogout = () => {
     dispatch(logout());
-    console.log('lol');
   };
 
   const authLinks = (
@@ -80,6 +90,22 @@ const Navbar = (props) => {
           Create Post
         </Button>
       </div>
+      <div style={notificationItems}>
+        <Link to="/messenger">
+          <IconButton>
+            <Badge color="secondary" badgeContent={1}>
+              <MailOutlineIcon />
+            </Badge>
+          </IconButton>
+        </Link>
+
+        <IconButton>
+          <Badge color="secondary" badgeContent={1}>
+            <NotificationsNoneIcon />
+          </Badge>
+        </IconButton>
+      </div>
+
       <div>
         <div style={navItem}>
           <Box
@@ -172,6 +198,7 @@ const Navbar = (props) => {
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             My Blog
           </Typography> */}
+
           <div>{isAuthenticated && authLinks}</div>
         </Toolbar>
       </Container>

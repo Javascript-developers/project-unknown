@@ -6,6 +6,7 @@ import PrivateRoute from './components/routing/PrivateRoute';
 import UserPage from './components/pages/UserPage';
 import TagPage from './components/pages/TagPage';
 import CreatePost from './components/pages/CreatePost';
+import Messenger from './components/pages/Messenger';
 import { CssBaseline } from '@material-ui/core';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -43,6 +44,8 @@ function App() {
           <PrivateRoute exact path="/user/:id" component={UserPage} />
           <PrivateRoute exact path="/settings" component={Settings} />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <PrivateRoute exact path="/messenger" component={Messenger} />
+
           <Route
             exact
             path="/search"

@@ -13,10 +13,10 @@ const MiniUserCard = ({ user }) => {
     <Grid component={Paper} className={classes.root} elevation={0}>
       <Avatar alt="User Avatar" className={classes.avatar}>
         {user.avatar ? (
-          <Image cloudName="dsmrt6yiw" publicId={user.avatar} width="100%" />
+          <Image cloudName={'dsmrt6yiw'} publicId={user.avatar} width="100%" />
         ) : null}
       </Avatar>
-      <Link className={classes.titleLink} to={`/user/${user._id}`}>
+      <Link className={classes.titleLink} to={`/user/${user.username}`}>
         <Typography variant="h5">{user.name}</Typography>
       </Link>
       <Typography variant="body1">@{user.username}</Typography>
