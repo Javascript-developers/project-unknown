@@ -1,30 +1,32 @@
 import React, { useState } from 'react';
-import { Typography, TextareaAutosize, Button } from '@material-ui/core';
+import {
+  Typography,
+  TextareaAutosize,
+  Button,
+  InputBase,
+} from '@material-ui/core';
 import { Send } from '@material-ui/icons/';
 
 import useStyles from '../../styles/messenger/chat-textarea.styles';
 
 const ChatTextarea = ({ submit }) => {
   const classes = useStyles();
-  const [text, setText] = useState({ chatText: '' });
-
-  const { chatText } = text;
+  const [text, setText] = useState('');
 
   const onChange = (e) => {
-    setText({
-      ...text,
-      [e.target.name]: e.target.value,
-    });
+    setText(e.target.value);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      sendChatText();
+    }
   };
 
   const sendChatText = () => {
-    if (chatText > '') {
-      //   submit(chatText);
-      alert('chat sent');
-      setText({
-        ...text,
-        chatText: '',
-      });
+    if (text > '') {
+      submit(text);
+      setText('');
     } else {
       console.error('chat input is empty');
     }
@@ -32,15 +34,15 @@ const ChatTextarea = ({ submit }) => {
 
   return (
     <>
-      <TextareaAutosize
+      <InputBase
+        autoComplete="off"
         icon={<Send />}
         className={classes.textarea}
-        minRows={3}
-        maxRows={5}
-        value={chatText}
-        name="chatText"
+        value={text}
+        name="text"
         onChange={onChange}
         placeholder="write something..."
+        onKeyPress={handleKeyPress}
       />
       <Button
         className={classes.chatSubmitButton}

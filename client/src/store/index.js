@@ -3,6 +3,7 @@ import authReducer from './auth/auth-slice';
 import postReducer from './post/post-slice';
 import uiReducer from './UI/ui-slice';
 import userReducer from './user/user-slice';
+import messengerReducer from './messenger/messenger-slice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     post: postReducer,
     ui: uiReducer,
     user: userReducer,
+    messenger: messengerReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

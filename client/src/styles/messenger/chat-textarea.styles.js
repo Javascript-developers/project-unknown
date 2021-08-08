@@ -5,6 +5,8 @@ const useStyles = makeStyles((theme) => ({
   textarea: {
     width: '80%',
     padding: theme.spacing(2),
+    border: `1px solid ${blueGrey[800]}`,
+    borderRadius: theme.shape.borderRadius,
   },
   chatSubmitButton: {},
 }));

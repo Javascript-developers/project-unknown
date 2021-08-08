@@ -1,0 +1,42 @@
+{
+  "name": "project-unknown",
+  "version": "1.0.0",
+  "description": "back-end for project-unknown",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "debug": "concurrently \"ndb server.js\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Javascript-developers/project-unknown.git"
+  },
+  "author": "quatre",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Javascript-developers/project-unknown/issues"
+  },
+  "homepage": "https://github.com/Javascript-developers/project-unknown#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.25.1",
+    "concurrently": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "ndb": "^1.1.5",
+    "redux-thunk": "^2.3.0",
+    "uuid": "^8.3.2",
+    "validator": "^13.5.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

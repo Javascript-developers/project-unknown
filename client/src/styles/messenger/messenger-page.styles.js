@@ -6,15 +6,9 @@ const useStyles = makeStyles((theme) => ({
     height: 'calc(100vh - 65px)',
   },
 
-  chatFriends: {
-    border: '1px solid blue',
-  },
-  chatBox: {
-    border: '1px solid blue',
-  },
-  chatOnline: {
-    border: '1px solid blue',
-  },
+  chatFriends: {},
+  chatBox: {},
+  chatOnline: {},
   //------------------------
   chatFriendsWrapper: {
     padding: theme.spacing(2),
@@ -25,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
+    position: 'relative',
   },
   chatOnlineWrapper: {
     padding: theme.spacing(2),
@@ -38,12 +33,19 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'scroll',
   },
   chatBoxBottom: {
-    border: '1px solid red',
     display: 'flex',
     width: '100%',
     justifyContent: 'space-between',
   },
 
+  noConversationText: {
+    position: 'absolute',
+    marginTop: theme.spacing(10),
+    color: blueGrey[100],
+    fontSize: '50px',
+    textAlign: 'center',
+    cursor: 'default',
+  },
   //---------------------------
   inputBase: {
     color: 'inherit',
